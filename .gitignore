@@ -17,3 +17,10 @@
 .vim/backup
 .vim/swap
 .DS_Store
+.vim/bundle/eregex.vim
+.vim/bundle/neocomplcache
+.vim/bundle/quickrun.vim
+.vim/bundle/ShowMarks
+.vim/bundle/surround.vim
+.vim/bundle/The-NERD-Commenter
+.vim/bundle/unite.vim
