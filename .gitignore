@@ -13,3 +13,6 @@
 /.vim/swap/*
 /.vim/backup/*
 
+
+.vim/backup
+.vim/swap
