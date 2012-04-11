@@ -16,3 +16,4 @@
 
 .vim/backup
 .vim/swap
+.DS_Store
