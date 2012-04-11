@@ -39,7 +39,7 @@ set backupdir=~/.vim/backup
 "--------------------------------------------------------------------------------------------
 if has('multi_byte_ime') || has('gui_macvim')
 " following lines run only with MacVim
-  set guifont=Ricty:h13
+  set guifont=Ricty:h14
   " don't display menu bar
   set guioptions-=T
   " don't beep
@@ -149,6 +149,11 @@ let g:neocomplcache_enable_at_startup = 1 " enable neocomplcache at starting vim
 let g:neocomplcache_enable_auto_select = 1 " auto select first of options
 let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets' " load snippets from this directory
 
+" customize NERD-Commenter
+let g:NERDCreateDefaultMappings = 0
+let NERDSpaceDelims = 1
+nmap <C-c> <Plug>NERDCommenterToggle
+vmap <C-c> <Plug>NERDCommenterToggle
 "--------------------------------------------------------------------------------------------
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"

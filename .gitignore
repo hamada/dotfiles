@@ -1,0 +1,15 @@
+# ignore all
+/*
+/.*
+
+# do *not* ignore
+!/.bash_profile
+!/.bashrc
+!/.gitignore
+!/.vim
+!/.vimrc
+
+# ignore these files
+/.vim/swap/*
+/.vim/backup/*
+
