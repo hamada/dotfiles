@@ -98,6 +98,9 @@ nnoremap ,p viwp
 nnoremap x "_x
 " Change inner word (ciw)
 nnoremap C ciw
+" move page tab
+nnoremap H gT
+nnoremap L gt
 "--------------------------------------------------------------------------------------------
 
 " manage plugins with vundle
