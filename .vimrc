@@ -81,9 +81,6 @@ inoremap [ []<LEFT>
 inoremap ( ()<LEFT>
 inoremap ' ''<LEFT>
 inoremap " ""<LEFT>
-" go to normal mode with <C-j>
-inoremap <C-j> <C-[>
-vnoremap <C-j> <C-[>
 " open file browser with Unite
 nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files file file_mru bookmark<CR>
 " open snippet with Neocomplcache
@@ -101,6 +98,8 @@ nnoremap C ciw
 " move page tab
 nnoremap H gT
 nnoremap L gt
+inoremap jk <Esc>
+inoremap kj <Esc>
 "--------------------------------------------------------------------------------------------
 
 " manage plugins with vundle
