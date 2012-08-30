@@ -10,6 +10,7 @@ set ffs=unix,dos,mac
 set autoindent
 set nosmartindent
 set ts=4
+set shiftwidth=4
 colorscheme desert
 set number
 set ruler
@@ -33,6 +34,8 @@ set directory=~/.vim/swap
 " backup files
 set backup
 set backupdir=~/.vim/backup
+" add plugin dir to runtimepath
+:set runtimepath+=$HOME/.vim/plugin
 "--------------------------------------------------------------------------------------------
 
 " MacVim original settings
@@ -72,7 +75,9 @@ nnoremap <C-s> :<C-u>source $MYVIMRC<Enter>
 " Insert new line with <RETURN> when command mode
 noremap <CR> o<ESC>
 " Insert new line and ; with <S-RETURN> when insert mode
-inoremap <S-CR> <ESC>A;<ESC>o
+inoremap <S-C-CR> <ESC>A;<ESC>o
+inoremap <S-CR> <ESC>:call AppendSemiColon()<CR>a
+inoremap <C-CR> <ESC>o
 " Insert a Tab Character with <Tab> when command mode
 noremap <TAB> i	<ESC>
 " Auto Complete
@@ -82,7 +87,7 @@ inoremap ( ()<LEFT>
 inoremap ' ''<LEFT>
 inoremap " ""<LEFT>
 " open file browser with Unite
-nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files file file_mru bookmark<CR>
+nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files bookmark file file_mru<CR>
 " open snippet with Neocomplcache
 imap <C-k> <Plug>(neocomplcache_snippets_expand)
 smap <C-k> <Plug>(neocomplcache_snippets_expand)
@@ -99,7 +104,9 @@ nnoremap C ciw
 nnoremap H gT
 nnoremap L gt
 inoremap jk <Esc>
-inoremap kj <Esc>
+nmap R <Plug>(operator-replace)
+nnoremap <C-j> `
+nnoremap / /\v
 "--------------------------------------------------------------------------------------------
 
 " manage plugins with vundle
@@ -110,6 +117,7 @@ filetype off
 set rtp+=~/.vim/vundle.git/
 call vundle#rc()
 " describe plugin names below
+" :BundleInstall
 " how to describe
 "	1. if it's in vim-scripts repository (http://vim-scripts.org/vim/scripts.html)
 "			Bundle 'script_name'
@@ -125,6 +133,11 @@ Bundle "unite.vim"
 Bundle "quickrun.vim"
 Bundle "neocomplcache"
 Bundle "The-NERD-Commenter"
+Bundle "operator-user"
+Bundle "operator-replace"
+Bundle "git://github.com/Shougo/vimproc"
+Bundle "git://github.com/Shougo/vimshell"
+" Bundle "rails.vim"
 
 filetype plugin indent on
 "--------------------------------------------------------------------------------------------
@@ -156,6 +169,17 @@ let g:NERDCreateDefaultMappings = 0
 let NERDSpaceDelims = 1
 nmap <C-c> <Plug>NERDCommenterToggle
 vmap <C-c> <Plug>NERDCommenterToggle
+
+" customize surround.vim
+let g:surround_{char2nr("[")} = "[\r]"
+let g:surround_{char2nr("\{")} = "{\r}"
+let g:surround_{char2nr("\(")} = "(\r)"
 "--------------------------------------------------------------------------------------------
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+"--------------------------------------------------------------------------------------------
+
+" vim script
+"--------------------------------------------------------------------------------------------
+"matchit.vimを有効化
+source $VIMRUNTIME/macros/matchit.vim

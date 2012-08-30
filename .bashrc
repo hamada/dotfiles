@@ -16,6 +16,8 @@ export HISTIGNORE="ls:cd:ls *:"
 export HISTCONTROL=erasedups 
 #setting the path
 PATH="$PATH":~/bin
+eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/bin:$PATH"
 #setting bash with vi mode
 set -o vi
 #adding shell var
