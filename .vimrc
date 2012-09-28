@@ -11,6 +11,17 @@ set autoindent
 set nosmartindent
 set ts=4
 set shiftwidth=4
+"---------------------------------------------------------------------
+" settings for rails
+"---------------------------------------------------------------------
+	"reset tab width
+	au BufNewFile,BufRead * set tabstop=4 shiftwidth=4
+	" set tab width for .rhtml and .rb and .yml
+	au BufNewFile,BufRead *.rhtml set tabstop=2 shiftwidth=2
+	au BufNewFile,BufRead *.rb set tabstop=2 shiftwidth=2
+	au BufNewFile,BufRead *.yml set tabstop=2 shiftwidth=2
+"---------------------------------------------------------------------
+
 colorscheme desert
 set number
 set ruler
