@@ -137,6 +137,7 @@ Bundle "operator-user"
 Bundle "operator-replace"
 Bundle "git://github.com/Shougo/vimproc"
 Bundle "git://github.com/Shougo/vimshell"
+Bundle "git://github.com/tpope/vim-rails"
 " Bundle "rails.vim"
 
 filetype plugin indent on
