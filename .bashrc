@@ -6,6 +6,7 @@ alias finder='open .'
 alias path='echo -e ${PATH//:/\\n}'
 alias ht='cd /Applications/MAMP/htdocs'
 alias jokers='cd /Applications/MAMP/htdocs/jokers-dbc.org'
+alias gl="git log --pretty='medium-reverse' --graph --name-status"
 #coloring ls output
 export CLICOLOR='true'
 export LSCOLORS="gxfxcxdxbxegedabagacad"
