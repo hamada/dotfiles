@@ -9,6 +9,8 @@ alias jokers='cd /Applications/MAMP/htdocs/jokers-dbc.org'
 alias gl="git log --pretty='medium-reverse' --graph --name-status"
 alias ga="git add ."
 alias gc="git commit"
+alias gpo="git push origin master"
+alias gph="git push heroku master"
 #coloring ls output
 export CLICOLOR='true'
 export LSCOLORS="gxfxcxdxbxegedabagacad"
