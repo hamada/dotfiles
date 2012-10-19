@@ -7,6 +7,8 @@ alias path='echo -e ${PATH//:/\\n}'
 alias ht='cd /Applications/MAMP/htdocs'
 alias jokers='cd /Applications/MAMP/htdocs/jokers-dbc.org'
 alias gl="git log --pretty='medium-reverse' --graph --name-status"
+alias ga="git add ."
+alias gc="git commit"
 #coloring ls output
 export CLICOLOR='true'
 export LSCOLORS="gxfxcxdxbxegedabagacad"
