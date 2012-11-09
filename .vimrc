@@ -149,7 +149,7 @@ Bundle "operator-replace"
 Bundle "git://github.com/Shougo/vimproc"
 Bundle "git://github.com/Shougo/vimshell"
 Bundle "git://github.com/tpope/vim-rails"
-" Bundle "rails.vim"
+Bundle 'glidenote/octoeditor.vim'
 
 filetype plugin indent on
 "--------------------------------------------------------------------------------------------
@@ -186,6 +186,18 @@ vmap <C-c> <Plug>NERDCommenterToggle
 let g:surround_{char2nr("[")} = "[\r]"
 let g:surround_{char2nr("\{")} = "{\r}"
 let g:surround_{char2nr("\(")} = "(\r)"
+
+" customize octoeditor.vim
+let g:octopress_path = '~/rails_projects/octopress'
+let g:octopress_post_suffix = "markdown"
+let g:octopress_post_date = "%Y-%m-%d %H:%M"
+let g:octopress_published = 1
+let g:octopress_comments = 1
+let g:octopress_prompt_tags = 0
+let g:octopress_prompt_categories = 1
+let g:octopress_qfixgrep = 0
+let g:octopress_vimfiler = 0
+" let g:octopress_template_dir_path = 'path/to/dir'
 "--------------------------------------------------------------------------------------------
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
