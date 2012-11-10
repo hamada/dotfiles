@@ -11,6 +11,7 @@ alias ga="git add ."
 alias gc="git commit"
 alias gpo="git push origin master"
 alias gph="git push heroku master"
+alias rot="echo y | rake install[darkstripes]" #reload octopress darkstripes theme
 #coloring ls output
 export CLICOLOR='true'
 export LSCOLORS="gxfxcxdxbxegedabagacad"
