@@ -13,7 +13,7 @@ alias gpo="git push origin master"
 alias gph="git push heroku master"
 alias rot="echo y | rake install[darkstripes]" #reload octopress darkstripes theme
 alias music="mkdir /Volumes/contents; mount_afp afp://10.0.1.5/contents /Volumes/contents; open /Applications/iTunes.app"
-alias eject="hdiutil eject /Volumes/contents"
+alias eject="killall iTunes; hdiutil eject /Volumes/contents"
 #coloring ls output
 export CLICOLOR='true'
 export LSCOLORS="gxfxcxdxbxegedabagacad"
