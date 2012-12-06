@@ -42,3 +42,10 @@ snippet each
     <% ${1:object}.each do |${2:member}| %>
       ${3:code}
 	<% end %>
+
+snippet link_to
+    <%= link_to ${1:link_target}, {:controller => ${2:controller}, :action => ${3:action}} %>
+
+snippet     image_tag
+abbr        image_tag(..)
+    <%= image_tag(${1:src}, {:alt => ${2:alt}, :size => '${3:width}x${4:height}'}) %>
