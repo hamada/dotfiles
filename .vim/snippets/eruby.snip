@@ -1,6 +1,44 @@
 snippet rc
 	<% ${1:ruby code} %>
 
+snippet <
+	<% ${1:ruby code} %>
+
 snippet rp
 	<%= ${1:ruby print code} %>
 
+snippet =
+	<%= ${1:ruby print code} %>
+
+snippet if
+	<% if ${1:condition} %>
+      ${2:code}
+	<% end %>
+
+snippet ifelse
+	<% if ${1:condition} %>
+      ${2:code}
+	<% else %>
+      ${3:code}
+	<% end %>
+
+snippet ifelsif
+	<% if ${1:condition} %>
+      ${2:code}
+	<% elsif ${3:condition} %>
+      ${4:code}
+	<% end %>
+
+snippet else
+	<% else %>
+
+snippet elsif
+	<% elsif ${1:condition} %>
+
+snippet end
+	<% end %>
+
+snippet each
+    <% ${1:object}.each do |${2:member}| %>
+      ${3:code}
+	<% end %>

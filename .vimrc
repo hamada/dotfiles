@@ -100,10 +100,10 @@ inoremap " ""<LEFT>
 " open file browser with Unite
 nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files bookmark file file_mru<CR>
 " open snippet with Neocomplcache
-imap <C-k> <Plug>(neocomplcache_snippets_expand)
-smap <C-k> <Plug>(neocomplcache_snippets_expand)
-" open snippets file
-nnoremap <silent> <C-f> :<C-u>tabe %<CR>:<C-u>NeoComplCacheEditSnippets <CR>
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+" edit snippets file
+nnoremap <silent> <C-f> :<C-u>tabe %<CR>:<C-u>NeoSnippetEdit<CR>
 " execute script with quickrun.vim
 nnoremap <C-q> :QuickRun<CR>
 nnoremap ,p viwp
@@ -137,19 +137,19 @@ call vundle#rc()
 "	3. if it's in none github repository
 "			Bundle 'git://repository_url'
 "------------------------------------------------------------------------------------
-Bundle "eregex.vim"
-Bundle "ShowMarks"
-Bundle "surround.vim"
-Bundle "unite.vim"
-Bundle "quickrun.vim"
-Bundle "Shougo/neocomplcache.git"
+Bundle 'eregex.vim'
+Bundle 'ShowMarks'
+Bundle 'surround.vim'
+Bundle 'unite.vim'
+Bundle 'quickrun.vim'
+Bundle 'Shougo/neocomplcache.git'
 Bundle 'Shougo/neosnippet.git'
-Bundle "The-NERD-Commenter"
-Bundle "operator-user"
-Bundle "operator-replace"
-Bundle "git://github.com/Shougo/vimproc"
-Bundle "git://github.com/Shougo/vimshell"
-Bundle "git://github.com/tpope/vim-rails"
+Bundle 'The-NERD-Commenter'
+Bundle 'operator-user'
+Bundle 'operator-replace'
+Bundle 'git://github.com/Shougo/vimproc'
+Bundle 'git://github.com/Shougo/vimshell'
+Bundle 'git://github.com/tpope/vim-rails'
 Bundle 'glidenote/octoeditor.vim'
 
 filetype plugin indent on
@@ -175,7 +175,9 @@ au FileType unite nnoremap <silent> <buffer> <expr>v unite#do_action('right')
 " customize neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1 " enable neocomplcache at starting vim
 let g:neocomplcache_enable_auto_select = 1 " auto select first of options
-let g:neosnippet#snippets_directory = $HOME.'/.vim/snippets' " load snippets from this directory
+
+" load snippets from this directory
+let g:neosnippet#snippets_directory= $HOME.'/.vim/snippets'
 
 " customize NERD-Commenter
 let g:NERDCreateDefaultMappings = 0
