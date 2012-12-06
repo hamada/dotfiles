@@ -169,8 +169,11 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 " customize unite.vim
 let g:unite_enable_start_insert = 1 " start unite with insert mode
+call unite#custom_default_action('file', 'tabopen') " open a file in new tab
+
 " open in splited right window with v
 au FileType unite nnoremap <silent> <buffer> <expr>v unite#do_action('right')
+
 
 " customize neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1 " enable neocomplcache at starting vim
