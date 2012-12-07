@@ -27,6 +27,7 @@ set number
 set ruler
 set cursorline
 set wrap
+set scrolloff=10
 " customize statusline
 set laststatus=2
 set statusline=%F%m%r%h%w\ [filetype:\ %Y]\ [fenc:\ %{&fenc}]\ [enc:\ %{&enc}]\ [ff:\ %{&ff}]%=%c,%l%11p%%
@@ -113,6 +114,10 @@ nnoremap ,p viwp
 nnoremap x "_x
 " Change inner word (ciw)
 nnoremap C ciw
+" Change inner space
+nnoremap ci<Space> ciW
+" delete inner space
+nnoremap di<Space> diW
 " move page tab
 nnoremap H gT
 nnoremap L gt
@@ -120,6 +125,11 @@ inoremap jk <Esc>
 nmap R <Plug>(operator-replace)
 nnoremap <C-j> `
 nnoremap / /\v
+" close buffer with q, not :q<enter>
+nnoremap q :<C-u>q<CR>
+" record macro with Q, not q
+nnoremap Q q
+
 "--------------------------------------------------------------------------------------------
 
 " manage plugins with vundle
