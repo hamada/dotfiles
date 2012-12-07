@@ -98,7 +98,9 @@ inoremap ( ()<LEFT>
 inoremap ' ''<LEFT>
 inoremap " ""<LEFT>
 " open file browser with Unite
-nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files bookmark file file_mru<CR>
+nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files file file_mru<CR>
+nnoremap <silent> ,b :<C-u>Unite -buffer-name=files bookmark file<CR>
+nnoremap <silent> ,m :<C-u>UniteWithBufferDir -buffer-name=files file_mru<CR>
 " open snippet with Neocomplcache
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -170,6 +172,11 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 " customize unite.vim
 let g:unite_enable_start_insert = 1 " start unite with insert mode
 call unite#custom_default_action('file', 'tabopen') " open a file in new tab
+autocmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()
+	" delete backslash with the words by <C-w> when insertmode in Unite
+	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+endfunction
 
 " open in splited right window with v
 au FileType unite nnoremap <silent> <buffer> <expr>v unite#do_action('right')
