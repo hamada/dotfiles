@@ -1,3 +1,8 @@
+" vim customize todo
+"--------------------------------------------------------------------------------------------
+" change tab interface characters size into small
+"
+"--------------------------------------------------------------------------------------------
 " Basic Settings
 "--------------------------------------------------------------------------------------------
 filetype plugin indent on
@@ -71,6 +76,57 @@ if has('multi_byte_ime') || has('gui_macvim')
   " pop-up menu color
   highlight Pmenu guibg=white guifg=black
   highlight PmenuSel guibg=black guifg=white
+
+  set guioptions-=e "tablineを使う
+  set tabline=%!MakeTabLine()
+  hi TabLineSel ctermfg=Black ctermbg=White guifg=Black guibg=White
+  hi TabLine ctermfg=Black ctermfg=Gray ctermbg=black guifg=White guibg=grey21
+  hi TabLineFill ctermbg=black guifg=grey8
+  
+	
+    function! MakeTabLine() "{{{
+      let titles = map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
+      let sep = '  '  " タブ間の区切り
+      let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T'
+      let info = ''  " 好きな情報を入れる
+      return tabpages . '%=' . info  " タブリストを左に、情報を右に表示
+    endfunction "}}}
+
+    function! s:tabpage_label(n) "{{{
+      " t:title と言う変数があったらそれを使う
+      let title = gettabvar(a:n, 'title')
+      if title !=# ''
+        return title
+      endif
+
+      " タブページ内のバッファのリスト
+      let bufnrs = tabpagebuflist(a:n)
+
+      " カレントタブページかどうかでハイライトを切り替える
+      let hi = a:n is tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
+
+      " バッファが複数あったらバッファ数を表示
+      let no = len(bufnrs)
+      if no is 1
+        let no = ''
+      endif
+      " タブページ内に変更ありのバッファがあったら '+' を付ける
+      let mod = len(filter(copy(bufnrs), 'getbufvar(v:val, "&modified")')) ? '+' : ''
+      let sp = (no . mod) ==# '' ? '' : ' '  " 隙間空ける
+
+      " カレントバッファ
+      let curbufnr = bufnrs[tabpagewinnr(a:n) - 1]  " tabpagewinnr() は 1 origin
+      let file = bufname(curbufnr)
+      let fname= fnamemodify(file, ':p:t')
+      if fname == ''
+        let fname = '[No Name]'
+	  end
+
+      let label = no . mod . sp . fname
+
+      return '%' . a:n . 'T' . hi . label . '%T%#TabLineFill#'
+    endfunction "}}}
+  
 endif
 "--------------------------------------------------------------------------------------------
 
