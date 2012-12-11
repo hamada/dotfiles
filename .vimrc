@@ -59,7 +59,7 @@ set backupdir=~/.vim/backup
 "--------------------------------------------------------------------------------------------
 if has('multi_byte_ime') || has('gui_macvim')
 " following lines run only with MacVim
-  set guifont=Ricty:h14
+  set guifont=Ricty\ bold:h14
   " don't display menu bar
   set guioptions-=T
   " don't beep
