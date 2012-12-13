@@ -11,6 +11,7 @@ alias ga="git add ."
 alias gc="git commit"
 alias gpo="git push origin master; tput bel;"
 alias gph="git push heroku master; tput bel;"
+alias gst="git status"
 alias rot="echo y | rake install[darkstripes]" #reload octopress darkstripes theme
 alias music="mkdir /Volumes/contents; mount_afp afp://10.0.1.5/contents /Volumes/contents; open /Applications/iTunes.app"
 alias eject="killall iTunes; hdiutil eject /Volumes/contents"
