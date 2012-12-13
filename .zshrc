@@ -19,6 +19,10 @@ setopt correct
 bindkey -v #keybind vi like
 export EDITOR=vi
 
+#setting the path
+PATH="$PATH":~/bin
+eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/bin:$PATH"
 
 #set prompt
 PROMPT=%F{green}'[%m: %~]'$'\n''%(!.#.$) '%f
@@ -76,3 +80,8 @@ function rprompt-git-current-branch {
 
 # -------------- 使い方 ---------------- #
 RPROMPT='`rprompt-git-current-branch`'
+
+#for autojump
+if [ -f `brew --prefix`/etc/autojump ]; then
+  . `brew --prefix`/etc/autojump
+fi
