@@ -1,5 +1,6 @@
 autoload -U compinit
 compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 export LANG=ja_JP.UTF-8
 
 setopt auto_cd
