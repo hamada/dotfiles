@@ -8,6 +8,7 @@
 !/.gitignore
 !/.vim
 !/.vimrc
+!/.zshrc
 
 # ignore these files
 /.vim/swap/*
