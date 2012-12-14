@@ -30,7 +30,7 @@ PROMPT=%F{green}'[%m: %~]'$'\n''%(!.#.$) '%f
 
 #alias
 alias rm='rm -i'
-alias ls='ls -G' #ls with coloring
+alias ls=' ls -G' #ls with coloring
 
 alias gl="git log --pretty='medium-reverse' --graph --name-status"
 alias ga="git add ."
