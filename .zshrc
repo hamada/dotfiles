@@ -37,7 +37,7 @@ alias ga="git add ."
 alias gc="git commit"
 alias gch="git checkout"
 alias gpo="git push origin master; growlnotify -m Done!;"
-alias gph="git push heroku master; greennotify -m done!;"
+alias gph="git push heroku master; growlnotify -m Done!;"
 alias gst="git status"
 
 alias music="mkdir /Volumes/contents; mount_afp afp://10.0.1.5/contents /Volumes/contents; open /Applications/iTunes.app"
