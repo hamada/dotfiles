@@ -155,7 +155,7 @@ inoremap ( ()<LEFT>
 inoremap ' ''<LEFT>
 inoremap " ""<LEFT>
 " open file browser with Unite
-nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files file file_mru<CR>
+nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files file file_mru file/new<CR>
 nnoremap <silent> ,b :<C-u>Unite -buffer-name=files bookmark file<CR>
 nnoremap <silent> ,m :<C-u>UniteWithBufferDir -buffer-name=files file_mru<CR>
 " open snippet with Neocomplcache
