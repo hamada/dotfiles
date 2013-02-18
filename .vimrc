@@ -86,7 +86,7 @@ if has('multi_byte_ime') || has('gui_macvim')
 	
     function! MakeTabLine() "{{{
       let titles = map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
-      let sep = '  '  " タブ間の区切り
+      let sep = ' '  " タブ間の区切り
       let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T'
       let info = ''  " 好きな情報を入れる
       return tabpages . '%=' . info  " タブリストを左に、情報を右に表示
