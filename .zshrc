@@ -42,7 +42,7 @@ alias gdb="git branch -d"
 alias gm="git merge"
 alias gpo="git push origin master; growlnotify -m Done!;"
 alias gph="git push heroku master; growlnotify -m Done!;"
-alias gph="git push staging master; growlnotify -m Done!;"
+alias gps="git push staging master; growlnotify -m Done!;"
 alias gst="git status"
 
 alias music="mkdir /Volumes/contents; mount_afp afp://10.0.1.5/contents /Volumes/contents; open /Applications/iTunes.app"
@@ -94,3 +94,6 @@ fi
 
 #for growl
 growl() { echo -e $'\e]9;'${1}'\007' ; return  ; }
+
+#PATH=/opt/local/bin:/opt/local/sbin:$PATH
+#MANPATH=/opt/local/man:$MANPATH
