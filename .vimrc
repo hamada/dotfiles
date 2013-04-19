@@ -186,6 +186,11 @@ nnoremap q :<C-u>q<CR>
 " record macro with Q, not q
 nnoremap Q q
 
+" switch file in quickfix
+nnoremap <LEFT> :cprevious<CR>
+nnoremap <RIGHT> :cnext<CR>
+nnoremap <UP> :<C-u>cfirst<CR>
+nnoremap <DOWN> :<C-u>clast<CR>
 "--------------------------------------------------------------------------------------------
 
 " manage plugins with vundle
