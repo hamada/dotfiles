@@ -211,8 +211,9 @@ call vundle#rc()
 "			Bundle 'github_user_name/repository_name'
 "	3. if it's in none github repository
 "			Bundle 'git://repository_url'
+" 
+" when you delete plugin, execute :BundleClean after deleting the Bundle ~ line to delete
 "------------------------------------------------------------------------------------
-Bundle 'eregex.vim'
 Bundle 'ShowMarks'
 Bundle 'surround.vim'
 Bundle 'unite.vim'
@@ -227,7 +228,6 @@ Bundle 'git://github.com/Shougo/vimshell'
 Bundle 'git://github.com/tpope/vim-rails'
 Bundle 'glidenote/octoeditor.vim'
 Bundle 'tpope/vim-fugitive'
-Bundle 'goldfeld/vim-seek.git'
 
 filetype plugin indent on
 "--------------------------------------------------------------------------------------------
