@@ -186,6 +186,8 @@ nnoremap q :<C-u>q<CR>
 " record macro with Q, not q
 nnoremap Q q
 
+" grep friendly
+nnoremap <C-g> <ESC>:call GrepFor()<CR>
 " switch file in quickfix
 nnoremap <LEFT> :cprevious<CR>
 nnoremap <RIGHT> :cnext<CR>
