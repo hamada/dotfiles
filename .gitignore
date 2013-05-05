@@ -15,3 +15,7 @@
 /.vim/backup/*
 .vim/bundle/*
 .DS_Store
+
+# but don't ignore theese files to track swap and backup directories
+!/.vim/swap/.gitkeep
+!/.vim/backup/.gitkeep
