@@ -14,7 +14,7 @@ set ffs=unix,dos,mac
 " customize indent
 set autoindent
 set nosmartindent
-set ts=4
+set tabstop=4
 set shiftwidth=4
 
 colorscheme desert
