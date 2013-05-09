@@ -218,6 +218,7 @@ Bundle 'git://github.com/Shougo/vimshell'
 Bundle 'git://github.com/tpope/vim-rails'
 Bundle 'glidenote/octoeditor.vim'
 Bundle 'tpope/vim-fugitive'
+Bundle 'kchmck/vim-coffee-script'
 
 filetype plugin indent on
 "--------------------------------------------------------------------------------------------
