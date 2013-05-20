@@ -21,6 +21,7 @@ colorscheme desert
 set number
 set ruler
 set cursorline
+set cursorcolumn
 set wrap
 set scrolloff=10
 " customize statusline
@@ -250,7 +251,8 @@ au FileType unite nnoremap <silent> <buffer> <expr>v unite#do_action('right')
 
 " customize neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1 " enable neocomplcache at starting vim
-let g:neocomplcache_enable_auto_select = 1 " auto select first of options
+" let g:neocomplcache_enable_auto_select = 1 " auto select first of options
+let g:neocomplcache_lock_iminsert = 1 " not use neocomplcache when IME is ON
 
 " load snippets from this directory
 let g:neosnippet#snippets_directory= $HOME.'/.vim/snippets'

@@ -1,3 +1,4 @@
+" list of colors: http://choorucode.files.wordpress.com/2011/07/20110729-vim-named-colors.png
 " Vim color file
 " Maintainer:	Hans Fugal <hans@fugal.net>
 " Last Change:	$Date: 2004/06/13 19:30:30 $
@@ -25,7 +26,8 @@ hi Normal	guifg=White guibg=grey20
 
 " highlight groups
 hi Cursor		guibg=khaki guifg=slategrey
-hi CursorLine	guibg=black
+hi CursorLine	guibg=gray14
+hi cursorColumn	guibg=gray19
 "hi Directory
 "hi DiffAdd
 "hi DiffChange
