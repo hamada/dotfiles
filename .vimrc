@@ -21,7 +21,6 @@ colorscheme desert
 set number
 set ruler
 set cursorline
-set cursorcolumn
 set wrap
 set scrolloff=10
 " customize statusline
@@ -51,6 +50,7 @@ set backupdir=~/.vim/backup
 if has('multi_byte_ime') || has('gui_macvim')
 " following lines run only with MacVim
   set guifont=Ricty\ bold:h14
+  set cursorcolumn " display vertical cursor line
   " don't display menu bar
   set guioptions-=T
   " don't beep
