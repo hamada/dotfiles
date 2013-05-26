@@ -1,0 +1,52 @@
+#--------------------------------------------------------
+# Mark Down Basic Snippets
+#--------------------------------------------------------
+snippet h1
+    # ${1:h1}
+snippet h2
+    ## ${1:h2}
+snippet h3
+    ### ${1:h3}
+
+snippet link
+	[${1:link}](http://${2:url})
+snippet link_with_title
+	[${1:link}](${2:url} "${3:title}")
+
+snippet image
+    ![${1:sub_text}](http://${2:image_url})
+snippet image_with_title
+    ![${1:sub_text}](http://${2:image_url} "${3:title}")
+
+snippet horizontal
+    ---
+    ${1}
+
+snippet italic
+    _${1:italic}_
+snippet bold
+    **${1:bold}**
+
+snippet list
+     
+    * ${1}
+    * ${2}
+
+snippet list_num
+     
+    1. ${1}
+    2. ${2}
+
+snippet quote
+
+    > ${1}
+    > ${2}
+
+#--------------------------------------------------------
+# Code
+#--------------------------------------------------------
+snippet ```
+abbr    code
+	\`\`\`${1:file_type}:${2:file_name}
+    ${3:code}
+    \`\`\`
