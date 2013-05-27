@@ -252,6 +252,7 @@ au FileType unite nnoremap <silent> <buffer> <expr>v unite#do_action('right')
 " customize neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1 " enable neocomplcache at starting vim
 let g:neocomplcache_enable_auto_select = 1 " auto select first of options
+let g:neocomplcache_auto_completion_start_length = 3 " start to complete after 3 chars
 let g:neocomplcache_lock_iminsert = 1 " not use neocomplcache when IME is ON
 
 " load snippets from this directory
