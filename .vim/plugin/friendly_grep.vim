@@ -1,15 +1,20 @@
 function! FriendlyGrep()
-	let query = input('検索ワード: ')
+	let query = input('Grep Keyword: ')
 	if query == ''
 	  return
 	endif
-	let target = input('対象ディレクトリ: ','','file')
+	let target = input('Target Directory: ','','file')
 	if target == ''
 	  return
 	endif
 
     if isdirectory(target)
-	  let target = target.'**'
+	  	let target = target.'*'
+
+		let input = input("Grep Recursively? [y/n] ")
+		if input == "yes" || input == "y" || input == ''
+	  		let target = target.'**'
+		endif
     endif
 
     execute 'tabnew'
