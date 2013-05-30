@@ -3,7 +3,7 @@ function! FriendlyGrep()
 	if query == ''
 	  return
 	endif
-	let target = input('Target Directory: ','','file')
+	let target = input('Target Directory: ','','file') " .vimrcでデフォルト値を設定できるようにしたい
 	if target == ''
 	  return
 	endif
@@ -11,7 +11,7 @@ function! FriendlyGrep()
     if isdirectory(target)
 	  	let target = target.'*'
 
-		let input = input("Grep Recursively? [y/n] ")
+		let input = input("Grep Recursively? [y/n] ") " .vimrcでデフォルト値を設定できるようにしたい
 		if input == ''
 		  return
 		endif
@@ -21,6 +21,7 @@ function! FriendlyGrep()
 		endif
     endif
 
+	" .vimrcで設定することによってタブでなく現在のバッファー上あるいはsplitで開けるようにしたい
     execute 'tabnew'
 	try
 	  execute 'vimgrep'.' '.query.' '.target
