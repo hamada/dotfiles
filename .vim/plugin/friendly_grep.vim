@@ -1,5 +1,5 @@
 function! FriendlyGrep()
-	let query = input('Grep Keyword: ', '')
+	let query = input('grep query: ', '')
 	if query == ''
 	  return
 	endif
@@ -7,7 +7,7 @@ function! FriendlyGrep()
 	if !exists('g:friendlygrep_target_dir')
 	  let g:friendlygrep_target_dir = ''
 	endif
-	let target = input('Target Directory: ', g:friendlygrep_target_dir, 'file')
+	let target = input('target file/dir: ', g:friendlygrep_target_dir, 'file')
 	if target == ''
 	  return
 	endif
@@ -21,7 +21,7 @@ function! FriendlyGrep()
 			endif
 		endif
 		if !exists('g:friendlygrep_recursively')
-			let input = input("Grep Recursively? [y/n] ")
+			let input = input("grep recursively? [y/n] ")
 			if input == ''
 			  return
 			endif
