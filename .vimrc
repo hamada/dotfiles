@@ -184,6 +184,9 @@ nnoremap <LEFT> :cprevious<CR>
 nnoremap <RIGHT> :cnext<CR>
 nnoremap <UP> :<C-u>cfirst<CR>
 nnoremap <DOWN> :<C-u>clast<CR>
+" handle octopress
+nnoremap <C-n> <ESC>:OctopressNew<CR>
+nnoremap <C-d> <ESC>:call DeployOctoPost()<CR>
 "--------------------------------------------------------------------------------------------
 
 " manage plugins with vundle
