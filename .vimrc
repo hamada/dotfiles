@@ -178,7 +178,7 @@ nnoremap q :<C-u>q<CR>
 nnoremap Q q
 
 " grep friendly
-nnoremap <C-g> <ESC>:call GrepFor()<CR>
+nnoremap <C-g> <ESC>:call FriendlyGrep()<CR>
 " switch file in quickfix
 nnoremap <LEFT> :cprevious<CR>
 nnoremap <RIGHT> :cnext<CR>
