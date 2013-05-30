@@ -13,7 +13,6 @@ function! GrepFor()
 	  execute 'vimgrep'.' '.query.' '.dir.'**'
 	catch
 	  tabclose
-	  echo "catch all error" #動作しない
 	endtry
 
 :endfunction
