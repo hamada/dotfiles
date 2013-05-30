@@ -39,7 +39,7 @@ function! FriendlyGrep()
 	catch
 	  tabclose
 	  redraw
-	  echo "'" . query . "'にヒットしませんでした"
+	  echo query . " did not match any files"
 	endtry
 
 :endfunction
