@@ -1,6 +1,19 @@
 function! GrepFor()
-    execute 'tabnew'
 	let query = input('検索ワード: ')
+	if query == ''
+	  return
+	endif
 	let dir = input('対象ディレクトリ: ','','dir')
-    execute 'vimgrep'.' '.query.' '.dir.'**'
+	if dir == ''
+	  return
+	endif
+
+    execute 'tabnew'
+	try
+	  execute 'vimgrep'.' '.query.' '.dir.'**'
+	catch
+	  tabclose
+	  echo "catch all error" #動作しない
+	endtry
+
 :endfunction
