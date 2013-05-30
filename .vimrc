@@ -283,6 +283,10 @@ let g:octopress_prompt_categories = 1
 let g:octopress_qfixgrep = 0
 let g:octopress_vimfiler = 0
 " let g:octopress_template_dir_path = 'path/to/dir'
+"
+" customize friendly_grep
+let g:friendlygrep_target_dir = 'rails_projects/sharewis-web/'
+let g:friendlygrep_recursively = 1
 "--------------------------------------------------------------------------------------------
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"

@@ -1,9 +1,13 @@
 function! FriendlyGrep()
-	let query = input('Grep Keyword: ')
+	let query = input('Grep Keyword: ', '')
 	if query == ''
 	  return
 	endif
-	let target = input('Target Directory: ','','file') " .vimrcでデフォルト値を設定できるようにしたい
+
+	if !exists('g:friendlygrep_target_dir')
+	  let g:friendlygrep_target_dir = ''
+	endif
+	let target = input('Target Directory: ', g:friendlygrep_target_dir, 'file')
 	if target == ''
 	  return
 	endif
@@ -11,13 +15,20 @@ function! FriendlyGrep()
     if isdirectory(target)
 	  	let target = target.'*'
 
-		let input = input("Grep Recursively? [y/n] ") " .vimrcでデフォルト値を設定できるようにしたい
-		if input == ''
-		  return
+		if exists('g:friendlygrep_recursively') " elseifを使えるように
+			if g:friendlygrep_recursively == 1
+				let target = target.'**'
+			endif
 		endif
+		if !exists('g:friendlygrep_recursively')
+			let input = input("Grep Recursively? [y/n] ")
+			if input == ''
+			  return
+			endif
 
-		if input == "yes" || input == "y"
-	  		let target = target.'**'
+			if input == "yes" || input == "y"
+				let target = target.'**'
+			endif
 		endif
     endif
 
