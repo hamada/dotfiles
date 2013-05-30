@@ -12,7 +12,11 @@ function! FriendlyGrep()
 	  	let target = target.'*'
 
 		let input = input("Grep Recursively? [y/n] ")
-		if input == "yes" || input == "y" || input == ''
+		if input == ''
+		  return
+		endif
+
+		if input == "yes" || input == "y"
 	  		let target = target.'**'
 		endif
     endif
