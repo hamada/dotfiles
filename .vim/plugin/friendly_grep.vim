@@ -1,4 +1,4 @@
-function! GrepFor()
+function! FriendlyGrep()
 	let query = input('検索ワード: ')
 	if query == ''
 	  return
