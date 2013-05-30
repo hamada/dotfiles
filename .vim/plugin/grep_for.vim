@@ -13,6 +13,8 @@ function! GrepFor()
 	  execute 'vimgrep'.' '.query.' '.dir.'**'
 	catch
 	  tabclose
+	  redraw
+	  echo "'" . query . "'にヒットしませんでした"
 	endtry
 
 :endfunction
