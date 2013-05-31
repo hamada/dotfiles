@@ -285,7 +285,7 @@ let g:octopress_vimfiler = 0
 " let g:octopress_template_dir_path = 'path/to/dir'
 "
 " customize friendly_grep
-let g:friendlygrep_target_dir = 'rails_projects/sharewis-web/'
+let g:friendlygrep_target_dir = 'rails_projects/sharewis-web/app/'
 let g:friendlygrep_recursively = 1
 "--------------------------------------------------------------------------------------------
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
