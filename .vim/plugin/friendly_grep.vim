@@ -4,10 +4,7 @@ function! FriendlyGrep()
     return
   endif
 
-  if !exists('g:friendlygrep_target_dir')
-    let g:friendlygrep_target_dir = ''
-  endif
-  let target = input('target file/dir: ', g:friendlygrep_target_dir, 'file')
+  let target = s:get_grep_target_with('target file/dir: ')
   if target == ''
     return
   endif
@@ -65,3 +62,12 @@ function! FriendlyGrep()
   endtry
 
 :endfunction
+
+function! s:get_grep_target_with(prompt_msg)
+  if !exists('g:friendlygrep_target_dir')
+    let g:friendlygrep_target_dir = ''
+  endif
+  let target = input(a:prompt_msg, g:friendlygrep_target_dir, 'file')
+
+  retur target
+endfunction
