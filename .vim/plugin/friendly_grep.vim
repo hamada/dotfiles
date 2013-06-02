@@ -55,13 +55,11 @@ function! FriendlyGrep()
     elseif g:friendlygrep_display_result_in == 'split' || g:friendlygrep_display_result_in == 'vsplit'
       quit!
     endif
-    redraw
-    echohl WarningMsg
-    echo matchstr(v:exception, '^Vim\((\w*)\)\?:\s*\zs.*')
-    echohl None
+
+    redraw | echohl WarningMsg | echo matchstr(v:exception, '^Vim\((\w*)\)\?:\s*\zs.*') | echohl None
   endtry
 
-:endfunction
+endfunction
 
 function! s:get_grep_target_with(prompt_msg)
   if !exists('g:friendlygrep_target_dir')
@@ -69,5 +67,5 @@ function! s:get_grep_target_with(prompt_msg)
   endif
   let target = input(a:prompt_msg, g:friendlygrep_target_dir, 'file')
 
-  retur target
+  return target
 endfunction
