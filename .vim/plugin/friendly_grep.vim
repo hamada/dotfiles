@@ -38,13 +38,20 @@ function! FriendlyGrep()
 	" DONE :sp|:vimgrep query target/** 結果を上spilitで
 	" :vimgrep query target/** |cw Quickfixウィンドウで
 	" TBD :vimgrep query target/** 現在のバッファで開く
-	if g:friendlygrep_display_result_in == 'tab'
-		tabnew
-	elseif g:friendlygrep_display_result_in == 'split'
-		split
-	elseif g:friendlygrep_display_result_in == 'vsplit'
-		55vsplit
+	if exists('g:friendlygrep_display_result_in')
+		if g:friendlygrep_display_result_in == 'tab'
+			let display_style = 'tabnew'
+		elseif g:friendlygrep_display_result_in == 'split'
+			let display_style = 'split'
+		elseif g:friendlygrep_display_result_in == 'vsplit'
+			let display_style = '55vsplit'
+		endif
+	else
+		let display_style = 'split'
+		let g:friendlygrep_display_result_in = display_style
 	endif
+	execute display_style
+
 	try
 	  if g:friendlygrep_display_result_in == 'quickfix'
 	    execute 'vimgrep'.' '.query.' '.target.' |cw'
