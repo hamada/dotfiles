@@ -49,14 +49,15 @@ function! FriendlyGrep()
 		let display_style = 'split'
 		let g:friendlygrep_display_result_in = display_style
 	endif
-	execute display_style
+	if g:friendlygrep_display_result_in == 'tab' || g:friendlygrep_display_result_in == 'split' || g:friendlygrep_display_result_in == 'vsplit'
+		execute display_style
+	endif
 
 	try
 	  if g:friendlygrep_display_result_in == 'quickfix'
-	    execute 'vimgrep'.' '.query.' '.target.' |cw'
-	  else
-	    execute 'vimgrep'.' '.query.' '.target
+	    let target .= ' | cw'
 	  endif
+	  execute 'vimgrep'.' '.query.' '.target
 	catch
 	  if g:friendlygrep_display_result_in == 'tab'
 	    tabclose
