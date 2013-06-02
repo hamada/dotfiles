@@ -5,3 +5,5 @@
 [submodule ".vim/bundle/octoeditor.vim"]
 	path = .vim/bundle/octoeditor.vim
 	url = git://github.com/glidenote/octoeditor.vim.git
+	ignore = dirty
+
