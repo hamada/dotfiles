@@ -31,12 +31,6 @@ function! FriendlyGrep()
 		endif
     endif
 
-	" .vimrcで設定することによってタブでなく現在のバッファー上あるいはsplitで開けるようにしたい
-	" 以下の形式を選択出来るように
-	" DONE :vs|:vimgrep query target/** 結果を左splitで
-	" DONE :sp|:vimgrep query target/** 結果を上spilitで
-	" :vimgrep query target/** |cw Quickfixウィンドウで
-	" TBD :vimgrep query target/** 現在のバッファで開く
 	if exists('g:friendlygrep_display_result_in')
 		if g:friendlygrep_display_result_in == 'tab'
 			let display_style = 'tabnew'
