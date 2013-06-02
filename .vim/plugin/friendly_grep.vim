@@ -15,12 +15,11 @@ function! FriendlyGrep()
     if isdirectory(target)
 	  	let target = target.'*'
 
-		if exists('g:friendlygrep_recursively') " elseifを使えるように
+		if exists('g:friendlygrep_recursively')
 			if g:friendlygrep_recursively == 1
 				let target = target.'**'
 			endif
-		endif
-		if !exists('g:friendlygrep_recursively')
+		else
 			let input = input("grep recursively? [y/n] ")
 			if input == ''
 			  return
