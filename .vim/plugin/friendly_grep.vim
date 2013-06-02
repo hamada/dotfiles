@@ -37,7 +37,7 @@ function! FriendlyGrep()
 	" DONE :vs|:vimgrep query target/** 結果を左splitで
 	" DONE :sp|:vimgrep query target/** 結果を上spilitで
 	" :vimgrep query target/** |cw Quickfixウィンドウで
-	" :vimgrep query target/** 現在のバッファで開く
+	" TBD :vimgrep query target/** 現在のバッファで開く
 	if g:friendlygrep_display_result_in == 'tab'
 		execute 'tabnew'
 	elseif g:friendlygrep_display_result_in == 'split'
@@ -46,8 +46,12 @@ function! FriendlyGrep()
 		55vsplit
 	endif
 	try
-	  execute 'vimgrep'.' '.query.' '.target
-	catch
+	  if g:friendlygrep_display_result_in == 'quickfix'
+	    execute 'vimgrep'.' '.query.' '.target.' |cw'
+	  else
+	    execute 'vimgrep'.' '.query.' '.target
+	  endif
+	catch /^Vim\%((\a\+)\)\=:E480/
 	  if g:friendlygrep_display_result_in == 'tab'
 	    tabclose
 	  elseif g:friendlygrep_display_result_in == 'split' || g:friendlygrep_display_result_in == 'vsplit'
@@ -56,6 +60,11 @@ function! FriendlyGrep()
 	  redraw
 	  echohl WarningMsg
 	  echo query . " did not match any files"
+	  echohl None
+	catch /^Vim\%((\a\+)\)\=:E37/
+	  redraw
+	  echohl WarningMsg
+	  echo matchstr(v:exception, '^Vim\((\w*)\)\?:\s*\zs.*')
 	  echohl None
 	endtry
 
