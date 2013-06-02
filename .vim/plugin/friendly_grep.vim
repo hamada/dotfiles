@@ -1,31 +1,19 @@
 function! FriendlyGrep()
-  let query = input('grep query: ', '')
-  if query == ''
+  let s:return_flg = 0
+
+  let query = s:get_grep_query_with('grep query: ')
+  if s:return_flg == 1
     return
   endif
 
   let target = s:get_grep_target_with('target file/dir: ')
-  if target == ''
+  if s:return_flg == 1
     return
   endif
 
-  if isdirectory(target)
-    let target = target.'*'
-
-    if exists('g:friendlygrep_recursively')
-      if g:friendlygrep_recursively == 1
-        let target = target.'**'
-      endif
-    else
-      let input = input("grep recursively? [y/n] ")
-      if input == ''
-        return
-      endif
-
-      if input == "yes" || input == "y"
-        let target = target.'**'
-      endif
-    endif
+  let target = s:set_grep_recursive_option_with('grep recursively? [y/n] ', target)
+  if s:return_flg == 1
+    return
   endif
 
   if exists('g:friendlygrep_display_result_in')
@@ -61,11 +49,48 @@ function! FriendlyGrep()
 
 endfunction
 
+function! s:get_grep_query_with(prompt_msg)
+  let query = input(a:prompt_msg, '')
+  if query == ''
+    let s:return_flg = 1
+  endif
+
+  return query
+endfunction
+
 function! s:get_grep_target_with(prompt_msg)
   if !exists('g:friendlygrep_target_dir')
     let g:friendlygrep_target_dir = ''
   endif
   let target = input(a:prompt_msg, g:friendlygrep_target_dir, 'file')
+  if target == ''
+    let s:return_flg = 1
+  endif
+
+  return target
+endfunction
+
+function! s:set_grep_recursive_option_with(prompt_msg, target)
+  let target = a:target
+
+  if isdirectory(target)
+    let target = target.'*'
+
+    if exists('g:friendlygrep_recursively')
+      if g:friendlygrep_recursively == 1
+        let target = target.'**'
+      endif
+    else
+      let input = input(a:prompt_msg)
+      if input == ''
+        let s:return_flg = 1
+      endif
+
+      if input == "yes" || input == "y"
+        let target = target.'**'
+      endif
+    endif
+  endif
 
   return target
 endfunction
