@@ -178,8 +178,7 @@ nnoremap q :<C-u>q<CR>
 nnoremap Q q
 
 " grep friendly
-" nnoremap <C-g> <ESC>:call FriendlyGrep()<CR>
-nnoremap <C-g> <ESC>FriendlyGrep<CR>
+nnoremap <C-g> <ESC>:FriendlyGrep<CR>
 " switch file in quickfix
 nnoremap <LEFT> :cprevious<CR>
 nnoremap <RIGHT> :cnext<CR>
@@ -224,6 +223,7 @@ Bundle 'git://github.com/tpope/vim-rails'
 Bundle 'glidenote/octoeditor.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'kchmck/vim-coffee-script'
+" Bundle 'akira-hamada/friendly-grep.vim'
 
 filetype plugin indent on
 "--------------------------------------------------------------------------------------------
