@@ -39,7 +39,7 @@ function! FriendlyGrep()
 	" :vimgrep query target/** |cw Quickfixウィンドウで
 	" TBD :vimgrep query target/** 現在のバッファで開く
 	if g:friendlygrep_display_result_in == 'tab'
-		execute 'tabnew'
+		tabnew
 	elseif g:friendlygrep_display_result_in == 'split'
 		split
 	elseif g:friendlygrep_display_result_in == 'vsplit'
