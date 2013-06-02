@@ -1,3 +1,8 @@
+" friendly-grep.vim
+" Maintainer:  Akira Hamada <drumcorps.enthusiast@gmail.com>
+" Version:  0.1
+" See doc/friendly-grep.txt for instructions and usage.
+
 if exists("g:loaded_friendly_grep")
   finish
 endif
