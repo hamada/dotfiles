@@ -51,17 +51,12 @@ function! FriendlyGrep()
 	  else
 	    execute 'vimgrep'.' '.query.' '.target
 	  endif
-	catch /^Vim\%((\a\+)\)\=:E480/
+	catch
 	  if g:friendlygrep_display_result_in == 'tab'
 	    tabclose
 	  elseif g:friendlygrep_display_result_in == 'split' || g:friendlygrep_display_result_in == 'vsplit'
 	    quit!
 	  endif
-	  redraw
-	  echohl WarningMsg
-	  echo query . " did not match any files"
-	  echohl None
-	catch /^Vim\%((\a\+)\)\=:E37/
 	  redraw
 	  echohl WarningMsg
 	  echo matchstr(v:exception, '^Vim\((\w*)\)\?:\s*\zs.*')
