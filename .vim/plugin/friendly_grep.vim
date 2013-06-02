@@ -51,7 +51,7 @@ endfunction
 
 function! s:get_grep_query_with(prompt_msg)
   let query = input(a:prompt_msg, '')
-  if query == ''
+  if empty(query)
     let s:return_flg = 1
   endif
 
@@ -63,7 +63,7 @@ function! s:get_grep_target_with(prompt_msg)
     let g:friendlygrep_target_dir = ''
   endif
   let target = input(a:prompt_msg, g:friendlygrep_target_dir, 'file')
-  if target == ''
+  if empty(target)
     let s:return_flg = 1
   endif
 
@@ -82,7 +82,7 @@ function! s:set_grep_recursive_option_with(prompt_msg, target)
       endif
     else
       let input = input(a:prompt_msg)
-      if input == ''
+      if empty(input)
         let s:return_flg = 1
       endif
 
