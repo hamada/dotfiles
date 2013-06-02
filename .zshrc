@@ -44,6 +44,7 @@ alias gpo="git push origin master; growlnotify -m Done!;"
 alias gph="git push heroku master; growlnotify -m Done!;"
 alias gps="git push staging master; growlnotify -m Done!;"
 alias gst="git status"
+alias gd="git diff"
 
 alias music="mkdir /Volumes/contents; mount_afp afp://10.0.1.5/contents /Volumes/contents; open /Applications/iTunes.app"
 alias eject="killall iTunes; hdiutil eject /Volumes/contents"
