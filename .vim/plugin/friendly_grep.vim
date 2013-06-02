@@ -1,3 +1,11 @@
+if exists("g:loaded_friendly_grep")
+  finish
+endif
+let g:loaded_friendly_grep = 1
+
+let s:save_cpo = &cpo
+set cpo&vim
+
 function! FriendlyGrep()
   let s:return_flg = 0
 
@@ -94,3 +102,8 @@ function! s:set_grep_recursive_option_with(prompt_msg, target)
 
   return target
 endfunction
+
+command! -nargs=0 FriendlyGrep call FriendlyGrep()
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
