@@ -14,6 +14,7 @@
 /.vim/swap/*
 /.vim/backup/*
 .vim/bundle/*
+.vim/my_plugins/*
 .DS_Store
 
 # but don't ignore theese files to track swap and backup directories
