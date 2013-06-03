@@ -129,7 +129,8 @@ noremap ; :
 noremap : ;
 nnoremap <SPACE> <PageDown>zz
 nnoremap <S-SPACE> <PageUp>zz
-nnoremap <C-e> :<C-u>tabe $MYVIMRC<Enter>
+" nnoremap <C-e> :<C-u>tabe $MYVIMRC<Enter>
+nnoremap <C-e> :<C-u>55vs $MYVIMRC<Enter> :se nowrap<Enter>
 nnoremap <C-s> :<C-u>source $MYVIMRC<Enter>
 " Insert new line with <RETURN> when command mode
 noremap <CR> o<ESC>
