@@ -15,6 +15,8 @@
 /.vim/backup/*
 .vim/bundle/*
 .vim/my_plugins/*
+.vim/autoload/friendlygrep.vim
+.vim/plugin/friendlygrep.vim
 .DS_Store
 
 # but don't ignore theese files to track swap and backup directories
