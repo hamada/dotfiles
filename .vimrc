@@ -43,6 +43,8 @@ set backup
 set backupdir=~/.vim/backup
 " add plugin dir to runtimepath
 :set runtimepath+=$HOME/.vim/plugin
+
+set splitright " vertical split right everytime
 "--------------------------------------------------------------------------------------------
 
 " MacVim original settings
