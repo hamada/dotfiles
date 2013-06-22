@@ -269,6 +269,7 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 " customize unite.vim
 let g:unite_enable_start_insert = 1 " start unite with insert mode
+let g:unite_force_overwrite_statusline = 1 " setting for statusline of Unite window
 call unite#custom_default_action('file', 'tabopen') " open a file in new tab
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
