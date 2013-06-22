@@ -134,28 +134,28 @@ nnoremap <S-SPACE> <PageUp>zz
 " nnoremap <C-e> :<C-u>tabe $MYVIMRC<Enter>
 nnoremap <C-e> :<C-u>55vs $MYVIMRC<Enter> :se nowrap<Enter>
 nnoremap <C-s> :<C-u>source $MYVIMRC<Enter>
-nnoremap <S-C-h> :call ShiftVbarLeft()<CR>
-nnoremap <S-C-l> :call ShiftVbarRight()<CR>
-function! ShiftVbarLeft() "{{{
-  let current_width = winwidth(0)
-  if winnr() == 1
-    let current_width = current_width - 5
-  else
-    let current_width = current_width + 5
-  endif
-  execute "vertical resize ".current_width
-endfunction "}}}
+nnoremap <S-C-h> :call ShiftVbar('left', 5)<CR>
+nnoremap <S-C-l> :call ShiftVbar('right', 5)<CR>
+  function! ShiftVbar(direction, degree) "{{{
+    if a:direction == 'left'
+      if winnr() == 1
+        let sign = '-'
+      else
+        let sign = '+'
+      endif
+  
+    else
+      if winnr() == 1
+        let sign = '+'
+      else
+        let sign = '-'
+      endif
+  
+    endif
+  
+    execute "vertical resize ".sign.a:degree
+  endfunction "}}}
 
-function! ShiftVbarRight() "{{{
-  let current_width = winwidth(0)
-  if winnr() == 1
-    let current_width = current_width + 5
-  else
-    let current_width = current_width - 5
-  endif
-  execute "vertical resize ".current_width
-endfunction "}}}
-" nnoremap <S-C-l> 5<C-w>>
 " nnoremap <S-C-j> 5<C-w>+ " comflict with IME shortcut
 " nnoremap <S-C-k> 5<C-w>- " comflict with IME shortcut
 " Insert new line with <RETURN> when command mode
