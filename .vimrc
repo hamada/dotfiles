@@ -172,8 +172,11 @@ noremap <CR> o<ESC>
 inoremap <S-C-CR> <ESC>A;<ESC>o
 inoremap <S-CR> <ESC>:call AppendSemiColon()<CR>a
 inoremap <C-CR> <ESC>o
+" move between vsplit windows
+noremap <TAB> <C-w>l
+noremap <C-TAB> <C-w>h
 " Insert a Tab Character with <Tab> when command mode
-noremap <TAB> i	<ESC>
+noremap <S-TAB> i	<ESC>
 " Auto Complete
 inoremap { {}<LEFT>
 inoremap [ []<LEFT>
