@@ -1,9 +1,6 @@
 " autoload/friendlygrep.vim
 " Author:  Akira Hamada <drumcorps.enthusiast@gmail.com>
 " Version: 0.1
-" Install this file as autoload/friendlygrep.vim.  This file is sourced manually by
-" plugin/friendlygrep.vim.  It is in autoload directory to allow for future usage of
-" Vim 7's autoload feature.
 
 let s:save_cpo = &cpo
 set cpo&vim
@@ -16,7 +13,7 @@ function! friendlygrep#FriendlyGrep()
     return
   endif
 
-  let target = s:get_grep_target_with('target file/dir: ')
+  let target = s:get_grep_target_with('target dir or file: ')
   if s:return_flg == 1
     return
   endif
@@ -42,14 +39,19 @@ function! friendlygrep#FriendlyGrep()
     execute display_style
   endif
 
+  let move_tab_back_flg = s:set_move_tab_back_flg()
+
   try
     if g:friendlygrep_display_result_in == 'quickfix'
       let target .= ' | cw'
     endif
-    execute 'vimgrep'.' '.query.' '.target
+    execute 'vimgrep'.' /'.query.'/g '.target
   catch
     if g:friendlygrep_display_result_in == 'tab'
       tabclose
+      if move_tab_back_flg == 1
+        tabprevious
+      endif
     elseif g:friendlygrep_display_result_in == 'split' || g:friendlygrep_display_result_in == 'vsplit'
       quit!
     endif
@@ -103,6 +105,18 @@ function! s:set_grep_recursive_option_with(prompt_msg, target)
   endif
 
   return target
+endfunction
+
+function! s:set_move_tab_back_flg()
+  let move_tab_back_flg = 0
+
+  if g:friendlygrep_display_result_in == 'tab'
+    if tabpagenr() != tabpagenr('$')
+      let move_tab_back_flg = 1
+    endif
+  endif
+
+  return move_tab_back_flg
 endfunction
 
 let &cpo = s:save_cpo

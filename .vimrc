@@ -176,6 +176,8 @@ inoremap " ""<LEFT>
 nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files file file_mru file/new<CR>
 nnoremap <silent> ,b :<C-u>Unite -buffer-name=files bookmark file<CR>
 nnoremap <silent> ,m :<C-u>UniteWithBufferDir -buffer-name=files file_mru<CR>
+nnoremap <silent> ,t :<C-u>Unite branches<CR>
+nnoremap <C-t> :<C-u>call GetTabList()<CR>
 " open snippet with Neocomplcache
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -326,3 +328,79 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "--------------------------------------------------------------------------------------------
 "matchit.vimを有効化
 source $VIMRUNTIME/macros/matchit.vim
+
+" unite-source の設定を定義する (詳しい設定オプションは :help unite-source-attributes)
+let s:source = {
+\   "name" : "branches",
+\   "description" : "git branches",
+\   "action_table" : {
+\       "open_in_tabs" : {
+\           "description" : "open files in tabs",
+\       },
+\
+\       "delete_from_branch" : {
+\           "description" : "delete from list",
+\       }
+\   },
+\   "default_action" : "open_in_tabs",
+\}
+
+" action が呼ばれた時の処理を定義
+function! s:source.action_table.open_in_tabs.func(candidate)
+  let branch_file = a:candidate.action__path " candidate には gather_candidates で設定した値が保持されている
+  let pathes = readfile(branch_file)
+
+  let i = 0
+  for path in pathes
+    if i == 0
+      execute 'find '.path
+    else
+      execute 'tabnew '.path
+    endif
+
+    let i += 1
+  endfor
+  unlet i
+
+  tabnext
+endfunction
+
+function! s:source.action_table.delete_from_branch.func(candidate)
+  call delete(a:candidate.action__path)
+endfunction
+
+" unite.vim で表示される候補を返す
+function! s:source.gather_candidates(args, context)
+
+    let globed_files = glob(g:unite_data_directory.'/branches/*')
+    let branch_list = split(globed_files, '\n')
+
+    let branches = []
+    for branch_path in branch_list
+      let branch_name = substitute(fnamemodify(branch_path, ":t"), '_', '/', '')
+
+      call add(branches, {'word': branch_name, 'source': 'branches', 'action__path': branch_path})
+    endfor
+
+    return branches
+endfunction
+
+" branhcesソースに candidateを追加
+function! GetTabList()
+  let branch_name = input('Input Branch Name: ', '')
+  if branch_name == ''
+    let branch_name = 'defaut'
+  else
+    let branch_name = substitute(branch_name, '/', '_', '')
+  endif
+
+  let pathes = []
+  tabdo call add(pathes, expand('%:p').' ')
+  tabnext
+
+  call writefile(pathes, g:unite_data_directory.'/branches/'.branch_name)
+endfunction
+
+" untie.vim に source を登録
+call unite#define_source(s:source)
+unlet s:source
