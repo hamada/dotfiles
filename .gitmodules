@@ -7,3 +7,8 @@
 	url = git://github.com/glidenote/octoeditor.vim.git
 	ignore = dirty
 
+[submodule ".vim/bundle/vimshell"]
+	path = .vim/bundle/vimshell/
+	url = git://github.com:Shougo/vimshell.vim.git
+	ignore = dirty
+
