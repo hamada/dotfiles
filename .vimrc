@@ -21,6 +21,12 @@ colorscheme desert
 set number
 set ruler
 set cursorline
+  " highlight current cursorline only active window
+  augroup vimrc_set_cursorline_only_active_window
+    autocmd!
+    autocmd VimEnter,BufWinEnter,WinEnter * setlocal cursorline
+    autocmd WinLeave * setlocal nocursorline
+  augroup END
 set wrap
 set scrolloff=10
 " customize statusline
