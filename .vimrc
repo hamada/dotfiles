@@ -140,6 +140,8 @@ nnoremap <S-SPACE> <PageUp>zz
 " nnoremap <C-e> :<C-u>tabe $MYVIMRC<Enter>
 nnoremap <C-e> :<C-u>105vs $MYVIMRC<Enter> :se nowrap<Enter>
 nnoremap <C-s> :<C-u>source $MYVIMRC<Enter>
+" open new vsplit window
+nnoremap vs :<C-u>vnew<CR>
 nnoremap <S-C-h> :call ShiftVbar('left', 5)<CR>
 nnoremap <S-C-l> :call ShiftVbar('right', 5)<CR>
   function! ShiftVbar(direction, degree) "{{{
