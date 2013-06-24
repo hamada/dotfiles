@@ -400,13 +400,22 @@ endfunction
 
 " branhcesソースに candidateを追加
 function! GetTabList()
-  let branch_name = input('Input Branch Name: ', '')
-  if branch_name == ''
-    let branch_name = 'defaut'
-  else
-    let branch_name = substitute(branch_name, '/', '_', '')
-  endif
+  let original_path = getcwd()
 
+  execute 'cd %:h'
+  redir => branches
+  " TODO refactor code using this http://qiita.com/sugyan/items/83e060e895fa8ef2038c
+  silent execute '!git branch'
+  redir END
+
+  execute 'cd '.original_path
+
+  let branch_list = split(branches, '\r\n')
+  let current_branch_index = match(branch_list, '*')
+  let branch_name = substitute(branch_list[current_branch_index], '* ', '', '')
+  let branch_name = substitute(branch_name, '$', '', '')
+
+  let branch_name = substitute(branch_name, '/', '_', '')
   let pathes = []
   tabdo call add(pathes, expand('%:p').' ')
   tabnext
