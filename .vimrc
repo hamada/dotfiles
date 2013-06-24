@@ -143,8 +143,8 @@ nnoremap <C-s> :<C-u>source $MYVIMRC<Enter>
 " open new vsplit window
 nnoremap vs :<C-u>vnew<CR>
 nnoremap vS :<C-u>vsplit<CR>
-nnoremap <C-h> :call ShiftVbar('left', 5)<CR>
-nnoremap <C-l> :call ShiftVbar('right', 5)<CR>
+nnoremap <silent> <C-h> :call ShiftVbar('left', 5)<CR>
+nnoremap <silent> <C-l> :call ShiftVbar('right', 5)<CR>
   function! ShiftVbar(direction, degree) "{{{
     if a:direction == 'left'
       if winnr() == 1
