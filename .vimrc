@@ -390,7 +390,7 @@ function! s:source.gather_candidates(args, context)
 
     let branches = []
     for branch_path in branch_list
-      let branch_name = substitute(fnamemodify(branch_path, ":t"), '_', '/', '')
+      let branch_name = substitute(fnamemodify(branch_path, ":t"), '__', '/', 'g')
 
       call add(branches, {'word': branch_name, 'source': 'branches', 'action__path': branch_path})
     endfor
@@ -415,7 +415,7 @@ function! GetTabList()
   let branch_name = substitute(branch_list[current_branch_index], '* ', '', '')
   let branch_name = substitute(branch_name, '$', '', '')
 
-  let branch_name = substitute(branch_name, '/', '_', '')
+  let branch_name = substitute(branch_name, '/', '__', 'g')
   let pathes = []
   tabdo call add(pathes, expand('%:p').' ')
   tabnext
