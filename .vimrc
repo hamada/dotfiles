@@ -229,6 +229,8 @@ nnoremap <DOWN> :<C-u>clast<CR>
 " handle octopress
 nnoremap <C-n> <ESC>:OctopressNew<CR>
 nnoremap <C-d> <ESC>:call DeployOctoPost()<CR>
+" help settings
+cabbrev h vertical h
 "--------------------------------------------------------------------------------------------
 
 " manage plugins with vundle
