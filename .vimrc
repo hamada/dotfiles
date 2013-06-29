@@ -406,6 +406,15 @@ function! GetTabList()
   let branch_name = system('git symbolic-ref --short HEAD')
   execute 'cd -'
 
+  try
+    if 0 <= match(branch_name, 'Not a git repository')
+      throw 'Error: Not a git repository'
+    endif
+  catch /Error/
+    echohl WarningMsg | echo v:exception | echohl None
+    return
+  endtry
+
   let branch_name = substitute(branch_name, '\n', '', '')
   let branch_name = substitute(branch_name, '/', '__', 'g')
 
