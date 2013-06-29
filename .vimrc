@@ -405,19 +405,11 @@ function! GetTabList()
   let original_path = getcwd()
 
   execute 'cd %:h'
-  redir => branches
-  " TODO refactor code using this http://qiita.com/sugyan/items/83e060e895fa8ef2038c
-  silent execute '!git branch'
-  redir END
-
+  let branch_name = system('git symbolic-ref --short HEAD')
+  let branch_name = substitute(branch_name, '\n', '', '')
+  let branch_name = substitute(branch_name, '/', '__', 'g')
   execute 'cd '.original_path
 
-  let branch_list = split(branches, '\r\n')
-  let current_branch_index = match(branch_list, '*')
-  let branch_name = substitute(branch_list[current_branch_index], '* ', '', '')
-  let branch_name = substitute(branch_name, '$', '', '')
-
-  let branch_name = substitute(branch_name, '/', '__', 'g')
   let pathes = []
   tabdo call add(pathes, expand('%:p').' ')
   tabnext
