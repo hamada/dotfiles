@@ -415,15 +415,15 @@ function! GetTabList()
     return
   endtry
 
-  let branch_name = substitute(branch_name, '\n', '', '')
-  let branch_name = substitute(branch_name, '/', '__', 'g')
+  let original_branch_name = substitute(branch_name, '\n', '', '')
+  let branch_name = substitute(original_branch_name, '/', '__', 'g')
 
   let pathes = []
   tabdo call add(pathes, expand('%:p').' ')
   tabnext
 
   call writefile(pathes, g:unite_data_directory.'/branches/'.branch_name)
-  redraw | echo 'Save Current Tabs'
+  redraw | echo 'Save Current Tabs to '."'".original_branch_name."'"
 endfunction
 
 " untie.vim に source を登録
