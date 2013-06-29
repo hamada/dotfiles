@@ -410,7 +410,7 @@ function! GetTabList()
     if 0 <= match(branch_name, 'Not a git repository')
       throw 'Error: Not a git repository'
     endif
-  catch /Error/
+  catch
     echohl WarningMsg | echo v:exception | echohl None
     return
   endtry
