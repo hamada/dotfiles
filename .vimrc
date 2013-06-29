@@ -402,13 +402,12 @@ endfunction
 
 " branhcesソースに candidateを追加
 function! GetTabList()
-  let original_path = getcwd()
-
   execute 'cd %:h'
   let branch_name = system('git symbolic-ref --short HEAD')
+  execute 'cd -'
+
   let branch_name = substitute(branch_name, '\n', '', '')
   let branch_name = substitute(branch_name, '/', '__', 'g')
-  execute 'cd '.original_path
 
   let pathes = []
   tabdo call add(pathes, expand('%:p').' ')
