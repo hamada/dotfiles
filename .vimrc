@@ -423,6 +423,7 @@ function! GetTabList()
   tabnext
 
   call writefile(pathes, g:unite_data_directory.'/branches/'.branch_name)
+  redraw | echo 'Save Current Tabs'
 endfunction
 
 " untie.vim に source を登録
