@@ -292,6 +292,9 @@ autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
 	" delete backslash with the words by <C-w> when insertmode in Unite
 	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+  nmap <buffer> q <Plug>(unite_all_exit)
+  nmap <buffer> <Space> 10j
+  nmap <buffer> <S-SPACE> 10k
 endfunction
 
 " open in splited right window with v
