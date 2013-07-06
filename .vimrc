@@ -193,7 +193,7 @@ nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files file file_mru f
 nnoremap <silent> ,b :<C-u>Unite -buffer-name=files bookmark file<CR>
 nnoremap <silent> ,m :<C-u>UniteWithBufferDir -buffer-name=files file_mru<CR>
 nnoremap <silent> ,t :<C-u>Unite branches<CR>
-nnoremap <C-t> :<C-u>call GetTabList()<CR>
+nnoremap <C-t> :<C-u>call SaveCurrentSession()<CR>
 " open snippet with Neocomplcache
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -356,19 +356,19 @@ let s:source = {
 \   "name" : "branches",
 \   "description" : "git branches",
 \   "action_table" : {
-\       "open_in_tabs" : {
-\           "description" : "open files in tabs",
+\       "restore_session" : {
+\           "description" : "restore session for the branch",
 \       },
 \
 \       "delete_from_branch" : {
 \           "description" : "delete from list",
 \       }
 \   },
-\   "default_action" : "open_in_tabs",
+\   "default_action" : "restore_session",
 \}
 
 " action が呼ばれた時の処理を定義
-function! s:source.action_table.open_in_tabs.func(candidate)
+function! s:source.action_table.restore_session.func(candidate)
   let branch_file = a:candidate.action__path " candidate には gather_candidates で設定した値が保持されている
 
   execute 'source '.branch_file
@@ -396,7 +396,7 @@ function! s:source.gather_candidates(args, context)
 endfunction
 
 " branhcesソースに candidateを追加
-function! GetTabList()
+function! SaveCurrentSession()
   execute 'cd %:h'
   let branch_name = system('git symbolic-ref --short HEAD')
   execute 'cd -'
@@ -415,7 +415,7 @@ function! GetTabList()
 
   exe "mksession! " .g:unite_data_directory.'/branches/'.branch_name
 
-  redraw | echo 'Save Current Tabs to '."'".original_branch_name."'"
+  redraw | echo 'Save Current Session to '."'".original_branch_name."'"
 endfunction
 
 " untie.vim に source を登録
