@@ -370,21 +370,9 @@ let s:source = {
 " action が呼ばれた時の処理を定義
 function! s:source.action_table.open_in_tabs.func(candidate)
   let branch_file = a:candidate.action__path " candidate には gather_candidates で設定した値が保持されている
-  let pathes = readfile(branch_file)
 
-  let i = 0
-  for path in pathes
-    if i == 0
-      execute 'find '.path
-    else
-      execute 'tabnew '.path
-    endif
-
-    let i += 1
-  endfor
-  unlet i
-
-  tabnext
+  execute 'source '.branch_file
+  execute 'source '.$MYVIMRC
 endfunction
 
 function! s:source.action_table.delete_from_branch.func(candidate)
@@ -425,11 +413,8 @@ function! GetTabList()
   let original_branch_name = substitute(branch_name, '\n', '', '')
   let branch_name = substitute(original_branch_name, '/', '__', 'g')
 
-  let pathes = []
-  tabdo call add(pathes, expand('%:p').' ')
-  tabnext
+  exe "mksession! " .g:unite_data_directory.'/branches/'.branch_name
 
-  call writefile(pathes, g:unite_data_directory.'/branches/'.branch_name)
   redraw | echo 'Save Current Tabs to '."'".original_branch_name."'"
 endfunction
 
