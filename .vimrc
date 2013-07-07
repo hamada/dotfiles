@@ -193,7 +193,7 @@ nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files file file_mru f
 nnoremap <silent> ,b :<C-u>Unite -buffer-name=files bookmark file<CR>
 nnoremap <silent> ,m :<C-u>UniteWithBufferDir -buffer-name=files file_mru<CR>
 nnoremap <silent> ,t :<C-u>Unite branches<CR>
-nnoremap <C-t> :<C-u>call SaveCurrentSession()<CR>
+nnoremap <silent> <C-t> :<C-u>call SaveCurrentSession()<CR>
 " open snippet with Neocomplcache
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
