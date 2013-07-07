@@ -427,7 +427,14 @@ function! s:source.gather_candidates(args, context)
       let localtime = split(tmp, '\r\n')[1]
       let localtime = substitute(localtime, '^"\s\(\d\+\)$', '\1', '')
 
-      call add(branches, {'word': branch_name, 'source': 'branches', 'action__path': branch_path, 'action__date': localtime, 'action__branch_name': branch_name})
+      let candidate_info = {
+\        'word': branch_name,
+\        'action__branch_name': branch_name,
+\        'action__date': localtime,
+\        'action__path': branch_path,
+\        'source': 'branches'
+\      }
+      call add(branches, candidate_info)
     endfor
 
     return branches
