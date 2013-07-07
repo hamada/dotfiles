@@ -24,8 +24,8 @@ set cursorline
   " highlight current cursorline only active window
   augroup vimrc_set_cursorline_only_active_window
     autocmd!
-    autocmd VimEnter,BufWinEnter,WinEnter * setlocal cursorline
-    autocmd WinLeave * setlocal nocursorline
+    autocmd VimEnter,BufWinEnter,WinEnter * setlocal cursorline cursorcolumn
+    autocmd WinLeave * setlocal nocursorline nocursorcolumn
   augroup END
 set wrap
 set scrolloff=10
