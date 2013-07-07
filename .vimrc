@@ -373,7 +373,7 @@ function! s:format_filter.filter(candidates, context)
 
     for candidate in a:candidates
       let datetime = strftime("%Y-%m-%d %H:%M:%S", candidate.action__date)
-      let candidate.word = printf(format, datetime, candidate.word)
+      let candidate.word = printf(format, datetime, candidate.action__branch_name)
     endfor
 
     return a:candidates
@@ -427,7 +427,7 @@ function! s:source.gather_candidates(args, context)
       let localtime = split(tmp, '\r\n')[1]
       let localtime = substitute(localtime, '^"\s\(\d\+\)$', '\1', '')
 
-      call add(branches, {'word': branch_name, 'source': 'branches', 'action__path': branch_path, 'action__date': localtime})
+      call add(branches, {'word': branch_name, 'source': 'branches', 'action__path': branch_path, 'action__date': localtime, 'action__branch_name': branch_name})
     endfor
 
     return branches
