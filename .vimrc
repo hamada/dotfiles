@@ -351,6 +351,26 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "matchit.vimを有効化
 source $VIMRUNTIME/macros/matchit.vim
 
+let s:format_filter = {
+\   "name" : "format_candidate",
+\}
+
+" candidateの表示formatを決定するfilter
+function! s:format_filter.filter(candidates, context)
+    let format = "(%-S) %-S"
+
+    for candidate in a:candidates
+      let datetime = strftime("%Y-%m-%d %H:%M:%S", candidate.action__date)
+      let candidate.word = printf(format, datetime, candidate.word)
+    endfor
+
+    return a:candidates
+endfunction
+
+" unite.vim に filter を登録
+call unite#define_filter(s:format_filter)
+unlet s:format_filter
+
 " unite-source の設定を定義する (詳しい設定オプションは :help unite-source-attributes)
 let s:source = {
 \   "name" : "branches",
@@ -389,7 +409,13 @@ function! s:source.gather_candidates(args, context)
     for branch_path in branch_list
       let branch_name = substitute(fnamemodify(branch_path, ":t"), '__', '/', 'g')
 
-      call add(branches, {'word': branch_name, 'source': 'branches', 'action__path': branch_path})
+      redir => tmp
+      silent exe '!tail -n 1 '.branch_path
+      redir END
+      let localtime = split(tmp, '\r\n')[1]
+      let localtime = substitute(localtime, '^"\s\(\d\+\)$', '\1', '')
+
+      call add(branches, {'word': branch_name, 'source': 'branches', 'action__path': branch_path, 'action__date': localtime})
     endfor
 
     return branches
@@ -415,9 +441,14 @@ function! SaveCurrentSession()
 
   exe "mksession! " .g:unite_data_directory.'/branches/'.branch_name
 
+  let insert_this = "'".'" '.localtime()."'"
+  silent exe '!echo '.insert_this.'  >> '.g:unite_data_directory.'/branches/'.branch_name
+
   redraw | echo 'Save Current Session to '."'".original_branch_name."'"
 endfunction
 
 " untie.vim に source を登録
 call unite#define_source(s:source)
 unlet s:source
+
+call unite#custom_source('branches', 'converters', 'format_candidate')
