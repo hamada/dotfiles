@@ -351,6 +351,18 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "matchit.vimを有効化
 source $VIMRUNTIME/macros/matchit.vim
 
+let s:date_sort_filter = {
+\   "name" : "sorter_date",
+\}
+
+function! s:date_sort_filter.filter(candidates, context)
+    return unite#util#sort_by(a:candidates, 'v:val.action__date')
+endfunction
+
+" unite.vim に filter を登録
+call unite#define_filter(s:date_sort_filter)
+unlet s:date_sort_filter
+
 let s:format_filter = {
 \   "name" : "format_candidate",
 \}
@@ -452,3 +464,5 @@ call unite#define_source(s:source)
 unlet s:source
 
 call unite#custom_source('branches', 'converters', 'format_candidate')
+
+call unite#custom_source('branches', 'sorters', ['sorter_date', 'sorter_reverse'])
