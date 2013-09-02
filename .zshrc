@@ -31,7 +31,9 @@ PROMPT=%F{green}'[%m: %~]'$'\n''%(!.#.$) '%f
 #alias
 alias rm='rm -i'
 alias ls=' ls -G' #ls with coloring
+alias pr='powder restart; powder applog'
 
+# git alias
 alias gl="git log --pretty='medium-reverse' --graph --name-status"
 alias ga="git add ."
 alias gc="git commit"
@@ -40,12 +42,23 @@ alias gnb="git checkout -b"
 alias gb="git branch"
 alias gdb="git branch -d"
 alias gm="git merge"
+alias gpull="git pull origin master; growlnotify -m Done!;"
 alias gpo="git push origin master; growlnotify -m Done!;"
 alias gph="git push heroku master; growlnotify -m Done!;"
 alias gps="git push staging master; growlnotify -m Done!;"
 alias gst="git status"
 alias gd="git diff"
 
+# rake alias
+alias rdm="echo rake db:migrate; rake db:migrate; growlnotify -m Done!; echo next rdtp;"
+alias rdtp="echo rake db:test:prepare; rake db:test:prepare; growlnotify -m Done!; echo next rdp;"
+alias rdp="echo rake db:populate; rake db:populate; growlnotify -m Done!; echo next rds;"
+alias rds="echo rake db:seed; rake db:seed; growlnotify -m Done!; echo next gnb;"
+
+# add Path to my pivotaltracker commands
+PATH="$PATH":~/commands
+
+# etc alias
 alias music="mkdir /Volumes/contents; mount_afp afp://10.0.1.5/contents /Volumes/contents; open /Applications/iTunes.app"
 alias eject="killall iTunes; hdiutil eject /Volumes/contents"
 

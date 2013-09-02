@@ -144,6 +144,8 @@ nnoremap <S-SPACE> <PageUp>zz
 " nnoremap <C-e> :<C-u>tabe $MYVIMRC<Enter>
 nnoremap <C-e> :<C-u>105vs $MYVIMRC<Enter> :se nowrap<Enter>
 nnoremap <C-s> :<C-u>source $MYVIMRC<Enter>
+" edit zshrc
+nnoremap <C-z> :<C-u>105vs $HOME/.zshrc<Enter> :se nowrap<Enter>
 " open new vsplit window
 nnoremap vs :<C-u>vnew<CR>
 nnoremap vS :<C-u>vsplit<CR>
@@ -190,9 +192,11 @@ inoremap ' ''<LEFT>
 inoremap " ""<LEFT>
 " open file browser with Unite
 nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files file file_mru file/new<CR>
-nnoremap <silent> ,b :<C-u>Unite -buffer-name=files bookmark file<CR>
+nnoremap <silent> ,b :<C-u>Unite bookmark<CR>
+" nnoremap <silent> ,b :<C-u>Unite -buffer-name=files bookmark file<CR>
 nnoremap <silent> ,m :<C-u>UniteWithBufferDir -buffer-name=files file_mru<CR>
 nnoremap <silent> ,t :<C-u>Unite branches<CR>
+nnoremap <silent> ,pv :<C-u>Unite pivotal<CR>
 nnoremap <silent> <C-t> :<C-u>call SaveCurrentSession()<CR>
 " open snippet with Neocomplcache
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -351,6 +355,9 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "matchit.vimを有効化
 source $VIMRUNTIME/macros/matchit.vim
 
+" ----------------------------------------------------------------------------------------
+" Unite-branches
+" ----------------------------------------------------------------------------------------
 let s:date_sort_filter = {
 \   "name" : "sorter_date",
 \}
@@ -473,3 +480,52 @@ unlet s:source
 call unite#custom_source('branches', 'converters', 'format_candidate')
 
 call unite#custom_source('branches', 'sorters', ['sorter_date', 'sorter_reverse'])
+
+" ----------------------------------------------------------------------------------------
+" Unite-pivotal
+" ----------------------------------------------------------------------------------------
+" unite-source の設定を定義する (詳しい設定オプションは :help unite-source-attributes)
+let s:source = {
+\   "name" : "pivotal",
+\   "description" : "pivotal tracker",
+\   "action_table" : {
+\       "copy_story_url" : {
+\           "description" : "copy url to story page",
+\       }
+\   },
+\   "default_action" : "copy_story_url",
+\}
+
+" action が呼ばれた時の処理を定義
+function! s:source.action_table.copy_story_url.func(candidate)
+  let branch_file = a:candidate.action__path " candidate には gather_candidates で設定した値が保持されている
+
+  'https://www.pivotaltracker.com/story/show/'.story_id
+endfunction
+
+" unite.vim で表示される候補を返す
+function! s:source.gather_candidates(args, context)
+
+    redir => stories
+    silent exe '!pv'
+    redir END
+
+    let stories = split(stories, '\n')
+
+    for story in stories
+      let story_id = substitute(story, '^\*\s\(\d\+\)\s.\+$', '\1', '')
+
+      let candidate_info = {
+\        'word': story,
+\        'action__story_id': story_id,
+\        'source': 'pivotal'
+\      }
+      call add(stories, candidate_info)
+    endfor
+
+    return stories
+endfunction
+
+" untie.vim に source を登録
+call unite#define_source(s:source)
+unlet s:source
