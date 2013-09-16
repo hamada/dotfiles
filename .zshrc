@@ -1,6 +1,7 @@
 autoload -U compinit
 compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+setopt no_complete_aliases
 export LANG=ja_JP.UTF-8
 
 setopt auto_cd
@@ -34,6 +35,7 @@ alias ls=' ls -G' #ls with coloring
 alias pr='powder restart; powder applog'
 
 # git alias
+alias g="git"
 alias gl="git log --pretty='medium-reverse' --graph --name-status"
 alias ga="git add ."
 alias gc="git commit"
@@ -43,11 +45,19 @@ alias gb="git branch"
 alias gdb="git branch -d"
 alias gm="git merge"
 alias gpull="git pull origin master; growlnotify -m Done!;"
-alias gpo="git push origin master; growlnotify -m Done!;"
 alias gph="git push heroku master; growlnotify -m Done!;"
 alias gps="git push staging master; growlnotify -m Done!;"
 alias gst="git status"
 alias gd="git diff"
+alias gdc="git diff --cached"
+
+# gpo() {
+	# local branch=$*;
+  # if [ -n "$branch" ]; then
+	# git push origin $branch;
+	# growlnotify -m "git push origin $branch";
+  # fi
+# }
 
 # rake alias
 alias rdm="echo rake db:migrate; rake db:migrate; growlnotify -m Done!; echo next rdtp;"

@@ -275,6 +275,7 @@ Bundle 'git://github.com/tpope/vim-rails'
 Bundle 'glidenote/octoeditor.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'kchmck/vim-coffee-script'
+Bundle 'groenewege/vim-less'
 " Bundle 'akira-hamada/friendly-grep.vim'
 
 filetype plugin indent on
