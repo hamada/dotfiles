@@ -324,6 +324,25 @@ let g:NERDCreateDefaultMappings = 0
 let NERDSpaceDelims = 1
 nmap <C-c> <Plug>NERDCommenterToggle
 vmap <C-c> <Plug>NERDCommenterToggle
+vnoremap <silent> <C-d> :call DupLines()<CR>
+  function! DupLines()  range "{{{
+    let selected_num = line("'>") - line("'<") + 1
+    let ori_pos = line("'<")
+    " 選択中の行をyank
+    normal! ""gvy
+    " yankした物をPする
+    normal P
+    " selected_numの分、下に移動する
+    execute 'normal '.selected_num.'j'
+    " Vモードに入る
+    execute 'normal V'.selected_num.'j'
+    " コメントアウトする
+    call NERDComment(1, 'norm')
+    " ビジュアルモードからエスケープ
+    execute "normal! \e\e"
+    " 元の位置に戻る
+    execute 'normal '.ori_pos.'gg'
+  endfunction "}}}
 
 " customize surround.vim
 let g:surround_{char2nr("[")} = "[\r]"
