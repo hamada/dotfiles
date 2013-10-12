@@ -260,7 +260,7 @@ call vundle#rc()
 " 
 " when you delete plugin, execute :BundleClean after deleting the Bundle ~ line to delete
 "------------------------------------------------------------------------------------
-Bundle 'ShowMarks'
+" Bundle 'ShowMarks'
 Bundle 'surround.vim'
 Bundle 'unite.vim'
 Bundle 'quickrun.vim'
@@ -275,7 +275,7 @@ Bundle 'git://github.com/tpope/vim-rails'
 Bundle 'glidenote/octoeditor.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'groenewege/vim-less'
+Bundle 'kshenoy/vim-signature'
 " Bundle 'akira-hamada/friendly-grep.vim'
 
 filetype plugin indent on
