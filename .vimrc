@@ -239,6 +239,21 @@ nnoremap <C-n> <ESC>:OctopressNew<CR>
 nnoremap <C-d> <ESC>:call DeployOctoPost()<CR>
 " help settings
 nnoremap ? :vertical h 
+" transparent shortcut
+nnoremap <silent> <S-UP> :call IncTransp()<CR>
+  function! IncTransp() "{{{
+    let t = 10 + &transparency
+    if t <= 100
+      execute 'set transparency='.t
+    endif
+  endfunction "}}}
+nnoremap <silent> <S-DOWN> :call DecTransp()<CR>
+  function! DecTransp() "{{{
+    let t = &transparency - 10
+    if t >= 0
+      execute 'set transparency='.t
+    endif
+  endfunction "}}}
 "--------------------------------------------------------------------------------------------
 
 " manage plugins with vundle
