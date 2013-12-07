@@ -276,6 +276,7 @@ Bundle 'glidenote/octoeditor.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'kshenoy/vim-signature'
+Bundle 'vim-scripts/applescript.vim'
 " Bundle 'akira-hamada/friendly-grep.vim'
 
 filetype plugin indent on
