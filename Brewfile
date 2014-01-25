@@ -1,5 +1,7 @@
-update # update Homebrew
-upgrade # update Formula
+# update Homebrew
+update
+# update Formula
+upgrade
 
 install git
 install macvim
@@ -33,4 +35,5 @@ cask install transmit
 cask install vagrant
 cask install virtualbox
 
-clean # remove unused files
+# remove unused files
+clean
