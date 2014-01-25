@@ -1,5 +1,3 @@
-autoload -U compinit
-compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 setopt no_complete_aliases
 export LANG=ja_JP.UTF-8
@@ -112,9 +110,8 @@ function rprompt-git-current-branch {
 RPROMPT='`rprompt-git-current-branch`'
 
 #for autojump
-if [ -f `brew --prefix`/etc/autojump ]; then
-  . `brew --prefix`/etc/autojump
-fi
+[[ -s /Users/akira/.autojump/etc/profile.d/autojump.sh ]] && source /Users/akira/.autojump/etc/profile.d/autojump.sh
+autoload -U compinit && compinit -u
 
 #for growl
 growl() { echo -e $'\e]9;'${1}'\007' ; return  ; }

@@ -7,7 +7,6 @@ install git
 install rbenv
 install ruby-build
 install zsh
-install autojump
 
 tap sanemat/font
 install ricty
