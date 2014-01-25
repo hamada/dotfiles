@@ -6,7 +6,9 @@
 !/.bash_profile
 !/.bashrc
 !/.gitignore
+!/.gitconfig
 !/.vim
+!/.unite
 !/.vimrc
 !/.zshrc
 !/images/
