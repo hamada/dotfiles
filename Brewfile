@@ -20,7 +20,7 @@ install brew-cask
 # Install with homebrew-casks
 # Available apps: https://github.com/phinze/homebrew-cask/tree/master/Casks
 cask install alfred
-cask install app-cleaner
+cask install appcleaner
 cask install dash
 cask install dropbox
 cask install evernote
