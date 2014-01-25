@@ -13,6 +13,7 @@
 !/.zshrc
 !/images/
 !/setup_scripts/
+!/alfred_workflows/
 
 # ignore these files
 /.vim/swap/*
