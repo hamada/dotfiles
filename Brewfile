@@ -1,0 +1,36 @@
+update # update Homebrew
+upgrade # update Formula
+
+install git
+install macvim
+install rbenv
+install ruby-build
+install zsh
+install autojump
+
+tap sanemat/font
+install ricty
+
+# install homebrew-cask
+tap phinze/homebrew-cask
+install brew-cask
+
+# Install with homebrew-casks
+# Available apps: https://github.com/phinze/homebrew-cask/tree/master/Casks
+cask install alfred
+cask install app-cleaner
+cask install dash
+cask install dropbox
+cask install evernote
+cask install firefox
+cask install google-chrome
+cask install hipchat
+cask install iterm2
+cask install keyremap4macbook
+cask install sequel-pro
+cask install skype
+cask install transmit
+cask install vagrant
+cask install virtualbox
+
+clean # remove unused files
