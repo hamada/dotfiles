@@ -9,8 +9,8 @@
 !/.vim
 !/.vimrc
 !/.zshrc
-!/Brewfile
-!/desktop_pictures/
+!/images/
+!/setup_scripts/
 
 # ignore these files
 /.vim/swap/*
