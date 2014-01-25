@@ -10,7 +10,7 @@
 !/.vimrc
 !/.zshrc
 !/Brewfile
-!/desktop_pictures/*
+!/desktop_pictures/
 
 # ignore these files
 /.vim/swap/*
