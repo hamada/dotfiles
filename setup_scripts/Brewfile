@@ -4,7 +4,6 @@ update
 upgrade
 
 install git
-install macvim
 install rbenv
 install ruby-build
 install zsh
@@ -19,6 +18,7 @@ install brew-cask
 
 # Install with homebrew-casks
 # Available apps: https://github.com/phinze/homebrew-cask/tree/master/Casks
+cask install airmail-beta
 cask install alfred
 cask install appcleaner
 cask install dash
@@ -29,6 +29,7 @@ cask install google-chrome
 cask install hipchat
 cask install iterm2
 cask install keyremap4macbook
+cask install macvim
 cask install sequel-pro
 cask install skype
 cask install transmit
