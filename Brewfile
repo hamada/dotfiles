@@ -37,3 +37,6 @@ cask install virtualbox
 
 # remove unused files
 clean
+
+# allow Alfred to suggest Apps installed with cask
+cask alfred link
