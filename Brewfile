@@ -36,7 +36,7 @@ cask install vagrant
 cask install virtualbox
 
 # remove unused files
-clean
+cleanup
 
 # allow Alfred to suggest Apps installed with cask
 cask alfred link
