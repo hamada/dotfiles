@@ -1,0 +1,16 @@
+[user]
+  name = akira hamada
+  email = drumcorps.enthusiast@gmail.com
+[mergetool]
+  keepBackup = true
+[core]
+  editor = vim
+[pretty]
+  medium-reverse = format:%C(red reverse)%d%Creset%C(white reverse) %h% Creset %C(green reverse) %an %Creset %C(cyan)%ar%Creset%n%C(white bold)%w(80)%s%Creset%n%n%w(80,2,2)%b
+[color]
+  ui = auto
+[alias]
+  po = push origin
+[github]
+  user = akira-hamada
+  token = cfa03ab3a4200ecc2452fa7612c86d5d2dbcd925
