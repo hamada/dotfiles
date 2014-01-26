@@ -19,7 +19,10 @@ install brew-cask
 # Available apps: https://github.com/phinze/homebrew-cask/tree/master/Casks
 cask install airmail-beta
 cask install alfred
+cask install android-studio
+cask install genymotion
 cask install appcleaner
+cask install crashlytics
 cask install dash
 cask install dropbox
 cask install evernote
@@ -28,10 +31,11 @@ cask install google-chrome
 cask install hipchat
 cask install iterm2
 cask install keyremap4macbook
+cask install libreoffice
 cask install macvim
+cask install screenflow
 cask install sequel-pro
 cask install skype
-cask install transmit
 cask install vagrant
 cask install virtualbox
 
