@@ -22,8 +22,13 @@
 .vim/my_plugins/*
 .vim/autoload/friendlygrep.vim
 .vim/plugin/friendlygrep.vim
+.unite/directory_mru
+.unite/directory_mru_long
+.unite/file_mru
+.unite/file_mru_logn
 .DS_Store
 
 # but don't ignore theese files to track swap and backup directories
 !/.vim/swap/.gitkeep
 !/.vim/backup/.gitkeep
+!/.vim/bundle/.gitkeep
