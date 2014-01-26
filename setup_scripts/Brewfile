@@ -6,6 +6,7 @@ upgrade
 install git
 install rbenv
 install ruby-build
+install mysql
 install zsh
 
 tap sanemat/font
@@ -23,7 +24,6 @@ cask install android-studio
 cask install genymotion
 cask install appcleaner
 cask install crashlytics
-cask install dash
 cask install dropbox
 cask install evernote
 cask install firefox
