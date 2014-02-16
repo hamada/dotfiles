@@ -20,7 +20,6 @@ install brew-cask
 # Available apps: https://github.com/phinze/homebrew-cask/tree/master/Casks
 cask install airmail-beta
 cask install alfred
-cask install android-studio
 cask install genymotion
 cask install appcleaner
 cask install crashlytics
