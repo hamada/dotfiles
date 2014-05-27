@@ -19,6 +19,12 @@ install ag
 tap sanemat/font
 install ricty
 
+install node
+install redis
+# for hubot hipchat adapter
+install icu4c
+link --force icu4c
+
 # install homebrew-cask
 tap phinze/homebrew-cask
 install brew-cask
@@ -34,6 +40,7 @@ cask install dropbox
 cask install evernote
 cask install firefox
 cask install google-chrome
+cask install heroku-toolbelt
 cask install hipchat
 cask install iterm2
 cask install keyremap4macbook
