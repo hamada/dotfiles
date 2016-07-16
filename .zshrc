@@ -116,5 +116,6 @@ autoload -U compinit && compinit -u
 #for growl
 growl() { echo -e $'\e]9;'${1}'\007' ; return  ; }
 
+export PATH=/usr/local/bin:$PATH
 #PATH=/opt/local/bin:/opt/local/sbin:$PATH
 #MANPATH=/opt/local/man:$MANPATH
