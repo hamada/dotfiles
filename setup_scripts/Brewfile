@@ -15,15 +15,29 @@ install mysql
 install zsh
 
 install ag
+install jq
+
+install python
 
 tap sanemat/font
 install ricty
 
 install node
 install redis
+install wget
 # for hubot hipchat adapter
 install icu4c
 link --force icu4c
+
+# for AWS Commandline Interface
+install awscli
+
+# peco
+#   http://qiita.com/xtetsuji/items/05f6f4c1b17854cdd75b
+brew tap peco/peco
+brew install peco
+
+brew install docker-machine
 
 # install homebrew-cask
 tap phinze/homebrew-cask
@@ -31,18 +45,16 @@ install brew-cask
 
 # Install with homebrew-casks
 # Available apps: https://github.com/phinze/homebrew-cask/tree/master/Casks
-cask install airmail-beta
+#cask install airmail-beta
 cask install alfred
 cask install genymotion
 cask install appcleaner
-cask install crashlytics
 cask install dropbox
 cask install evernote
 cask install firefox
 cask install google-chrome
 cask install heroku-toolbelt
 cask install hipchat
-cask install iterm2
 cask install keyremap4macbook
 cask install libreoffice
 cask install macvim
