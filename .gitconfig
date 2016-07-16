@@ -4,13 +4,26 @@
 [mergetool]
   keepBackup = true
 [core]
-  editor = vim
+	editor = vim
+	excludesfile = /Users/akira/.gitignore
 [pretty]
   medium-reverse = format:%C(red reverse)%d%Creset%C(white reverse) %h% Creset %C(green reverse) %an %Creset %C(cyan)%ar%Creset%n%C(white bold)%w(80)%s%Creset%n%n%w(80,2,2)%b
 [color]
   ui = auto
 [alias]
   po = push origin
+  ch = checkout
+  pop = stash pop
+  empty = commit --allow-empty
 [github]
   user = akira-hamada
   token = cfa03ab3a4200ecc2452fa7612c86d5d2dbcd925
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
+[heroku]
+	account = akira
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
