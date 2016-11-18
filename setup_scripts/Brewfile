@@ -2,70 +2,57 @@
 # run 'brew bundle $HOME/dotfiles/setup_scripts/Brewfile'
 #   to install these packages
 # -------------------------------------------------------
-#
-# update Homebrew
-update
-# update Formula
-upgrade
 
-install git
-install rbenv
-install ruby-build
-install mysql
-install zsh
+# tapでリポジトリを指定
+tap 'homebrew/bundle'
 
-install ag
-install jq
+brew 'git'
+brew 'rbenv'
+brew 'ruby-build'
+brew 'mysql'
+brew 'zsh'
 
-install python
+brew 'ag'
+brew 'the_silver_searcher'
+brew 'jq'
 
-tap sanemat/font
-install ricty
+brew 'python'
 
-install node
-install redis
-install wget
-# for hubot hipchat adapter
-install icu4c
-link --force icu4c
+tap 'sanemat/font'
+brew 'ricty'
+
+brew 'node'
+brew 'redis'
+brew 'wget'
 
 # for AWS Commandline Interface
-install awscli
+brew 'awscli'
 
 # peco
 #   http://qiita.com/xtetsuji/items/05f6f4c1b17854cdd75b
-brew tap peco/peco
-brew install peco
+tap 'peco/peco'
+brew 'peco'
 
-brew install docker-machine
+brew 'docker-machine'
 
-# install homebrew-cask
-tap phinze/homebrew-cask
-install brew-cask
+brew 'httperf'
+
+brew 'telegraf'
 
 # Install with homebrew-casks
 # Available apps: https://github.com/phinze/homebrew-cask/tree/master/Casks
-#cask install airmail-beta
-cask install alfred
-cask install genymotion
-cask install appcleaner
-cask install dropbox
-cask install evernote
-cask install firefox
-cask install google-chrome
-cask install heroku-toolbelt
-cask install hipchat
-cask install keyremap4macbook
-cask install libreoffice
-cask install macvim
-cask install screenflow
-cask install sequel-pro
-cask install skype
-cask install vagrant
-cask install virtualbox
-
-# remove unused files
-cleanup
-
-# allow Alfred to suggest Apps installed with cask
-cask alfred link
+cask 'alfred'
+cask 'appcleaner'
+cask 'dropbox'
+cask 'evernote'
+cask 'firefox'
+cask 'google-chrome'
+cask 'google-japanese-ime'
+#cask 'heroku-toolbelt'
+cask 'karabiner'
+cask 'libreoffice'
+cask 'macvim'
+cask 'sequel-pro'
+cask 'skype'
+cask 'vagrant'
+cask 'virtualbox'
