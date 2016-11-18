@@ -31,10 +31,10 @@ set wrap
 set scrolloff=10
 " customize statusline
 set laststatus=2
-set statusline=%1*%F%m%r%h%w%*\ [filetype:\ %Y]\ [fenc:\ %{&fenc}]\ [enc:\ %{&enc}]\ [ff:\ %{&ff}]\ %2*%{fugitive#statusline()}%*%=%c,%l%11p%%
+"set statusline=%1*%F%m%r%h%w%*\ [filetype:\ %Y]\ [fenc:\ %{&fenc}]\ [enc:\ %{&enc}]\ [ff:\ %{&ff}]\ %2*%{fugitive#statusline()}%*%=%c,%l%11p%%
 hi User1 guifg=#000080 guibg=#c2bfa5
 hi User2 guifg=#990000 guibg=#c2bfa5
-" set statusline=%F%m%r%h%w\ [filetype:\ %Y]\ [fenc:\ %{&fenc}]\ [enc:\ %{&enc}]\ [ff:\ %{&ff}]\ %{fugitive#statusline()}%=%c,%l%11p%%
+set statusline=%F%m%r%h%w\ [filetype:\ %Y]\ [fenc:\ %{&fenc}]\ [enc:\ %{&enc}]\ [ff:\ %{&ff}]\ %{fugitive#statusline()}%=%c,%l%11p%%
 
 " customize search
 set hlsearch
@@ -55,6 +55,8 @@ set backupdir=~/.vim/backup
 :set runtimepath+=$HOME/.vim/plugin
 
 set splitright " vertical split right everytime
+
+command! FullWidth :set columns=500
 "--------------------------------------------------------------------------------------------
 
 " MacVim original settings
@@ -62,6 +64,7 @@ set splitright " vertical split right everytime
 if has('multi_byte_ime') || has('gui_macvim')
 " following lines run only with MacVim
   set guifont=Ricty\ bold:h14
+  command! ResetFont :set guifont=Ricty\ bold:h14
   set cursorcolumn " display vertical cursor line
   " don't display menu bar
   set guioptions-=T
@@ -197,6 +200,8 @@ nnoremap <silent> ,b :<C-u>Unite bookmark<CR>
 nnoremap <silent> ,m :<C-u>UniteWithBufferDir -buffer-name=files file_mru<CR>
 nnoremap <silent> ,t :<C-u>Unite branches<CR>
 nnoremap <silent> ,pv :<C-u>Unite pivotal<CR>
+nnoremap <silent> ,F :<C-u>Unite filetype<CR>
+
 nnoremap <silent> <C-t> :<C-u>call SaveCurrentSession()<CR>
 " open snippet with Neocomplcache
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -254,6 +259,31 @@ nnoremap <silent> <S-DOWN> :call DecTransp()<CR>
       execute 'set transparency='.t
     endif
   endfunction "}}}
+
+nnoremap <expr> / _(":%s/<Cursor>/&/gn")
+function! s:move_cursor_pos_mapping(str, ...)
+    let left = get(a:, 1, "<Left>")
+    let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
+    return substitute(a:str, '<Cursor>', '', '') . lefts
+endfunction
+
+function! _(str)
+    return s:move_cursor_pos_mapping(a:str, "\<Left>")
+endfunction
+
+function! Taller() "{{{
+  let n = &lines + 3
+  execute 'set lines='.n
+endfunction "}}}
+
+function! Shorter() "{{{
+  let n =  &lines - 3
+
+  if 0 < n
+    execute 'set lines='.n
+  endif
+endfunction "}}}
+
 "--------------------------------------------------------------------------------------------
 
 " manage plugins with vundle
@@ -261,51 +291,73 @@ nnoremap <silent> <S-DOWN> :call DecTransp()<CR>
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/vundle.git/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+
 " describe plugin names below
 " :BundleInstall
 " how to describe
-"	1. if it's in vim-scripts repository (http://vim-scripts.org/vim/scripts.html)
-"			Bundle 'script_name'
-"	2. if it's in original github repository (https://github.com/)
-"			Bundle 'github_user_name/repository_name'
-"	3. if it's in none github repository
-"			Bundle 'git://repository_url'
-" 
+"     1. if it's in vim-scripts repository (http://vim-scripts.org/vim/scripts.html)
+"               Plugin 'script_name'
+"     2. if it's in original github repository (https://github.com/)
+"               Plugin 'github_user_name/repository_name'
+"     3. if it's in none github repository
+"               Plugin 'git://repository_url'
+"
 " when you delete plugin, execute :BundleClean after deleting the Bundle ~ line to delete
 "------------------------------------------------------------------------------------
-" Bundle 'ShowMarks'
-Bundle 'surround.vim'
-Bundle 'unite.vim'
-Bundle 'quickrun.vim'
-Bundle 'Shougo/neocomplcache.git'
-Bundle 'Shougo/neosnippet.git'
-Bundle 'Shougo/neosnippet-snippets'
-Bundle 'The-NERD-Commenter'
-Bundle 'operator-user'
-Bundle 'operator-replace'
-Bundle 'git://github.com/Shougo/vimproc'
-Bundle 'git://github.com/Shougo/vimshell'
-Bundle 'git://github.com/tpope/vim-rails'
-Bundle 'glidenote/octoeditor.vim'
-Bundle 'tpope/vim-fugitive'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'kshenoy/vim-signature'
-Bundle 'vim-scripts/applescript.vim'
-" Bundle 'akira-hamada/friendly-grep.vim'
+Plugin 'ShowMarks'
+Plugin 'surround.vim'
+Plugin 'unite.vim'
+Plugin 'quickrun.vim'
+Plugin 'Shougo/neocomplcache.git'
+Plugin 'Shougo/neosnippet.git'
+Plugin 'Shougo/neosnippet-snippets'
+Plugin 'The-NERD-Commenter'
+Plugin 'operator-user'
+Plugin 'operator-replace'
+Plugin 'git://github.com/Shougo/vimproc'
+Plugin 'git://github.com/Shougo/vimshell'
+Plugin 'git://github.com/tpope/vim-rails'
+Plugin 'glidenote/octoeditor.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'kshenoy/vim-signature'
+Plugin 'vim-scripts/applescript.vim'
+Plugin 'supermomonga/projectlocal.vim'
+Plugin 'rking/ag.vim'
+Plugin 'git://github.com/osyo-manga/unite-filetype'
+Plugin 'nginx.vim'
+Plugin 'git://github.com/kana/vim-textobj-user'
+" vim-textobj-ruby depends on vim-textobj-user.
+Plugin 'git://github.com/rhysd/vim-textobj-ruby'
+" Plugin 'akira-hamada/friendly-grep.vim'
 
+call vundle#end()
 filetype plugin indent on
 "--------------------------------------------------------------------------------------------
+
+
 
 " etc settings
 "--------------------------------------------------------------------------------------------
 " change directory to where the opend file is
 "au BufEnter * execute ":|cd " . expand("%:p:h")
 autocmd FileType php :set dictionary=~/.vim/dictionary/php.dict
-" associates following extensions with php
+
+" associates following extensions with filetype
 autocmd BufNewFile,BufRead *.ini set filetype=php
 autocmd BufNewFile,BufRead *.html set filetype=php
+autocmd BufNewFile,BufRead *.rabl set filetype=ruby
+autocmd BufNewFile,BufRead *.ejs set filetype=html
+autocmd BufNewFile,BufRead *.cap set filetype=ruby
+autocmd BufNewFile,BufRead *.cap set filetype=ruby
+autocmd BufNewFile,BufRead *.md set filetype=markdown
+autocmd BufNewFile,BufRead *.markdown set filetype=markdown
+
+" set filetype as markdown for a new file
+autocmd BufEnter * if &filetype == "project" | setlocal ft=markdown | endif
 
 " customize showmarks.vim
 let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -326,6 +378,36 @@ endfunction
 " open in splited right window with v
 au FileType unite nnoremap <silent> <buffer> <expr>v unite#do_action('right')
 
+nnoremap <silent> ,m  :<C-u>call Unite_rails('models', '-start-insert')<CR>
+nnoremap <silent> ,v  :<C-u>call Unite_rails('views', '-start-insert')<CR>
+nnoremap <silent> ,c  :<C-u>call Unite_rails('controllers', '-start-insert')<CR>
+nnoremap <silent> ,h  :<C-u>call Unite_rails('helpers', '-start-insert')<CR>
+nnoremap <silent> ,g  :<C-u>call Unite_rails('config', '-start-insert')<CR>
+nnoremap <silent> ,l  :<C-u>call Unite_rails('locales', '-start-insert')<CR>
+nnoremap <silent> ,j  :<C-u>call Unite_rails('javascripts', '-start-insert')<CR>
+nnoremap <silent> ,s  :<C-u>call Unite_rails('stylesheets', '-start-insert')<CR>
+nnoremap <silent> ,d  :<C-u>call Unite_rails('db', '-start-insert')<CR>
+nnoremap <silent> ,r  :<C-u>call Unite_rails('spec', '-start-insert')<CR>
+function! Unite_rails(target, options)
+  if exists('b:projectlocal_root_dir')
+    if a:target == 'models' || a:target == 'views' || a:target == 'controllers' || a:target == 'helpers'
+      let dir = '/app/'.a:target
+    elseif a:target == 'config'
+      let dir = '/config/'
+    elseif a:target == 'locales'
+      let dir = '/config/locales/'
+    elseif a:target == 'javascripts' || a:target == 'stylesheets'
+      let dir = '/app/assets/'.a:target
+    elseif a:target == 'db'
+      let dir = '/db/'
+    elseif a:target == 'spec'
+      let dir = '/spec/'
+    endif
+    execute ':Unite file_rec:' . b:projectlocal_root_dir . dir . ' ' . a:options
+  else
+    echo "You are not in any project."
+  endif
+endfunction
 
 " customize neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1 " enable neocomplcache at starting vim
@@ -379,7 +461,7 @@ let g:octopress_vimfiler = 0
 " let g:octopress_template_dir_path = 'path/to/dir'
 "
 " customize friendly_grep
-let g:friendlygrep_target_dir = 'code/rails/sharewis-web/app/'
+let g:friendlygrep_target_dir = 'code/rails/*'
 let g:friendlygrep_recursively = 1
 let g:friendlygrep_display_result_in = 'tab'
 "--------------------------------------------------------------------------------------------
@@ -566,3 +648,68 @@ endfunction
 " untie.vim に source を登録
 call unite#define_source(s:source)
 unlet s:source
+
+" タブを開いた時の元のタブがからの場合閉じる
+autocmd TabEnter * call ClosePreviousEmptyTab()
+
+"--------------------------------------------------------
+"  現在のバッファが新規作成で空のバッファの場合1を返す
+"     Test it like this
+"     echo BufferIsEmpty()
+"--------------------------------------------------------
+function! BufferIsEmpty()
+    " ファイルの内容が空
+    if line('$') == 1 && getline(1) == ''
+        if expand('%:t') == ''
+          return 1
+        else
+          return 0
+        endif
+    else
+        return 0
+    endif
+endfunction
+
+"--------------------------------------------------------
+"  一つ前のタブに移動し空かどうかで以下の処理を行う
+"  空: 閉じる
+"  何らか入力されている: 元のタブへ移動
+"     Test it like this
+"     call CloseIfBufferEmpty()
+"--------------------------------------------------------
+function! ClosePreviousEmptyTab()
+    exe 'normal! gT'
+    if BufferIsEmpty() == 1
+        exe 'q!'
+    else
+        exe 'normal! gt'
+    endif
+endfunction
+
+"----------------------------------------
+function! s:Preserve()
+  " Save cursor position
+  let l = line(".")
+  let c = col(".")
+
+  execute '?^\s*\(describe\|it\|context\|feature\|scenario\)\(.*\) do$'
+  execute 's/\(describe\|it\|context\|feature\|scenario\)\(.*\) do$/\1\2, :focus do/'
+
+  " Restore cursor position
+  call cursor(l, c)
+  " Remove search history pollution and restore last search
+  call histdel("search", -2)
+  let @/ = histget("search", -2)
+endfunction
+
+function! s:AddFocusTag()
+  call s:Preserve()
+endfunction
+
+function! s:RemoveAllFocusTags()
+  call s:Preserve("%s/, :focus//e")
+endfunction
+
+" Commands
+command! -nargs=0 AddFocusTag call s:AddFocusTag()
+command! -nargs=0 RemoveAllFocusTags call s:RemoveAllFocusTags()
