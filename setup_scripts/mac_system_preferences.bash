@@ -23,7 +23,7 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool
 # スクロールの方向 ナチュラルにしない
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 
-# メニューバーSpotlightアイコンを非表示
-sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
+# メニューバーSpotlightアイコンを非表示 (not worked at el capitan)
+# sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
 
 killall Finder
