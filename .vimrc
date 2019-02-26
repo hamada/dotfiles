@@ -56,15 +56,19 @@ set backupdir=~/.vim/backup
 
 set splitright " vertical split right everytime
 
+set modifiable
+set write
+
 command! FullWidth :set columns=500
+command! NoWrap :set nowrap
 "--------------------------------------------------------------------------------------------
 
 " MacVim original settings
 "--------------------------------------------------------------------------------------------
 if has('multi_byte_ime') || has('gui_macvim')
 " following lines run only with MacVim
-  set guifont=Ricty\ bold:h14
-  command! ResetFont :set guifont=Ricty\ bold:h14
+  set guifont=Ricty\ Diminished\ bold:h14
+  command! ResetFont :set guifont=Ricty\ Diminished\ bold:h14
   set cursorcolumn " display vertical cursor line
   " don't display menu bar
   set guioptions-=T
@@ -332,6 +336,8 @@ Plugin 'nginx.vim'
 Plugin 'git://github.com/kana/vim-textobj-user'
 " vim-textobj-ruby depends on vim-textobj-user.
 Plugin 'git://github.com/rhysd/vim-textobj-ruby'
+Plugin 'slim-template/vim-slim.git'
+Plugin 'git://github.com/plasticboy/vim-markdown'
 " Plugin 'akira-hamada/friendly-grep.vim'
 
 call vundle#end()
@@ -358,6 +364,9 @@ autocmd BufNewFile,BufRead *.markdown set filetype=markdown
 
 " set filetype as markdown for a new file
 autocmd BufEnter * if &filetype == "project" | setlocal ft=markdown | endif
+
+" setting for markdown
+let g:markdown_fenced_languages = ['coffee', 'css', 'erb=eruby', 'javascript', 'js=javascript', 'json=javascript', 'ruby', 'sass', 'xml']
 
 " customize showmarks.vim
 let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -461,7 +470,7 @@ let g:octopress_vimfiler = 0
 " let g:octopress_template_dir_path = 'path/to/dir'
 "
 " customize friendly_grep
-let g:friendlygrep_target_dir = 'code/rails/*'
+let g:friendlygrep_target_dir = 'code/somewhere/*'
 let g:friendlygrep_recursively = 1
 let g:friendlygrep_display_result_in = 'tab'
 "--------------------------------------------------------------------------------------------
@@ -713,3 +722,102 @@ endfunction
 " Commands
 command! -nargs=0 AddFocusTag call s:AddFocusTag()
 command! -nargs=0 RemoveAllFocusTags call s:RemoveAllFocusTags()
+
+"--------------------------------------------------------
+"  execute rspec in vim terminal (requires vim 8)
+"--------------------------------------------------------
+" 参考: https://qiita.com/kasei-san/items/060bbd267ddc0cca5068
+function! ExecuteRSpec(...)
+    " 引数がある場合
+    if a:0 >= 1
+      " 引数を実行対象のspecとする
+      let spec = a:1
+    else
+      " コマンド実行時にカーソルがある行のspecを実行
+      let spec = expand('%:p') . ':' . line('.')
+    end
+
+    " let opts = { 'vertical': '1', 'term_cols': 60, 'hidden': '1', 'term_finish': 'open', 'term_opencmd': '60vsplit|buffer %d' }
+    let opts = { 'vertical': '1', 'term_cols': 60 }
+
+    let command = './rspec.zsh some_dir ' . spec
+    call term_start(command, opts)
+    " TODO: コマンド(spec)実行時のカーソルを編集中のファイルに移したい
+endfunction
+command! -nargs=? RSpec call ExecuteRSpec(<f-args>)
+nnoremap rs <ESC>:RSpec<CR>
+" ↑本当は ctrl-shift-rとかで実行したい。ctrl-shiftは無理っぽい
+" nnoremap <C-S-r> <ESC>:RSpec<CR>
+
+" for http://secret-garden.hatenablog.com/entry/2017/10/10/120951
+se redrawtime=2000
+
+" ----------------------------------------------------------------------------------------
+" Unite-pull_requests
+" ----------------------------------------------------------------------------------------
+nnoremap <silent> ,pr :<C-u>Unite pull_requests<CR>
+" unite-source の設定を定義する (詳しい設定オプションは :help unite-source-attributes)
+let s:source = {
+\   "name" : "pull_requests",
+\   "description" : "github_prs",
+\   "action_table" : {
+\       "view_pr" : {
+\           "description" : "view PRs",
+\       }
+\   },
+\   "default_action" : "view_pr",
+\}
+
+" view_pr action (Unite-pull_requestsから実行可能)
+function! s:source.action_table.view_pr.func(candidate)
+  let pr_id = a:candidate.action__pr_id " candidate には gather_candidates で設定した値が保持されている
+  let pr = 'pr-'.pr_id
+  let pr_diff_file = pr.'.diff'
+  echo('Creating ' .pr. ' diff file...')
+
+  exe 'cd $HOME/somewhere/'
+  silent exe '!git fetch upstream pull/' . pr_id . '/head:'. pr
+  silent exe '!git checkout ' . pr
+  " TODO: baseブランチがrelease以外に対応
+  let commit_num = system('git log release..head --oneline|wc -l|tr -d " \n"')
+  " ↑のfirstコミット~ブランチのheadコミットのdiffをdiffファイルに
+  silent exe '!git diff head~' . commit_num . '..head > ' . pr_diff_file
+  execute 'edit '.pr_diff_file
+endfunction
+
+" unite.vim で表示される候補を返す
+function! s:source.gather_candidates(args, context)
+    let candidates = []
+
+    echo('Fetching Pull Requests...')
+    redir => prs
+    silent exe '!curl -s "https://api.github.com/repos/some_repo/pulls?access_token=YOUR_ACCESS_TOKEN&state=open"|jq ".[] | [ .title, .number, .user.login ]"| tr -d "\n"'
+    redir END
+
+    let prs = split(prs, '[  ')
+    " 最初に余分な要素があるので削除
+    let prs = prs[1:-1]
+
+    for pr in prs
+      let pr = substitute(pr, ']', '', 'g')
+      let pr = split(pr, ', ')
+
+      let title = substitute(pr[0], '"', '', 'g')
+      let id = substitute(pr[1], ' ', '', '')
+      let user = substitute(pr[2], '"', '', 'g')
+      let user = substitute(user, ' ', '', '')
+
+      let candidate_info = {
+\        'word': '#'.id.': '.title. ' (by @' . user . ')',
+\        'action__pr_id': id,
+\        'source': 'pull_requests'
+\      }
+      call add(candidates, candidate_info)
+    endfor
+
+    return candidates
+endfunction
+
+" untie.vim に source を登録
+call unite#define_source(s:source)
+unlet s:source
