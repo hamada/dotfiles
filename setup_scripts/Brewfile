@@ -1,5 +1,5 @@
 # -------------------------------------------------------
-# run 'brew bundle $HOME/dotfiles/setup_scripts/Brewfile'
+# run 'brew bundle --file $HOME/dotfiles/setup_scripts/Brewfile'
 #   to install these packages
 # -------------------------------------------------------
 
@@ -7,41 +7,49 @@
 tap 'homebrew/bundle'
 
 brew 'git'
+brew 'gh'
+brew 'zsh'
+brew 'mas'
+
 brew 'rbenv'
 brew 'ruby-build'
-brew 'mysql'
-brew 'zsh'
+brew 'node'
+brew 'nvm'
+brew 'python'
+
+# peco (ref: http://qiita.com/xtetsuji/items/05f6f4c1b17854cdd75b)
+brew 'peco'
 
 brew 'ag'
 brew 'the_silver_searcher'
 brew 'jq'
 
-brew 'python'
-
-tap 'sanemat/font'
+tap 'homebrew/cask-fonts'
 brew 'ricty'
-
-brew 'node'
-brew 'redis'
-brew 'wget'
+cask 'font-ricty-diminished'
 
 # for AWS Commandline Interface
 brew 'awscli'
 
-# peco
-#   http://qiita.com/xtetsuji/items/05f6f4c1b17854cdd75b
-tap 'peco/peco'
-brew 'peco'
+brew 'circleci'
+
+brew 'mysql'
+brew 'redis'
+
+brew 'httperf'
+brew 'wget'
+brew 'watch'
+brew 'htop'
 
 brew 'docker-machine'
 
-brew 'httperf'
-
-brew 'telegraf'
+# brew 'telegraf'
 
 # Install with homebrew-casks
 # Available apps: https://github.com/phinze/homebrew-cask/tree/master/Casks
+cask_args appdir: "/Applications"
 cask 'alfred'
+cask 'dash'
 cask 'appcleaner'
 cask 'dropbox'
 cask 'evernote'
@@ -55,3 +63,9 @@ cask 'sequel-pro'
 cask 'skype'
 cask 'vagrant'
 cask 'virtualbox'
+cask 'iterm2'
+cask 'hammerspoon'
+cask 'cmd-eikana' # ⌘英かな
+cask 'slack'
+
+mas 'Airmail 4', id: 918858936
