@@ -207,7 +207,7 @@ nnoremap <silent> ,pv :<C-u>Unite pivotal<CR>
 nnoremap <silent> ,F :<C-u>Unite filetype<CR>
 
 nnoremap <silent> <C-t> :<C-u>call SaveCurrentSession()<CR>
-" open snippet with Neocomplcache
+" open snippet with Neocomplete(ex: Neocomplcache)
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 " edit snippets file
@@ -289,61 +289,63 @@ function! Shorter() "{{{
 endfunction "}}}
 
 "--------------------------------------------------------------------------------------------
-
-" manage plugins with vundle
-"--------------------------------------------------------------------------------------------
-set nocompatible
-filetype off
-
-set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-
-" describe plugin names below
-" :BundleInstall
-" how to describe
-"     1. if it's in vim-scripts repository (http://vim-scripts.org/vim/scripts.html)
-"               Plugin 'script_name'
-"     2. if it's in original github repository (https://github.com/)
-"               Plugin 'github_user_name/repository_name'
-"     3. if it's in none github repository
-"               Plugin 'git://repository_url'
 "
-" when you delete plugin, execute :BundleClean after deleting the Bundle ~ line to delete
-"------------------------------------------------------------------------------------
-Plugin 'ShowMarks'
-Plugin 'surround.vim'
-Plugin 'unite.vim'
-Plugin 'quickrun.vim'
-Plugin 'Shougo/neocomplcache.git'
-Plugin 'Shougo/neosnippet.git'
-Plugin 'Shougo/neosnippet-snippets'
-Plugin 'The-NERD-Commenter'
-Plugin 'operator-user'
-Plugin 'operator-replace'
-Plugin 'git://github.com/Shougo/vimproc'
-Plugin 'git://github.com/Shougo/vimshell'
-Plugin 'git://github.com/tpope/vim-rails'
-Plugin 'glidenote/octoeditor.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'kshenoy/vim-signature'
-Plugin 'vim-scripts/applescript.vim'
-Plugin 'supermomonga/projectlocal.vim'
-Plugin 'rking/ag.vim'
-Plugin 'git://github.com/osyo-manga/unite-filetype'
-Plugin 'nginx.vim'
-Plugin 'git://github.com/kana/vim-textobj-user'
-" vim-textobj-ruby depends on vim-textobj-user.
-Plugin 'git://github.com/rhysd/vim-textobj-ruby'
-Plugin 'slim-template/vim-slim.git'
-Plugin 'git://github.com/plasticboy/vim-markdown'
-" Plugin 'akira-hamada/friendly-grep.vim'
-
-call vundle#end()
-filetype plugin indent on
+" manage plugins with dein.vim
 "--------------------------------------------------------------------------------------------
+if &compatible
+  set nocompatible
+endif
+" Add the dein installation directory into runtimepath
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/.cache/dein')
+
+  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
+  " ------------------------------------------------
+  " describe plugin names below, then `:call dein#install()`
+  "   when you delete plugins, write `call map(dein#check_clean(), \"delete(v:val, 'plugin_name_to_delete')")` (with removing backslash)
+  "   then :call dein#recache_runtimepath()
+  " ------------------------------------------------
+  call dein#add('vim-scripts/ShowMarks')
+  call dein#add('vim-scripts/surround.vim')
+  " call dein#add('Shougo/unite.vim')
+  call dein#add('Shougo/denite.nvim')
+  if !has('nvim')
+    call dein#add('roxma/nvim-yarp') " needed for denite and vim 8
+    call dein#add('roxma/vim-hug-neovim-rpc') " needed for denite and vim 8
+  endif
+  call dein#add('vim-scripts/quickrun.vim')
+  call dein#add('Shougo/neocomplete')
+  call dein#add('vim-scripts/The-NERD-Commenter')
+  call dein#add('vim-scripts/operator-user')
+  call dein#add('vim-scripts/operator-replace')
+  call dein#add('Shougo/vimproc')
+  call dein#add('Shougo/vimshell')
+  call dein#add('tpope/vim-rails')
+  call dein#add('glidenote/octoeditor.vim')
+  call dein#add('tpope/vim-fugitive')
+  call dein#add('kchmck/vim-coffee-script')
+  call dein#add('kshenoy/vim-signature')
+  call dein#add('vim-scripts/applescript.vim')
+  " call dein#add('supermomonga/projectlocal.vim')
+  call dein#add('rking/ag.vim')
+  " call dein#add('osyo-manga/unite-filetype')
+  call dein#add('vim-scripts/nginx.vim')
+  call dein#add('kana/vim-textobj-user')
+  " vim-textobj-ruby depends on vim-textobj-user.
+  call dein#add('rhysd/vim-textobj-ruby')
+  call dein#add('slim-template/vim-slim')
+  call dein#add('plasticboy/vim-markdown')
+  call dein#add('akira-hamada/friendly-grep.vim')
+
+  call dein#end()
+  call dein#save_state()
+endif
+
+filetype plugin indent on
+syntax enable
+"--------------------------------------------------------------------------------------------
 
 
 " etc settings
@@ -363,7 +365,7 @@ autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd BufNewFile,BufRead *.markdown set filetype=markdown
 
 " set filetype as markdown for a new file
-autocmd BufEnter * if &filetype == "project" | setlocal ft=markdown | endif
+" autocmd BufEnter * if &filetype == "project" | setlocal ft=markdown | endif
 
 " setting for markdown
 let g:markdown_fenced_languages = ['coffee', 'css', 'erb=eruby', 'javascript', 'js=javascript', 'json=javascript', 'ruby', 'sass', 'xml']
@@ -371,58 +373,67 @@ let g:markdown_fenced_languages = ['coffee', 'css', 'erb=eruby', 'javascript', '
 " customize showmarks.vim
 let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+"--------------------------------------
+" settings for denite
+"--------------------------------------
+" 現在開いているファイルのディレクトリ下のファイル一覧
+nnoremap <silent> ,f :<C-u>DeniteBufferDir -direction=topleft file file:new<CR>
+"ブックマーク一覧
+nnoremap <silent> ,b :<C-u>Denite -direction=topleft bookmark<CR>
+"--------------------------------------
+
 " customize unite.vim
-let g:unite_enable_start_insert = 1 " start unite with insert mode
-let g:unite_force_overwrite_statusline = 1 " setting for statusline of Unite window
-call unite#custom_default_action('file', 'tabopen') " open a file in new tab
-autocmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()
-	" delete backslash with the words by <C-w> when insertmode in Unite
-	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
-  nmap <buffer> q <Plug>(unite_all_exit)
-  nmap <buffer> <Space> 10j
-  nmap <buffer> <S-SPACE> 10k
-endfunction
+" let g:unite_enable_start_insert = 1 " start unite with insert mode
+" let g:unite_force_overwrite_statusline = 1 " setting for statusline of Unite window
+" call unite#custom_default_action('file', 'tabopen') " open a file in new tab
+" autocmd FileType unite call s:unite_my_settings()
+" function! s:unite_my_settings()
+	" " delete backslash with the words by <C-w> when insertmode in Unite
+	" imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+  " nmap <buffer> q <Plug>(unite_all_exit)
+  " nmap <buffer> <Space> 10j
+  " nmap <buffer> <S-SPACE> 10k
+" endfunction
 
-" open in splited right window with v
-au FileType unite nnoremap <silent> <buffer> <expr>v unite#do_action('right')
+" " open in splited right window with v
+" au FileType unite nnoremap <silent> <buffer> <expr>v unite#do_action('right')
 
-nnoremap <silent> ,m  :<C-u>call Unite_rails('models', '-start-insert')<CR>
-nnoremap <silent> ,v  :<C-u>call Unite_rails('views', '-start-insert')<CR>
-nnoremap <silent> ,c  :<C-u>call Unite_rails('controllers', '-start-insert')<CR>
-nnoremap <silent> ,h  :<C-u>call Unite_rails('helpers', '-start-insert')<CR>
-nnoremap <silent> ,g  :<C-u>call Unite_rails('config', '-start-insert')<CR>
-nnoremap <silent> ,l  :<C-u>call Unite_rails('locales', '-start-insert')<CR>
-nnoremap <silent> ,j  :<C-u>call Unite_rails('javascripts', '-start-insert')<CR>
-nnoremap <silent> ,s  :<C-u>call Unite_rails('stylesheets', '-start-insert')<CR>
-nnoremap <silent> ,d  :<C-u>call Unite_rails('db', '-start-insert')<CR>
-nnoremap <silent> ,r  :<C-u>call Unite_rails('spec', '-start-insert')<CR>
-function! Unite_rails(target, options)
-  if exists('b:projectlocal_root_dir')
-    if a:target == 'models' || a:target == 'views' || a:target == 'controllers' || a:target == 'helpers'
-      let dir = '/app/'.a:target
-    elseif a:target == 'config'
-      let dir = '/config/'
-    elseif a:target == 'locales'
-      let dir = '/config/locales/'
-    elseif a:target == 'javascripts' || a:target == 'stylesheets'
-      let dir = '/app/assets/'.a:target
-    elseif a:target == 'db'
-      let dir = '/db/'
-    elseif a:target == 'spec'
-      let dir = '/spec/'
-    endif
-    execute ':Unite file_rec:' . b:projectlocal_root_dir . dir . ' ' . a:options
-  else
-    echo "You are not in any project."
-  endif
-endfunction
+" nnoremap <silent> ,m  :<C-u>call Unite_rails('models', '-start-insert')<CR>
+" nnoremap <silent> ,v  :<C-u>call Unite_rails('views', '-start-insert')<CR>
+" nnoremap <silent> ,c  :<C-u>call Unite_rails('controllers', '-start-insert')<CR>
+" nnoremap <silent> ,h  :<C-u>call Unite_rails('helpers', '-start-insert')<CR>
+" nnoremap <silent> ,g  :<C-u>call Unite_rails('config', '-start-insert')<CR>
+" nnoremap <silent> ,l  :<C-u>call Unite_rails('locales', '-start-insert')<CR>
+" nnoremap <silent> ,j  :<C-u>call Unite_rails('javascripts', '-start-insert')<CR>
+" nnoremap <silent> ,s  :<C-u>call Unite_rails('stylesheets', '-start-insert')<CR>
+" nnoremap <silent> ,d  :<C-u>call Unite_rails('db', '-start-insert')<CR>
+" nnoremap <silent> ,r  :<C-u>call Unite_rails('spec', '-start-insert')<CR>
+" function! Unite_rails(target, options)
+  " if exists('b:projectlocal_root_dir')
+    " if a:target == 'models' || a:target == 'views' || a:target == 'controllers' || a:target == 'helpers'
+      " let dir = '/app/'.a:target
+    " elseif a:target == 'config'
+      " let dir = '/config/'
+    " elseif a:target == 'locales'
+      " let dir = '/config/locales/'
+    " elseif a:target == 'javascripts' || a:target == 'stylesheets'
+      " let dir = '/app/assets/'.a:target
+    " elseif a:target == 'db'
+      " let dir = '/db/'
+    " elseif a:target == 'spec'
+      " let dir = '/spec/'
+    " endif
+    " execute ':Unite file_rec:' . b:projectlocal_root_dir . dir . ' ' . a:options
+  " else
+    " echo "You are not in any project."
+  " endif
+" endfunction
 
 " customize neocomplcache.vim
-let g:neocomplcache_enable_at_startup = 1 " enable neocomplcache at starting vim
-let g:neocomplcache_enable_auto_select = 1 " auto select first of options
-let g:neocomplcache_auto_completion_start_length = 3 " start to complete after 3 chars
-let g:neocomplcache_lock_iminsert = 1 " not use neocomplcache when IME is ON
+" let g:neocomplcache_enable_at_startup = 1 " enable neocomplcache at starting vim
+" let g:neocomplcache_enable_auto_select = 1 " auto select first of options
+" let g:neocomplcache_auto_completion_start_length = 3 " start to complete after 3 chars
+" let g:neocomplcache_lock_iminsert = 1 " not use neocomplcache when IME is ON
 
 " load snippets from this directory
 let g:neosnippet#snippets_directory= $HOME.'/.vim/snippets'
@@ -486,177 +497,177 @@ source $VIMRUNTIME/macros/matchit.vim
 " ----------------------------------------------------------------------------------------
 " Unite-branches
 " ----------------------------------------------------------------------------------------
-let s:date_sort_filter = {
-\   "name" : "sorter_date",
-\}
+" let s:date_sort_filter = {
+" \   "name" : "sorter_date",
+" \}
 
-function! s:date_sort_filter.filter(candidates, context)
-    return unite#util#sort_by(a:candidates, 'v:val.action__date')
-endfunction
+" function! s:date_sort_filter.filter(candidates, context)
+    " return unite#util#sort_by(a:candidates, 'v:val.action__date')
+" endfunction
 
-" unite.vim に filter を登録
-call unite#define_filter(s:date_sort_filter)
-unlet s:date_sort_filter
+" " unite.vim に filter を登録
+" call unite#define_filter(s:date_sort_filter)
+" unlet s:date_sort_filter
 
-let s:format_filter = {
-\   "name" : "format_candidate",
-\}
+" let s:format_filter = {
+" \   "name" : "format_candidate",
+" \}
 
-" candidateの表示formatを決定するfilter
-function! s:format_filter.filter(candidates, context)
-    let format = "(%-S) %-S"
+" " candidateの表示formatを決定するfilter
+" function! s:format_filter.filter(candidates, context)
+    " let format = "(%-S) %-S"
 
-    for candidate in a:candidates
-      let datetime = strftime("%Y-%m-%d %H:%M:%S", candidate.action__date)
-      let candidate.word = printf(format, datetime, candidate.action__branch_name)
-    endfor
+    " for candidate in a:candidates
+      " let datetime = strftime("%Y-%m-%d %H:%M:%S", candidate.action__date)
+      " let candidate.word = printf(format, datetime, candidate.action__branch_name)
+    " endfor
 
-    return a:candidates
-endfunction
+    " return a:candidates
+" endfunction
 
-" unite.vim に filter を登録
-call unite#define_filter(s:format_filter)
-unlet s:format_filter
+" " unite.vim に filter を登録
+" call unite#define_filter(s:format_filter)
+" unlet s:format_filter
 
-" unite-source の設定を定義する (詳しい設定オプションは :help unite-source-attributes)
-let s:source = {
-\   "name" : "branches",
-\   "description" : "git branches",
-\   "action_table" : {
-\       "restore_session" : {
-\           "description" : "restore session for the branch",
-\       },
-\
-\       "delete_from_branch" : {
-\           "description" : "delete from list",
-\       }
-\   },
-\   "default_action" : "restore_session",
-\}
+" " unite-source の設定を定義する (詳しい設定オプションは :help unite-source-attributes)
+" let s:source = {
+" \   "name" : "branches",
+" \   "description" : "git branches",
+" \   "action_table" : {
+" \       "restore_session" : {
+" \           "description" : "restore session for the branch",
+" \       },
+" \
+" \       "delete_from_branch" : {
+" \           "description" : "delete from list",
+" \       }
+" \   },
+" \   "default_action" : "restore_session",
+" \}
 
-" action が呼ばれた時の処理を定義
-function! s:source.action_table.restore_session.func(candidate)
-  let branch_file = a:candidate.action__path " candidate には gather_candidates で設定した値が保持されている
+" " action が呼ばれた時の処理を定義
+" function! s:source.action_table.restore_session.func(candidate)
+  " let branch_file = a:candidate.action__path " candidate には gather_candidates で設定した値が保持されている
 
-  execute 'source '.branch_file
-  execute 'source '.$MYVIMRC
-endfunction
+  " execute 'source '.branch_file
+  " execute 'source '.$MYVIMRC
+" endfunction
 
-function! s:source.action_table.delete_from_branch.func(candidate)
-  call delete(a:candidate.action__path)
-endfunction
+" function! s:source.action_table.delete_from_branch.func(candidate)
+  " call delete(a:candidate.action__path)
+" endfunction
 
-" unite.vim で表示される候補を返す
-function! s:source.gather_candidates(args, context)
+" " unite.vim で表示される候補を返す
+" function! s:source.gather_candidates(args, context)
 
-    let globed_files = glob(g:unite_data_directory.'/branches/*')
-    let branch_list = split(globed_files, '\n')
+    " let globed_files = glob(g:unite_data_directory.'/branches/*')
+    " let branch_list = split(globed_files, '\n')
 
-    let branches = []
-    for branch_path in branch_list
-      let branch_name = substitute(fnamemodify(branch_path, ":t"), '__', '/', 'g')
+    " let branches = []
+    " for branch_path in branch_list
+      " let branch_name = substitute(fnamemodify(branch_path, ":t"), '__', '/', 'g')
 
-      redir => tmp
-      silent exe '!tail -n 1 '.branch_path
-      redir END
-      let localtime = split(tmp, '\r\n')[1]
-      let localtime = substitute(localtime, '^"\s\(\d\+\)$', '\1', '')
+      " redir => tmp
+      " silent exe '!tail -n 1 '.branch_path
+      " redir END
+      " let localtime = split(tmp, '\r\n')[1]
+      " let localtime = substitute(localtime, '^"\s\(\d\+\)$', '\1', '')
 
-      let candidate_info = {
-\        'word': branch_name,
-\        'action__branch_name': branch_name,
-\        'action__date': localtime,
-\        'action__path': branch_path,
-\        'source': 'branches'
-\      }
-      call add(branches, candidate_info)
-    endfor
+      " let candidate_info = {
+" \        'word': branch_name,
+" \        'action__branch_name': branch_name,
+" \        'action__date': localtime,
+" \        'action__path': branch_path,
+" \        'source': 'branches'
+" \      }
+      " call add(branches, candidate_info)
+    " endfor
 
-    return branches
-endfunction
+    " return branches
+" endfunction
 
-" branhcesソースに candidateを追加
-function! SaveCurrentSession()
-  execute 'cd %:h'
-  let branch_name = system('git symbolic-ref --short HEAD')
-  execute 'cd -'
+" " branhcesソースに candidateを追加
+" function! SaveCurrentSession()
+  " execute 'cd %:h'
+  " let branch_name = system('git symbolic-ref --short HEAD')
+  " execute 'cd -'
 
-  try
-    if 0 <= match(branch_name, 'Not a git repository')
-      throw 'Error: Not a git repository'
-    endif
-  catch
-    echohl WarningMsg | echo v:exception | echohl None
-    return
-  endtry
+  " try
+    " if 0 <= match(branch_name, 'Not a git repository')
+      " throw 'Error: Not a git repository'
+    " endif
+  " catch
+    " echohl WarningMsg | echo v:exception | echohl None
+    " return
+  " endtry
 
-  let original_branch_name = substitute(branch_name, '\n', '', '')
-  let branch_name = substitute(original_branch_name, '/', '__', 'g')
+  " let original_branch_name = substitute(branch_name, '\n', '', '')
+  " let branch_name = substitute(original_branch_name, '/', '__', 'g')
 
-  exe "mksession! " .g:unite_data_directory.'/branches/'.branch_name
+  " exe "mksession! " .g:unite_data_directory.'/branches/'.branch_name
 
-  let insert_this = "'".'" '.localtime()."'"
-  silent exe '!echo '.insert_this.'  >> '.g:unite_data_directory.'/branches/'.branch_name
+  " let insert_this = "'".'" '.localtime()."'"
+  " silent exe '!echo '.insert_this.'  >> '.g:unite_data_directory.'/branches/'.branch_name
 
-  redraw | echo 'Save Current Session to '."'".original_branch_name."'"
-endfunction
+  " redraw | echo 'Save Current Session to '."'".original_branch_name."'"
+" endfunction
 
-" untie.vim に source を登録
-call unite#define_source(s:source)
-unlet s:source
+" " untie.vim に source を登録
+" call unite#define_source(s:source)
+" unlet s:source
 
-call unite#custom_source('branches', 'converters', 'format_candidate')
+" call unite#custom_source('branches', 'converters', 'format_candidate')
 
-call unite#custom_source('branches', 'sorters', ['sorter_date', 'sorter_reverse'])
+" call unite#custom_source('branches', 'sorters', ['sorter_date', 'sorter_reverse'])
 
 " ----------------------------------------------------------------------------------------
 " Unite-pivotal
 " ----------------------------------------------------------------------------------------
 " unite-source の設定を定義する (詳しい設定オプションは :help unite-source-attributes)
-let s:source = {
-\   "name" : "pivotal",
-\   "description" : "pivotal tracker",
-\   "action_table" : {
-\       "copy_story_url" : {
-\           "description" : "copy url to story page",
-\       }
-\   },
-\   "default_action" : "copy_story_url",
-\}
+" let s:source = {
+" \   "name" : "pivotal",
+" \   "description" : "pivotal tracker",
+" \   "action_table" : {
+" \       "copy_story_url" : {
+" \           "description" : "copy url to story page",
+" \       }
+" \   },
+" \   "default_action" : "copy_story_url",
+" \}
 
-" action が呼ばれた時の処理を定義
-function! s:source.action_table.copy_story_url.func(candidate)
-  let branch_file = a:candidate.action__path " candidate には gather_candidates で設定した値が保持されている
+" " action が呼ばれた時の処理を定義
+" function! s:source.action_table.copy_story_url.func(candidate)
+  " let branch_file = a:candidate.action__path " candidate には gather_candidates で設定した値が保持されている
 
-  'https://www.pivotaltracker.com/story/show/'.story_id
-endfunction
+  " 'https://www.pivotaltracker.com/story/show/'.story_id
+" endfunction
 
-" unite.vim で表示される候補を返す
-function! s:source.gather_candidates(args, context)
+" " unite.vim で表示される候補を返す
+" function! s:source.gather_candidates(args, context)
 
-    redir => stories
-    silent exe '!pv'
-    redir END
+    " redir => stories
+    " silent exe '!pv'
+    " redir END
 
-    let stories = split(stories, '\n')
+    " let stories = split(stories, '\n')
 
-    for story in stories
-      let story_id = substitute(story, '^\*\s\(\d\+\)\s.\+$', '\1', '')
+    " for story in stories
+      " let story_id = substitute(story, '^\*\s\(\d\+\)\s.\+$', '\1', '')
 
-      let candidate_info = {
-\        'word': story,
-\        'action__story_id': story_id,
-\        'source': 'pivotal'
-\      }
-      call add(stories, candidate_info)
-    endfor
+      " let candidate_info = {
+" \        'word': story,
+" \        'action__story_id': story_id,
+" \        'source': 'pivotal'
+" \      }
+      " call add(stories, candidate_info)
+    " endfor
 
-    return stories
-endfunction
+    " return stories
+" endfunction
 
-" untie.vim に source を登録
-call unite#define_source(s:source)
-unlet s:source
+" " untie.vim に source を登録
+" call unite#define_source(s:source)
+" unlet s:source
 
 " タブを開いた時の元のタブがからの場合閉じる
 autocmd TabEnter * call ClosePreviousEmptyTab()
@@ -755,69 +766,69 @@ se redrawtime=2000
 " ----------------------------------------------------------------------------------------
 " Unite-pull_requests
 " ----------------------------------------------------------------------------------------
-nnoremap <silent> ,pr :<C-u>Unite pull_requests<CR>
-" unite-source の設定を定義する (詳しい設定オプションは :help unite-source-attributes)
-let s:source = {
-\   "name" : "pull_requests",
-\   "description" : "github_prs",
-\   "action_table" : {
-\       "view_pr" : {
-\           "description" : "view PRs",
-\       }
-\   },
-\   "default_action" : "view_pr",
-\}
+" nnoremap <silent> ,pr :<C-u>Unite pull_requests<CR>
+" " unite-source の設定を定義する (詳しい設定オプションは :help unite-source-attributes)
+" let s:source = {
+" \   "name" : "pull_requests",
+" \   "description" : "github_prs",
+" \   "action_table" : {
+" \       "view_pr" : {
+" \           "description" : "view PRs",
+" \       }
+" \   },
+" \   "default_action" : "view_pr",
+" \}
 
-" view_pr action (Unite-pull_requestsから実行可能)
-function! s:source.action_table.view_pr.func(candidate)
-  let pr_id = a:candidate.action__pr_id " candidate には gather_candidates で設定した値が保持されている
-  let pr = 'pr-'.pr_id
-  let pr_diff_file = pr.'.diff'
-  echo('Creating ' .pr. ' diff file...')
+" " view_pr action (Unite-pull_requestsから実行可能)
+" function! s:source.action_table.view_pr.func(candidate)
+  " let pr_id = a:candidate.action__pr_id " candidate には gather_candidates で設定した値が保持されている
+  " let pr = 'pr-'.pr_id
+  " let pr_diff_file = pr.'.diff'
+  " echo('Creating ' .pr. ' diff file...')
 
-  exe 'cd $HOME/somewhere/'
-  silent exe '!git fetch upstream pull/' . pr_id . '/head:'. pr
-  silent exe '!git checkout ' . pr
-  " TODO: baseブランチがrelease以外に対応
-  let commit_num = system('git log release..head --oneline|wc -l|tr -d " \n"')
-  " ↑のfirstコミット~ブランチのheadコミットのdiffをdiffファイルに
-  silent exe '!git diff head~' . commit_num . '..head > ' . pr_diff_file
-  execute 'edit '.pr_diff_file
-endfunction
+  " exe 'cd $HOME/somewhere/'
+  " silent exe '!git fetch upstream pull/' . pr_id . '/head:'. pr
+  " silent exe '!git checkout ' . pr
+  " " TODO: baseブランチがrelease以外に対応
+  " let commit_num = system('git log release..head --oneline|wc -l|tr -d " \n"')
+  " " ↑のfirstコミット~ブランチのheadコミットのdiffをdiffファイルに
+  " silent exe '!git diff head~' . commit_num . '..head > ' . pr_diff_file
+  " execute 'edit '.pr_diff_file
+" endfunction
 
-" unite.vim で表示される候補を返す
-function! s:source.gather_candidates(args, context)
-    let candidates = []
+" " unite.vim で表示される候補を返す
+" function! s:source.gather_candidates(args, context)
+    " let candidates = []
 
-    echo('Fetching Pull Requests...')
-    redir => prs
-    silent exe '!curl -s "https://api.github.com/repos/some_repo/pulls?access_token=YOUR_ACCESS_TOKEN&state=open"|jq ".[] | [ .title, .number, .user.login ]"| tr -d "\n"'
-    redir END
+    " echo('Fetching Pull Requests...')
+    " redir => prs
+    " silent exe '!curl -s "https://api.github.com/repos/some_repo/pulls?access_token=YOUR_ACCESS_TOKEN&state=open"|jq ".[] | [ .title, .number, .user.login ]"| tr -d "\n"'
+    " redir END
 
-    let prs = split(prs, '[  ')
-    " 最初に余分な要素があるので削除
-    let prs = prs[1:-1]
+    " let prs = split(prs, '[  ')
+    " " 最初に余分な要素があるので削除
+    " let prs = prs[1:-1]
 
-    for pr in prs
-      let pr = substitute(pr, ']', '', 'g')
-      let pr = split(pr, ', ')
+    " for pr in prs
+      " let pr = substitute(pr, ']', '', 'g')
+      " let pr = split(pr, ', ')
 
-      let title = substitute(pr[0], '"', '', 'g')
-      let id = substitute(pr[1], ' ', '', '')
-      let user = substitute(pr[2], '"', '', 'g')
-      let user = substitute(user, ' ', '', '')
+      " let title = substitute(pr[0], '"', '', 'g')
+      " let id = substitute(pr[1], ' ', '', '')
+      " let user = substitute(pr[2], '"', '', 'g')
+      " let user = substitute(user, ' ', '', '')
 
-      let candidate_info = {
-\        'word': '#'.id.': '.title. ' (by @' . user . ')',
-\        'action__pr_id': id,
-\        'source': 'pull_requests'
-\      }
-      call add(candidates, candidate_info)
-    endfor
+      " let candidate_info = {
+" \        'word': '#'.id.': '.title. ' (by @' . user . ')',
+" \        'action__pr_id': id,
+" \        'source': 'pull_requests'
+" \      }
+      " call add(candidates, candidate_info)
+    " endfor
 
-    return candidates
-endfunction
+    " return candidates
+" endfunction
 
-" untie.vim に source を登録
-call unite#define_source(s:source)
-unlet s:source
+" " untie.vim に source を登録
+" call unite#define_source(s:source)
+" unlet s:source
