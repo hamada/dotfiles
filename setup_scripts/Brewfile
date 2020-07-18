@@ -9,6 +9,7 @@ tap 'homebrew/bundle'
 brew 'git'
 brew 'gh'
 brew 'zsh'
+brew 'autojump'
 brew 'mas'
 
 brew 'rbenv'

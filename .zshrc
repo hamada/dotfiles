@@ -110,7 +110,8 @@ function rprompt-git-current-branch {
 RPROMPT='`rprompt-git-current-branch`'
 
 #for autojump
-[[ -s /Users/akira/.autojump/etc/profile.d/autojump.sh ]] && source /Users/akira/.autojump/etc/profile.d/autojump.sh
+[ -f $(brew --prefix)/etc/profile.d/autojump.sh ] && . $(brew --prefix)/etc/profile.d/autojump.sh
+
 autoload -U compinit && compinit -u
 
 #for growl
