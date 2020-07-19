@@ -31,6 +31,7 @@
 .vim/my_plugins/*
 .vim/autoload/friendlygrep.vim
 .vim/plugin/friendlygrep.vim
+.vim/dein_installer.sh
 
 .unite/directory_mru
 .unite/directory_mru_long
