@@ -515,9 +515,6 @@ nnoremap rs <ESC>:RSpec<CR>
 " ↑本当は ctrl-shift-rとかで実行したい。ctrl-shiftは無理っぽい
 " nnoremap <C-S-r> <ESC>:RSpec<CR>
 
-" for http://secret-garden.hatenablog.com/entry/2017/10/10/120951
-se redrawtime=2000
-
 "--------------------------------------------------------------------------------------------
 " MacVim original settings
 "   Put these on the end of .vimrc.
