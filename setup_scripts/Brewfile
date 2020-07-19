@@ -1,6 +1,7 @@
 # -------------------------------------------------------
-# run 'brew bundle --file $HOME/dotfiles/setup_scripts/Brewfile'
-#   to install these packages
+# 1. Append use specific Brewfile for work or private
+# 1. run 'brew bundle --file $HOME/dotfiles/setup_scripts/Brewfile'
+#     to install these packages
 # -------------------------------------------------------
 
 # tapでリポジトリを指定
@@ -52,21 +53,16 @@ cask_args appdir: "/Applications"
 cask 'alfred'
 cask 'dash'
 cask 'appcleaner'
-cask 'dropbox'
-cask 'evernote'
 cask 'firefox'
 cask 'google-chrome'
 cask 'google-japanese-ime'
-#cask 'heroku-toolbelt'
-cask 'libreoffice'
 cask 'macvim'
 cask 'sequel-pro'
-cask 'skype'
-cask 'vagrant'
-cask 'virtualbox'
 cask 'iterm2'
 cask 'hammerspoon'
 cask 'cmd-eikana' # ⌘英かな
 cask 'slack'
 
 mas 'Airmail 4', id: 918858936
+
+# append brew settings on the situation. private or work
