@@ -27,6 +27,9 @@
 .unite/directory_mru_long
 .unite/file_mru
 .unite/file_mru_logn
+/setup_scripts/BrewfileWork
+/setup_scripts/BrewfilePrivateOnly
+/setup_scripts/Brewfile.lock.json
 .DS_Store
 
 # but don't ignore theese files to track swap and backup directories
