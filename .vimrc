@@ -341,6 +341,10 @@ nnoremap <silent> ,f :NERDTreeToggle<CR>
 let g:NERDTreeQuitOnOpen = 1
 " Don't sort bookmarks. orders bookmarks in declaration order in bookmark file.
 let g:NERDTreeBookmarksSort = 0
+" Toggle Bookmarks with b (default: B)
+let g:NERDTreeMapToggleBookmarks = 'b'
+" Open new Tab for <CR>, not open with current buffer.
+let g:NERDTreeCustomOpenArgs = {'file':{'where': 't'}}
 
 augroup vimrc_nerdtree
   autocmd!
