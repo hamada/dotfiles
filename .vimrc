@@ -356,22 +356,14 @@ augroup END
 let g:UltiSnipsExpandTrigger = "<C-k>"
 let g:UltiSnipsJumpForwardTrigger = "<c-k>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-b>"
-" load my own snippets
+" load my own snippets (.vim/snippets/ is old directory)
 let g:UltiSnipsSnippetDirectories = ['UltiSnips',$HOME.'/.vim/UltiSnips']
 
-" let g:deoplete#enable_at_startup = 1
-
 " customize neocomplcache.vim
-" let g:neocomplcache_enable_at_startup = 1 " enable neocomplcache at starting vim
 " let g:neocomplcache_enable_auto_select = 1 " auto select first of options
 " let g:neocomplcache_auto_completion_start_length = 3 " start to complete after 3 chars
 " let g:neocomplcache_lock_iminsert = 1 " not use neocomplcache when IME is ON
 
-" load snippets from this directory
-" let g:neosnippet#snippets_directory= $HOME.'/.vim/snippets'
-" open snippet with Neocomplete(ex: Neocomplcache)
-" imap <C-k> <Plug>(neosnippet_expand_or_jump)
-" smap <C-k> <Plug>(neosnippet_expand_or_jump)
 " edit snippets file
 " nnoremap <silent> <C-f> :<C-u>tabe %<CR>:<C-u>NeoSnippetEdit<CR>
 "----------------------------------------------------------------------------
