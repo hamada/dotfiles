@@ -355,7 +355,7 @@ let g:UltiSnipsExpandTrigger = "<C-k>"
 let g:UltiSnipsJumpForwardTrigger = "<c-k>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-b>"
 " load my own snippets
-let g:UltiSnipsSnippetDirectories = ['UltiSnips',$HOME.'/.vim/snippets']
+let g:UltiSnipsSnippetDirectories = ['UltiSnips',$HOME.'/.vim/UltiSnips']
 
 " let g:deoplete#enable_at_startup = 1
 
