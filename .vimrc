@@ -348,7 +348,7 @@ augroup END
 "--------------------------------------
 
 "----------------------------------------------------------------------------
-" settings for deoplete.nvim and snippets related
+" settings for ultisnips(snippets)
 " TODO: 既存のsnippetや設定を移行する
 "----------------------------------------------------------------------------
 let g:UltiSnipsExpandTrigger = "<C-k>"
