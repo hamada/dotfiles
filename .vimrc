@@ -59,6 +59,8 @@ set splitright " vertical split right everytime
 set modifiable
 set write
 
+set autochdir
+
 command! FullWidth :set columns=500
 command! NoWrap :set nowrap
 "--------------------------------------------------------------------------------------------
