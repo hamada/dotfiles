@@ -337,6 +337,8 @@ endfunction
 nnoremap <silent> ,f :NERDTreeToggle<CR>
 " Close NerdTree when you open a file
 let g:NERDTreeQuitOnOpen = 1
+" Don't sort bookmarks. orders bookmarks in declaration order in bookmark file.
+let g:NERDTreeBookmarksSort = 0
 
 augroup vimrc_nerdtree
   autocmd!
