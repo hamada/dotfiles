@@ -131,16 +131,8 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 nnoremap <silent> <C-f> :<C-u>tabe %<CR>:<C-u>NeoSnippetEdit<CR>
 " execute script with quickrun.vim
 nnoremap <C-q> :QuickRun<CR>
-" FIXME not in use
-nnoremap ,p viwp
 " don't register character deleted with x
 nnoremap x "_x
-" Change inner word (ciw) FIXME not in use
-nnoremap C ciw
-" Change inner space FIXME not in use
-nnoremap ci<Space> ciW
-" delete inner space FIXME not in use
-nnoremap di<Space> diW
 " move page tab
 nnoremap H gT
 nnoremap L gt
