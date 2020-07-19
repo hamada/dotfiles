@@ -124,11 +124,6 @@ inoremap ' ''<LEFT>
 inoremap " ""<LEFT>
 
 nnoremap <silent> <C-t> :<C-u>call SaveCurrentSession()<CR>
-" open snippet with Neocomplete(ex: Neocomplcache)
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-" edit snippets file
-nnoremap <silent> <C-f> :<C-u>tabe %<CR>:<C-u>NeoSnippetEdit<CR>
 " execute script with quickrun.vim
 nnoremap <C-q> :QuickRun<CR>
 " don't register character deleted with x
@@ -230,7 +225,7 @@ if dein#load_state('~/.cache/dein')
   endif
   call dein#add('preservim/nerdtree')
   call dein#add('vim-scripts/quickrun.vim')
-  call dein#add('Shougo/neocomplete')
+  call dein#add('SirVer/ultisnips')
   call dein#add('vim-scripts/The-NERD-Commenter')
   call dein#add('vim-scripts/operator-user')
   call dein#add('vim-scripts/operator-replace')
@@ -352,6 +347,18 @@ augroup vimrc_nerdtree
 augroup END
 "--------------------------------------
 
+"----------------------------------------------------------------------------
+" settings for deoplete.nvim and snippets related
+" TODO: 既存のsnippetや設定を移行する
+"----------------------------------------------------------------------------
+let g:UltiSnipsExpandTrigger = "<C-k>"
+let g:UltiSnipsJumpForwardTrigger = "<c-k>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-b>"
+" load my own snippets
+let g:UltiSnipsSnippetDirectories = ['UltiSnips',$HOME.'/.vim/snippets']
+
+" let g:deoplete#enable_at_startup = 1
+
 " customize neocomplcache.vim
 " let g:neocomplcache_enable_at_startup = 1 " enable neocomplcache at starting vim
 " let g:neocomplcache_enable_auto_select = 1 " auto select first of options
@@ -359,7 +366,13 @@ augroup END
 " let g:neocomplcache_lock_iminsert = 1 " not use neocomplcache when IME is ON
 
 " load snippets from this directory
-let g:neosnippet#snippets_directory= $HOME.'/.vim/snippets'
+" let g:neosnippet#snippets_directory= $HOME.'/.vim/snippets'
+" open snippet with Neocomplete(ex: Neocomplcache)
+" imap <C-k> <Plug>(neosnippet_expand_or_jump)
+" smap <C-k> <Plug>(neosnippet_expand_or_jump)
+" edit snippets file
+" nnoremap <silent> <C-f> :<C-u>tabe %<CR>:<C-u>NeoSnippetEdit<CR>
+"----------------------------------------------------------------------------
 
 " customize NERD-Commenter
 let g:NERDCreateDefaultMappings = 0
