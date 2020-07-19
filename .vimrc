@@ -199,7 +199,12 @@ endfunction "}}}
 
 "--------------------------------------------------------------------------------------------
 "
-" manage plugins with dein.vim
+" Manage plugins with dein.vim
+"
+" install steps (ref: https://github.com/Shougo/dein.vim)
+"   1. curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/.vim/dein_installer.sh
+"   1. sh $HOME/.vim/dein_installer.sh ~/.cache/dein
+"   1. exec `:call dein#install()` in vim
 "--------------------------------------------------------------------------------------------
 if &compatible
   set nocompatible
