@@ -61,6 +61,21 @@ set write
 
 set autochdir
 
+autocmd FileType php :set dictionary=~/.vim/dictionary/php.dict
+
+" associates following extensions with filetype
+autocmd BufNewFile,BufRead *.ini set filetype=php
+autocmd BufNewFile,BufRead *.html set filetype=php
+autocmd BufNewFile,BufRead *.rabl set filetype=ruby
+autocmd BufNewFile,BufRead *.ejs set filetype=html
+autocmd BufNewFile,BufRead *.cap set filetype=ruby
+autocmd BufNewFile,BufRead *.cap set filetype=ruby
+autocmd BufNewFile,BufRead *.md set filetype=markdown
+autocmd BufNewFile,BufRead *.markdown set filetype=markdown
+
+" set filetype as markdown for a new file
+autocmd BufEnter * if &filetype == "project" || &filetype == "" | setlocal ft=markdown | endif
+
 command! FullWidth :set columns=500
 command! NoWrap :set nowrap
 "--------------------------------------------------------------------------------------------
@@ -193,7 +208,6 @@ function! Shorter() "{{{
 endfunction "}}}
 
 "--------------------------------------------------------------------------------------------
-"
 " Manage plugins with dein.vim
 "
 " install steps (ref: https://github.com/Shougo/dein.vim)
@@ -254,27 +268,6 @@ endif
 filetype plugin indent on
 syntax enable
 "--------------------------------------------------------------------------------------------
-
-
-"--------------------------------------------------------------------------------------------
-" etc settings
-"--------------------------------------------------------------------------------------------
-" change directory to where the opend file is
-"au BufEnter * execute ":|cd " . expand("%:p:h")
-autocmd FileType php :set dictionary=~/.vim/dictionary/php.dict
-
-" associates following extensions with filetype
-autocmd BufNewFile,BufRead *.ini set filetype=php
-autocmd BufNewFile,BufRead *.html set filetype=php
-autocmd BufNewFile,BufRead *.rabl set filetype=ruby
-autocmd BufNewFile,BufRead *.ejs set filetype=html
-autocmd BufNewFile,BufRead *.cap set filetype=ruby
-autocmd BufNewFile,BufRead *.cap set filetype=ruby
-autocmd BufNewFile,BufRead *.md set filetype=markdown
-autocmd BufNewFile,BufRead *.markdown set filetype=markdown
-
-" set filetype as markdown for a new file
-autocmd BufEnter * if &filetype == "project" || &filetype == "" | setlocal ft=markdown | endif
 
 "--------------------------------------------------------------------------------------------
 " setting for vim-markdown
