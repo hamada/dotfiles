@@ -133,3 +133,15 @@ function gpeco() {
   commit_id=$(git log --oneline | peco | cut -d ' ' -f 1)
   git $1 $commit_id
 }
+
+# execute some command to selected gem (installed with gem-src)
+#   @example
+#     $ gempeco ls # ls (selected gem)
+#     $ gempeco cd # cd (selected gem)
+function gempeco() {
+  local gems_dir gem
+  gems_dir=~$(cat $HOME/.gemrc | cut -d '~' -f 2)
+  gem=$(ls $gems_dir| peco)
+
+  $1 $gems_dir/$gem
+}
