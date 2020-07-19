@@ -278,7 +278,7 @@ autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd BufNewFile,BufRead *.markdown set filetype=markdown
 
 " set filetype as markdown for a new file
-" autocmd BufEnter * if &filetype == "project" | setlocal ft=markdown | endif
+autocmd BufEnter * if &filetype == "project" || &filetype == "" | setlocal ft=markdown | endif
 
 " setting for markdown
 let g:markdown_fenced_languages = ['coffee', 'css', 'erb=eruby', 'javascript', 'js=javascript', 'json=javascript', 'ruby', 'sass', 'xml']
