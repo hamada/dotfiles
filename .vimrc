@@ -63,83 +63,6 @@ command! FullWidth :set columns=500
 command! NoWrap :set nowrap
 "--------------------------------------------------------------------------------------------
 
-" MacVim original settings
-"--------------------------------------------------------------------------------------------
-if has('multi_byte_ime') || has('gui_macvim')
-" following lines run only with MacVim
-  set guifont=Ricty\ Diminished\ bold:h14
-  command! ResetFont :set guifont=Ricty\ Diminished\ bold:h14
-  set cursorcolumn " display vertical cursor line
-  " don't display menu bar
-  set guioptions-=T
-  " don't beep
-  set visualbell t_vb=
-  " if you yank words, it's shared with clipboard
-  set clipboard=unnamed,autoselect
-  " when IME enabled, set cursor following color
-  highlight CursorIM guibg=skyBlue guifg=NONE
-  " 挿入モード・検索モードでのデフォルトのIME状態設定
-  set iminsert=0 imsearch=0  
-  " 挿入モードでのIME状態を記憶させない
-  inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
-  set noimdisable
-  " pop-up menu color
-  highlight Pmenu guibg=white guifg=black
-  highlight PmenuSel guibg=black guifg=white
-
-  set guioptions-=e "tablineを使う
-  set tabline=%!MakeTabLine()
-  hi TabLineSel ctermfg=Black ctermbg=White guifg=Black guibg=White
-  hi TabLine ctermfg=Black ctermfg=Gray ctermbg=black guifg=White guibg=grey21
-  hi TabLineFill ctermbg=black guifg=grey8
-  
-	
-    function! MakeTabLine() "{{{
-      let titles = map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
-      let sep = ' '  " タブ間の区切り
-      let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T'
-      let info = ''  " 好きな情報を入れる
-      return tabpages . '%=' . info  " タブリストを左に、情報を右に表示
-    endfunction "}}}
-
-    function! s:tabpage_label(n) "{{{
-      " t:title と言う変数があったらそれを使う
-      let title = gettabvar(a:n, 'title')
-      if title !=# ''
-        return title
-      endif
-
-      " タブページ内のバッファのリスト
-      let bufnrs = tabpagebuflist(a:n)
-
-      " カレントタブページかどうかでハイライトを切り替える
-      let hi = a:n is tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
-
-      " バッファが複数あったらバッファ数を表示
-      let no = len(bufnrs)
-      if no is 1
-        let no = ''
-      endif
-      " タブページ内に変更ありのバッファがあったら '+' を付ける
-      let mod = len(filter(copy(bufnrs), 'getbufvar(v:val, "&modified")')) ? '+' : ''
-      let sp = (no . mod) ==# '' ? '' : ' '  " 隙間空ける
-
-      " カレントバッファ
-      let curbufnr = bufnrs[tabpagewinnr(a:n) - 1]  " tabpagewinnr() は 1 origin
-      let file = bufname(curbufnr)
-      let fname= fnamemodify(file, ':p:t')
-      if fname == ''
-        let fname = '[No Name]'
-	  end
-
-      let label = no . mod . sp . fname
-
-      return '%' . a:n . 'T' . hi . label . '%T%#TabLineFill#'
-    endfunction "}}}
-  
-endif
-"--------------------------------------------------------------------------------------------
-
 " set Key Map
 "--------------------------------------------------------------------------------------------
 " double <Esc> clears search highlight
@@ -580,3 +503,80 @@ nnoremap rs <ESC>:RSpec<CR>
 
 " for http://secret-garden.hatenablog.com/entry/2017/10/10/120951
 se redrawtime=2000
+
+"--------------------------------------------------------------------------------------------
+" MacVim original settings
+"   Put these on the end of .vimrc.
+"   because some plugin or setting override hi Tag* settings probably.
+"--------------------------------------------------------------------------------------------
+if has('multi_byte_ime') || has('gui_macvim')
+" following lines run only with MacVim
+  set guifont=Ricty\ Diminished\ bold:h14
+  command! ResetFont :set guifont=Ricty\ Diminished\ bold:h14
+  set cursorcolumn " display vertical cursor line
+  " don't display menu bar
+  set guioptions-=T
+  " don't beep
+  set visualbell t_vb=
+  " if you yank words, it's shared with clipboard
+  set clipboard=unnamed,autoselect
+  " when IME enabled, set cursor following color
+  highlight CursorIM guibg=skyBlue guifg=NONE
+  " 挿入モード・検索モードでのデフォルトのIME状態設定
+  set iminsert=0 imsearch=0
+  " 挿入モードでのIME状態を記憶させない
+  inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
+  set noimdisable
+  " pop-up menu color
+  highlight Pmenu guibg=white guifg=black
+  highlight PmenuSel guibg=black guifg=white
+
+  set guioptions-=e "tablineを使う
+  set tabline=%!MakeTabLine()
+  hi TabLineSel ctermfg=Black ctermbg=White guifg=Black guibg=White
+  hi TabLine ctermfg=Black ctermfg=Gray ctermbg=black guifg=White guibg=grey21
+  hi TabLineFill ctermbg=black guifg=grey8
+
+  function! MakeTabLine() "{{{
+    let titles = map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
+    let sep = ' '  " タブ間の区切り
+    let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T'
+    let info = ''  " 好きな情報を入れる
+    return tabpages . '%=' . info  " タブリストを左に、情報を右に表示
+  endfunction "}}}
+
+  function! s:tabpage_label(n) "{{{
+    " t:title と言う変数があったらそれを使う
+    let title = gettabvar(a:n, 'title')
+    if title !=# ''
+      return title
+    endif
+
+    " タブページ内のバッファのリスト
+    let bufnrs = tabpagebuflist(a:n)
+
+    " カレントタブページかどうかでハイライトを切り替える
+    let hi = a:n is tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
+
+    " バッファが複数あったらバッファ数を表示
+    let no = len(bufnrs)
+    if no is 1
+      let no = ''
+    endif
+    " タブページ内に変更ありのバッファがあったら '+' を付ける
+    let mod = len(filter(copy(bufnrs), 'getbufvar(v:val, "&modified")')) ? '+' : ''
+    let sp = (no . mod) ==# '' ? '' : ' '  " 隙間空ける
+
+    " カレントバッファ
+    let curbufnr = bufnrs[tabpagewinnr(a:n) - 1]  " tabpagewinnr() は 1 origin
+    let file = bufname(curbufnr)
+    let fname= fnamemodify(file, ':p:t')
+    if fname == ''
+      let fname = '[No Name]'
+    end
+
+    let label = no . mod . sp . fname
+
+    return '%' . a:n . 'T' . hi . label . '%T%#TabLineFill#'
+  endfunction "}}}
+endif
