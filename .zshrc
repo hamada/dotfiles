@@ -120,3 +120,16 @@ growl() { echo -e $'\e]9;'${1}'\007' ; return  ; }
 export PATH=/usr/local/bin:$PATH
 #PATH=/opt/local/bin:/opt/local/sbin:$PATH
 #MANPATH=/opt/local/man:$MANPATH
+
+#-------------------------------------------------------
+# peco commands
+#-------------------------------------------------------
+# execute git command with selected commit
+#   @example
+#     $ gpeco show # git show selected commit
+#     $ gpeco checkout # checkout to selected commit
+function gpeco() {
+  local commit_id
+  commit_id=$(git log --oneline | peco | cut -d ' ' -f 1)
+  git $1 $commit_id
+}
