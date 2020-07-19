@@ -350,6 +350,8 @@ augroup END
 "----------------------------------------------------------------------------
 " settings for ultisnips(snippets)
 " TODO: 既存のsnippetや設定を移行する
+"       ref
+"         - https://github.com/kenjinino/vim-ultisnips-ruby/blob/master/ruby_snipmate.snippets
 "----------------------------------------------------------------------------
 let g:UltiSnipsExpandTrigger = "<C-k>"
 let g:UltiSnipsJumpForwardTrigger = "<c-k>"
