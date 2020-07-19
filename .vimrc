@@ -329,6 +329,8 @@ endfunction
 "   https://wonderwall.hatenablog.com/entry/2016/04/06/213105
 "--------------------------------------
 nnoremap <silent> ,f :NERDTreeToggle<CR>
+" FIXME: Let this show bookmarks without hitting b, when open NerdTree.
+nnoremap <silent> ,b :NERDTreeToggle<CR>
 " Close NerdTree when you open a file
 let g:NERDTreeQuitOnOpen = 1
 " Don't sort bookmarks. orders bookmarks in declaration order in bookmark file.
