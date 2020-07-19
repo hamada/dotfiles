@@ -256,6 +256,7 @@ syntax enable
 "--------------------------------------------------------------------------------------------
 
 
+"--------------------------------------------------------------------------------------------
 " etc settings
 "--------------------------------------------------------------------------------------------
 " change directory to where the opend file is
@@ -275,11 +276,17 @@ autocmd BufNewFile,BufRead *.markdown set filetype=markdown
 " set filetype as markdown for a new file
 autocmd BufEnter * if &filetype == "project" || &filetype == "" | setlocal ft=markdown | endif
 
-" setting for markdown
+"--------------------------------------------------------------------------------------------
+" setting for vim-markdown
+"--------------------------------------------------------------------------------------------
 let g:markdown_fenced_languages = ['coffee', 'css', 'erb=eruby', 'javascript', 'js=javascript', 'json=javascript', 'ruby', 'sass', 'xml']
+"--------------------------------------------------------------------------------------------
 
-" customize showmarks.vim
+"--------------------------------------------------------------------------------------------
+" Settings for showmarks.vim
+"--------------------------------------------------------------------------------------------
 let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+"--------------------------------------------------------------------------------------------
 
 "--------------------------------------
 " Settings for denite
