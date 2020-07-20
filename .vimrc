@@ -295,6 +295,7 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 " nnoremap <silent> ,b :<C-u>Denite -direction=topleft bookmark<CR>
 " filetype一覧
 nnoremap <silent> ,F :<C-u>Denite filetype -winheight=5 -start-filter -filter-split-direction=top -direction=top<CR>
+nnoremap <silent> ,r :<C-u>Denite ruby_class<CR>
 " mappings
 autocmd FileType denite call s:denite_my_settings()
 autocmd FileType denite-filter call s:denite_filter_my_settings()
