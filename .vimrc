@@ -294,7 +294,7 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 " " ブックマーク一覧
 " nnoremap <silent> ,b :<C-u>Denite -direction=topleft bookmark<CR>
 " filetype一覧
-nnoremap <silent> ,F :<C-u>Denite filetype -winheight=5 -start-filter<CR>
+nnoremap <silent> ,F :<C-u>Denite filetype -winheight=5 -start-filter -filter-split-direction=top -direction=top<CR>
 " mappings
 autocmd FileType denite call s:denite_my_settings()
 autocmd FileType denite-filter call s:denite_filter_my_settings()
