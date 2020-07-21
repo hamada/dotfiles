@@ -20,11 +20,16 @@ class Source(Base):
 
     def gather_candidates(self, context: UserContext) -> Candidates:
         methods = {}
+        files = [
+                'some_file1',
+                'some_file2',
+                'some_file3'
+                ]
 
-        for method in ['foo', 'bar', 'baz', 'her']:
+        for method in files:
             methods[method] = {
                 'word': method,
-                'action__command': 'echo "%s is selected!"' %(method)
+                'action__command': 'tabe %s' %(method)
             }
 
         return sorted(methods.values(), key=lambda value: value['word'])
