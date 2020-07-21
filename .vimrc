@@ -287,22 +287,30 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "   https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt
 "   https://zaief.jp/vim/denite
 "   https://qiita.com/okamos/items/4e1665ecd416ef77df7c
+" TODO
+"   - denite-filter buffer内でテキストが空の時に文字の削除(BSや<C-h>)するとmove_up_pathするようにする
+"   - uniteとファイル一覧の並びが違う気がするのでディレクトリを一律に最初に来るように変更
+"   - denite-filter bufferのステータスラインを消したい
+"   - denite buffer内の、現在位置の表示を右ではなく左(出来れば左上)にする
+"   - filter内のテキストを含んでないファイルやディレクトリも表示される時がある気がするので調整
+"   - ファイルをEnterで選択した時に現在のbufferではなく新規タブで開くようにする (ディレクトリは除く)
 "--------------------------------------
-" 現在開いているファイルのディレクトリ下のファイル一覧
-" nnoremap <silent> ,f :<C-u>DeniteBufferDir -direction=topleft -start-filter file file:new<CR>
-" " nnoremap <silent> ,f :<C-u>DeniteBufferDir -direction=topleft -start-filter akira_file file:new<CR>
+nnoremap <silent> ,f :<C-u>DeniteBufferDir file file:new -start-filter -filter-split-direction=top -direction=top<CR>
 " " ブックマーク一覧
 " nnoremap <silent> ,b :<C-u>Denite -direction=topleft bookmark<CR>
 " filetype一覧
 nnoremap <silent> ,F :<C-u>Denite filetype -winheight=5 -start-filter -filter-split-direction=top -direction=top<CR>
-nnoremap <silent> ,r :<C-u>Denite ruby_class<CR>
-" mappings
+nnoremap <silent> ,r :<C-u>Denite ruby_class -start-filter -filter-split-direction=top -direction=top<CR>
+
+" settings for denite buffer
 autocmd FileType denite call s:denite_my_settings()
+" settings for denite filter buffer
 autocmd FileType denite-filter call s:denite_filter_my_settings()
 
 function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action')
   nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> u       denite#do_map('move_up_path')
   " nnoremap <silent><buffer><expr> d       denite#do_map('do_action', 'delete')
   " nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
   " nnoremap <silent><buffer><expr> q       denite#do_map('quit')
@@ -310,15 +318,13 @@ function! s:denite_my_settings() abort
 endfunction
 function! s:denite_filter_my_settings() abort
   inoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
+  " Close denite filter buffer when I hit jk (when I escape insert mode)
+  imap <silent><buffer> jk <Plug>(denite_filter_quit)
   " ref for following actions: https://zaief.jp/vim/denite
   " toggle_select
   " inoremap <silent><buffer><expr> <C-j> denite#do_map('toggle_select')
   " " 一つ上のディレクトリを開き直す
   " inoremap <silent><buffer><expr> <BS> denite#do_map('move_up_path')
-  " imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
-  " " Deniteを閉じる
-  " inoremap <silent><buffer><expr> <C-c> denite#do_map('quit')
-  " nnoremap <silent><buffer><expr> <C-c> denite#do_map('quit')
 endfunction
 "--------------------------------------
 
@@ -329,7 +335,7 @@ endfunction
 "   https://www.toumasu-program.net/entry/2019/01/28/105352
 "   https://wonderwall.hatenablog.com/entry/2016/04/06/213105
 "--------------------------------------
-nnoremap <silent> ,f :NERDTreeToggle<CR>
+" nnoremap <silent> ,f :NERDTreeToggle<CR>
 " FIXME: Let this show bookmarks without hitting b, when open NerdTree.
 nnoremap <silent> ,b :NERDTreeToggle<CR>
 " Close NerdTree when you open a file
