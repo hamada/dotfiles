@@ -243,6 +243,7 @@ if dein#load_state('~/.cache/dein')
   call dein#add('vim-scripts/The-NERD-Commenter')
   call dein#add('vim-scripts/operator-user')
   call dein#add('vim-scripts/operator-replace')
+  call dein#add('kmnk/denite-dirmark') " denite bookmark alternative
   call dein#add('Shougo/vimproc')
   call dein#add('Shougo/vimshell')
   call dein#add('tpope/vim-rails')
@@ -287,6 +288,9 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "   https://github.com/Shougo/denite.nvim/blob/master/doc/denite.txt
 "   https://zaief.jp/vim/denite
 "   https://qiita.com/okamos/items/4e1665ecd416ef77df7c
+" how to bookmark
+"   1. exec :Denite dirmark/add
+"   1. hit 'b' at directory to bookmark
 " TODO
 "   - denite-filter buffer内でテキストが空の時に文字の削除(BSや<C-h>)するとmove_up_pathするようにする
 "   - uniteとファイル一覧の並びが違う気がするのでディレクトリを一律に最初に来るように変更
@@ -294,10 +298,12 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "   - denite buffer内の、現在位置の表示を右ではなく左(出来れば左上)にする
 "   - filter内のテキストを含んでないファイルやディレクトリも表示される時がある気がするので調整
 "   - ファイルをEnterで選択した時に現在のbufferではなく新規タブで開くようにする (ディレクトリは除く)
+"   - ディレクトリだけではなくファイルもbookmarkできるようにする (denite-dirmarkの制約の可能性があるので自作するしかないかも？)
 "--------------------------------------
+" ファイル一覧
 nnoremap <silent> ,f :<C-u>DeniteBufferDir file file:new -start-filter -filter-split-direction=top -direction=top<CR>
-" " ブックマーク一覧
-" nnoremap <silent> ,b :<C-u>Denite -direction=topleft bookmark<CR>
+" ブックマーク一覧
+nnoremap <silent> ,b :<C-u>Denite dirmark -start-filter -filter-split-direction=top -direction=top<CR>
 " filetype一覧
 nnoremap <silent> ,F :<C-u>Denite filetype -winheight=5 -start-filter -filter-split-direction=top -direction=top<CR>
 nnoremap <silent> ,r :<C-u>Denite ruby_class -start-filter -filter-split-direction=top -direction=top<CR>
@@ -311,6 +317,7 @@ function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action')
   nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> u       denite#do_map('move_up_path')
+  nnoremap <silent><buffer><expr> b       denite#do_map('do_action', 'add')
   " nnoremap <silent><buffer><expr> d       denite#do_map('do_action', 'delete')
   " nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
   " nnoremap <silent><buffer><expr> q       denite#do_map('quit')
@@ -336,14 +343,8 @@ endfunction
 "   https://wonderwall.hatenablog.com/entry/2016/04/06/213105
 "--------------------------------------
 " nnoremap <silent> ,f :NERDTreeToggle<CR>
-" FIXME: Let this show bookmarks without hitting b, when open NerdTree.
-nnoremap <silent> ,b :NERDTreeToggle<CR>
 " Close NerdTree when you open a file
 let g:NERDTreeQuitOnOpen = 1
-" Don't sort bookmarks. orders bookmarks in declaration order in bookmark file.
-let g:NERDTreeBookmarksSort = 0
-" Toggle Bookmarks with b (default: B)
-let g:NERDTreeMapToggleBookmarks = 'b'
 " Open new Tab for <CR>, not open with current buffer.
 let g:NERDTreeCustomOpenArgs = {'file':{'where': 't'}}
 
