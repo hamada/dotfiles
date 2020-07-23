@@ -316,7 +316,7 @@ autocmd FileType denite-filter call s:denite_filter_my_settings()
 
 function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> <C-CR>    denite#do_map('do_action', 'open_file_with_new_tab')
+  nnoremap <silent><buffer><expr> <C-CR>  denite#do_map('do_action', 'open_file_with_new_tab')
   nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> u       denite#do_map('move_up_path')
   nnoremap <silent><buffer><expr> b       denite#do_map('do_action', 'add')
@@ -344,8 +344,16 @@ endfunction
 "   - https://github.com/notomo/dotfiles/blob/b42de38b601fea002bd3413de70696692e5fe097/vim/autoload/notomo/denite.vim#L64
 "   - denite vim help on denite#custom#action
 function! s:my_own_denite_open_file_with_new_tab(context) abort
-  " echo selected file type: 'file' or 'directory' and so on.
-  echom a:context.targets[0].kind
+  if a:context.targets[0].kind == 'file'
+    call denite#do_action(a:context, 'tabopen', a:context.targets)
+  elseif a:context.targets[0].kind == 'directory'
+    " TODO: 現状のbufferで選択したディレクトリを開けるようにする
+    " cd '/Users/hamada.akira/code'
+    " echom pwd
+    " execute 'DeniteBufferDir file file:new -start-filter -filter-split-direction=top -direction=top'
+    "
+    " call denite#narrow('code', a:context)
+  endif
 endfunction
 call denite#custom#action('file,directory', 'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab'))
 "--------------------------------------
