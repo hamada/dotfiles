@@ -320,8 +320,8 @@ function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> u       denite#do_map('move_up_path')
   nnoremap <silent><buffer><expr> b       denite#do_map('do_action', 'add')
   nnoremap <silent><buffer><expr> v       denite#do_map('do_action', 'vsplit')
+  nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
   " nnoremap <silent><buffer><expr> d       denite#do_map('do_action', 'delete')
-  " nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
   " nnoremap <silent><buffer><expr> q       denite#do_map('quit')
   " nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
 endfunction
