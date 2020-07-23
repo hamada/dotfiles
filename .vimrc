@@ -291,14 +291,14 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 " how to bookmark
 "   1. exec :Denite dirmark/add
 "   1. hit 'b' at directory to bookmark
-" TODO
+" TODO (upper is higher priority)
 "   - denite-filter buffer内でテキストが空の時に文字の削除(BSや<C-h>)するとmove_up_pathするようにする
-"   - uniteとファイル一覧の並びが違う気がするのでディレクトリを一律に最初に来るように変更
-"   - denite-filter bufferのステータスラインを消したい
-"   - denite buffer内の、現在位置の表示を右ではなく左(出来れば左上)にする
-"   - filter内のテキストを含んでないファイルやディレクトリも表示される時がある気がするので調整
 "   - ファイルをEnterで選択した時に現在のbufferではなく新規タブで開くようにする (ディレクトリは除く)
 "   - (Vim自体の TODO) 8.2になってから %s//%/gnの検索でカーソルが色んなところに飛ぶようになったので修正
+"   - uniteとファイル一覧の並びが違う気がするのでディレクトリを一律に最初に来るように変更
+"   - filter内のテキストを含んでないファイルやディレクトリも表示される時がある気がするので調整
+"   - denite-filter bufferのステータスラインを消したい
+"   - denite buffer内の、現在位置の表示を右ではなく左(出来れば左上)にする
 "   - ディレクトリだけではなくファイルもbookmarkできるようにする (denite-dirmarkの制約の可能性があるので自作するしかないかも？)
 "--------------------------------------
 " ファイル一覧
