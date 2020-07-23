@@ -298,6 +298,7 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "   - denite buffer内の、現在位置の表示を右ではなく左(出来れば左上)にする
 "   - filter内のテキストを含んでないファイルやディレクトリも表示される時がある気がするので調整
 "   - ファイルをEnterで選択した時に現在のbufferではなく新規タブで開くようにする (ディレクトリは除く)
+"   - (Vim自体の TODO) 8.2になってから %s//%/gnの検索でカーソルが色んなところに飛ぶようになったので修正
 "   - ディレクトリだけではなくファイルもbookmarkできるようにする (denite-dirmarkの制約の可能性があるので自作するしかないかも？)
 "--------------------------------------
 " ファイル一覧
