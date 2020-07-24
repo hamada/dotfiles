@@ -344,15 +344,21 @@ endfunction
 "   - https://github.com/notomo/dotfiles/blob/b42de38b601fea002bd3413de70696692e5fe097/vim/autoload/notomo/denite.vim#L64
 "   - denite vim help on denite#custom#action
 function! s:my_own_denite_open_file_with_new_tab(context) abort
+  " when a new file is created with [new]
+  if !has_key(a:context.targets[0], 'kind')
+    call denite#do_action(a:context, 'tabopen', a:context.targets)
+  endif
+
   if a:context.targets[0].kind == 'file'
     call denite#do_action(a:context, 'tabopen', a:context.targets)
   elseif a:context.targets[0].kind == 'directory'
-    " TODO: 現状のbufferで選択したディレクトリを開けるようにする
-    " cd '/Users/hamada.akira/code'
-    " echom pwd
-    " execute 'DeniteBufferDir file file:new -start-filter -filter-split-direction=top -direction=top'
-    "
-    " call denite#narrow('code', a:context)
+    " FIXME: move_up_pathで上位のディレクトリに行けない (current directoryが変わってなさそう)
+    let narrow_dir = denite#util#path2directory(a:context['targets'][0]['action__path'])
+    let sources_queue = [
+      \ {'name': 'file', 'args': [0, narrow_dir]},
+      \ {'name': 'file', 'args': ['new', narrow_dir]}
+    \ ]
+    return {'sources_queue': [sources_queue]}
   endif
 endfunction
 call denite#custom#action('file,directory', 'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab'))
