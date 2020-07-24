@@ -313,7 +313,7 @@ autocmd FileType denite call s:denite_my_settings()
 autocmd FileType denite-filter call s:denite_filter_my_settings()
 
 function! s:denite_my_settings() abort
-  nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action', 'open_file_with_new_tab')
+  nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action', 'my_own_action_by_selected_kind')
   nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> u       denite#do_map('do_action', 'my_move_up_path')
   nnoremap <silent><buffer><expr> <C-w>   denite#do_map('do_action', 'my_move_up_path')
@@ -325,7 +325,7 @@ function! s:denite_my_settings() abort
   " nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
 endfunction
 function! s:denite_filter_my_settings() abort
-  inoremap <silent><buffer><expr> <CR> denite#do_map('do_action', 'open_file_with_new_tab')
+  inoremap <silent><buffer><expr> <CR> denite#do_map('do_action', 'my_own_action_by_selected_kind')
   " Close denite filter buffer when I hit jk (when I escape insert mode)
   imap <silent><buffer> jk <Plug>(denite_filter_quit)
   inoremap <silent><buffer><expr> <C-w> denite#do_map('do_action', 'move_up_path_if_empty_input')
@@ -335,11 +335,6 @@ function! s:denite_filter_my_settings() abort
 endfunction
 
 " Open file with new tab.
-" but it remains in denite buffer, when you select directory.
-" ref
-"   - https://github.com/notomo/dotfiles/blob/940af3a149df3b7a316789f35f38053c41296873/vim/rc/plugins/denite.vim#L110
-"   - https://github.com/notomo/dotfiles/blob/b42de38b601fea002bd3413de70696692e5fe097/vim/autoload/notomo/denite.vim#L64
-"   - denite vim help on denite#custom#action
 function! s:my_own_denite_open_file_with_new_tab_for_file(context) abort
   call denite#do_action(a:context, 'tabopen', a:context.targets)
 endfunction
@@ -397,10 +392,12 @@ function! s:my_own_denite_move_up_path_if_empty_input(context) abort
 
   return {'sources_queue': [sources_queue], 'path': path}
 endfunction
-call denite#custom#action('file',            'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab_for_file'))
-call denite#custom#action('directory',       'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab_for_directory'))
-call denite#custom#action('dirmark',         'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab_for_dirmark'))
-call denite#custom#action('source/filetype', 'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab_for_filetype'))
+" call different function by selected kind (ref: denite help of denite#custom#action function)
+call denite#custom#action('file',            'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_file'))
+call denite#custom#action('directory',       'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_directory'))
+call denite#custom#action('dirmark',         'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_dirmark'))
+call denite#custom#action('source/filetype', 'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_filetype'))
+
 call denite#custom#action('file,directory', 'my_move_up_path', function('s:my_own_denite_move_up_path'))
 call denite#custom#action('file,directory', 'move_up_path_if_empty_input', function('s:my_own_denite_move_up_path_if_empty_input'))
 "--------------------------------------
