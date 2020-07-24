@@ -317,6 +317,7 @@ function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action', 'open_file_with_new_tab')
   nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> u       denite#do_map('do_action', 'my_move_up_path')
+  nnoremap <silent><buffer><expr> <C-w>   denite#do_map('do_action', 'my_move_up_path')
   nnoremap <silent><buffer><expr> b       denite#do_map('do_action', 'add')
   nnoremap <silent><buffer><expr> v       denite#do_map('do_action', 'vsplit')
   nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
