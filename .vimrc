@@ -373,6 +373,10 @@ function! s:my_own_denite_open_file_with_new_tab(context) abort
     return {'sources_queue': [sources_queue], 'path': a:context['targets'][0]['action__path']}
   endif
 endfunction
+function! s:my_own_denite_open_file_with_new_tab_for_filetype(context) abort
+  execute a:context.targets[0].action__command
+endfunction
+
 " cd parent_directory for denite.
 " because denite move_up_path doesn't work with my_own_denite_open_file_with_new_tab function.
 function! s:my_own_denite_move_up_path(context) abort
@@ -401,6 +405,7 @@ function! s:my_own_denite_move_up_path_if_empty_input(context) abort
   return {'sources_queue': [sources_queue], 'path': path}
 endfunction
 call denite#custom#action('file,directory,dirmark', 'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab'))
+call denite#custom#action('source/filetype', 'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab_for_filetype'))
 call denite#custom#action('file,directory', 'my_move_up_path', function('s:my_own_denite_move_up_path'))
 call denite#custom#action('file,directory', 'move_up_path_if_empty_input', function('s:my_own_denite_move_up_path_if_empty_input'))
 "--------------------------------------
