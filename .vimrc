@@ -342,28 +342,27 @@ endfunction
 "   - denite vim help on denite#custom#action
 function! s:my_own_denite_open_file_with_new_tab(context) abort
   if !has_key(a:context.targets[0], 'kind')
-    if a:context.targets[0].source_name == 'dirmark'
-      if filereadable(a:context['targets'][0]['action__path'])
-        " bookmarkがファイルの場合
-        silent execute 'tabnew ' . a:context['targets'][0]['action__path']
-      else " bookmarkがdirectoryの場合
-        let narrow_dir = denite#util#path2directory(a:context['targets'][0]['action__path'])
-        let sources_queue = [
-          \ {'name': 'file', 'args': [0, narrow_dir]},
-          \ {'name': 'file', 'args': ['new', narrow_dir]}
-        \ ]
-
-        return {'sources_queue': [sources_queue], 'path': a:context['targets'][0]['action__path']}
-      endif
-    else
-      " when a new file is created with [new]
-      call denite#do_action(a:context, 'tabopen', a:context.targets)
-    endif
+    " when a new file is created with [new]
+    call denite#do_action(a:context, 'tabopen', a:context.targets)
   endif
 
   if a:context.targets[0].kind == 'file'
     call denite#do_action(a:context, 'tabopen', a:context.targets)
   elseif a:context.targets[0].kind == 'directory'
+    let narrow_dir = denite#util#path2directory(a:context['targets'][0]['action__path'])
+    let sources_queue = [
+      \ {'name': 'file', 'args': [0, narrow_dir]},
+      \ {'name': 'file', 'args': ['new', narrow_dir]}
+    \ ]
+
+    return {'sources_queue': [sources_queue], 'path': a:context['targets'][0]['action__path']}
+  endif
+endfunction
+function! s:my_own_denite_open_file_with_new_tab_for_dirmark(context) abort
+  if filereadable(a:context['targets'][0]['action__path'])
+    " bookmarkがファイルの場合
+    silent execute 'tabnew ' . a:context['targets'][0]['action__path']
+  else " bookmarkがdirectoryの場合
     let narrow_dir = denite#util#path2directory(a:context['targets'][0]['action__path'])
     let sources_queue = [
       \ {'name': 'file', 'args': [0, narrow_dir]},
@@ -404,7 +403,8 @@ function! s:my_own_denite_move_up_path_if_empty_input(context) abort
 
   return {'sources_queue': [sources_queue], 'path': path}
 endfunction
-call denite#custom#action('file,directory,dirmark', 'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab'))
+call denite#custom#action('file,directory', 'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab'))
+call denite#custom#action('dirmark',         'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab_for_dirmark'))
 call denite#custom#action('source/filetype', 'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab_for_filetype'))
 call denite#custom#action('file,directory', 'my_move_up_path', function('s:my_own_denite_move_up_path'))
 call denite#custom#action('file,directory', 'move_up_path_if_empty_input', function('s:my_own_denite_move_up_path_if_empty_input'))
