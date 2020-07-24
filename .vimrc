@@ -292,7 +292,6 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "   1. exec :Denite dirmark/add
 "   1. hit 'b' at directory to bookmark
 " TODO (upper is higher priority)
-"   - ファイルをEnterで選択した時に現在のbufferではなく新規タブで開くようにする (ディレクトリは除く)
 "   - (Vim自体の TODO) 8.2になってから %s//%/gnの検索でカーソルが色んなところに飛ぶようになったので修正
 "   - uniteとファイル一覧の並びが違う気がするのでディレクトリを一律に最初に来るように変更
 "   - filter内のテキストを含んでないファイルやディレクトリも表示される時がある気がするので調整
