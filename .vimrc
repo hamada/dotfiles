@@ -326,7 +326,7 @@ function! s:denite_my_settings() abort
   " nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
 endfunction
 function! s:denite_filter_my_settings() abort
-  inoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
+  inoremap <silent><buffer><expr> <CR> denite#do_map('do_action', 'open_file_with_new_tab')
   " Close denite filter buffer when I hit jk (when I escape insert mode)
   imap <silent><buffer> jk <Plug>(denite_filter_quit)
   " ref for following actions: https://zaief.jp/vim/denite
