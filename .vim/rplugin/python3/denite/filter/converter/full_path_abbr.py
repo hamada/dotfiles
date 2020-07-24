@@ -20,6 +20,9 @@ class Filter(Base):
             full_path = candidate['word']
             basename = candidate['abbr']
 
+            if Path(full_path).is_dir():
+                full_path = full_path + '/'
+
             candidate['abbr'] = full_path
             candidate['word'] = basename
         return context['candidates']
