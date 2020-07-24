@@ -294,7 +294,6 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 " TODO (upper is higher priority)
 "   - (Vim自体の TODO) 8.2になってから %s//%/gnの検索でカーソルが色んなところに飛ぶようになったので修正
 "   - uniteとファイル一覧の並びが違う気がするのでディレクトリを一律に最初に来るように変更
-"   - filter内のテキストを含んでないファイルやディレクトリも表示される時がある気がするので調整
 "   - denite-filter bufferのステータスラインを消したい
 "   - denite buffer内の、現在位置の表示を右ではなく左(出来れば左上)にする
 "   - ディレクトリだけではなくファイルもbookmarkできるようにする (denite-dirmarkの制約の可能性があるので自作するしかないかも？)
@@ -402,6 +401,10 @@ call denite#custom#action('source/filetype', 'my_own_action_by_selected_kind', f
 
 call denite#custom#action('file,directory', 'my_move_up_path', function('s:my_own_denite_move_up_path'))
 call denite#custom#action('file,directory', 'move_up_path_if_empty_input', function('s:my_own_denite_move_up_path_if_empty_input'))
+
+" my own macher and converter
+call denite#custom#source('file', 'matchers', ['matcher/only_basename'])
+call denite#custom#source('file', 'converters', ['converter/full_path_abbr'])
 "--------------------------------------
 
 "--------------------------------------
