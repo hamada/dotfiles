@@ -292,7 +292,6 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "   1. exec :Denite dirmark/add
 "   1. hit 'b' at directory to bookmark
 " TODO (upper is higher priority)
-"   - denite-filter buffer内でテキストが空の時に文字の削除(BSや<C-h>)するとmove_up_pathするようにする
 "   - ファイルをEnterで選択した時に現在のbufferではなく新規タブで開くようにする (ディレクトリは除く)
 "   - (Vim自体の TODO) 8.2になってから %s//%/gnの検索でカーソルが色んなところに飛ぶようになったので修正
 "   - uniteとファイル一覧の並びが違う気がするのでディレクトリを一律に最初に来るように変更
@@ -329,11 +328,10 @@ function! s:denite_filter_my_settings() abort
   inoremap <silent><buffer><expr> <CR> denite#do_map('do_action', 'open_file_with_new_tab')
   " Close denite filter buffer when I hit jk (when I escape insert mode)
   imap <silent><buffer> jk <Plug>(denite_filter_quit)
+  inoremap <silent><buffer><expr> <C-w> denite#do_map('do_action', 'move_up_path_if_empty_input')
   " ref for following actions: https://zaief.jp/vim/denite
   " toggle_select
   " inoremap <silent><buffer><expr> <C-j> denite#do_map('toggle_select')
-  " " 一つ上のディレクトリを開き直す
-  " inoremap <silent><buffer><expr> <BS> denite#do_map('move_up_path')
 endfunction
 
 " Open file with new tab.
@@ -372,8 +370,24 @@ function! s:my_own_denite_move_up_path(context) abort
 
   return {'sources_queue': [sources_queue], 'path': parent_path}
 endfunction
+function! s:my_own_denite_move_up_path_if_empty_input(context) abort
+  if a:context['input'] == ''
+    let path = fnamemodify(a:context['path'], ':h')
+  else
+    let path = a:context['path']
+  endif
+
+  let narrow_dir = denite#util#path2directory(path)
+  let sources_queue = [
+    \ {'name': 'file', 'args': [0, narrow_dir]},
+    \ {'name': 'file', 'args': ['new', narrow_dir]}
+  \ ]
+
+  return {'sources_queue': [sources_queue], 'path': path}
+endfunction
 call denite#custom#action('file,directory', 'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab'))
 call denite#custom#action('file,directory', 'my_move_up_path', function('s:my_own_denite_move_up_path'))
+call denite#custom#action('file,directory', 'move_up_path_if_empty_input', function('s:my_own_denite_move_up_path_if_empty_input'))
 "--------------------------------------
 
 "--------------------------------------
