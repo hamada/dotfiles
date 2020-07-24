@@ -340,23 +340,17 @@ endfunction
 "   - https://github.com/notomo/dotfiles/blob/940af3a149df3b7a316789f35f38053c41296873/vim/rc/plugins/denite.vim#L110
 "   - https://github.com/notomo/dotfiles/blob/b42de38b601fea002bd3413de70696692e5fe097/vim/autoload/notomo/denite.vim#L64
 "   - denite vim help on denite#custom#action
-function! s:my_own_denite_open_file_with_new_tab(context) abort
-  if !has_key(a:context.targets[0], 'kind')
-    " when a new file is created with [new]
-    call denite#do_action(a:context, 'tabopen', a:context.targets)
-  endif
+function! s:my_own_denite_open_file_with_new_tab_for_file(context) abort
+  call denite#do_action(a:context, 'tabopen', a:context.targets)
+endfunction
+function! s:my_own_denite_open_file_with_new_tab_for_directory(context) abort
+  let narrow_dir = denite#util#path2directory(a:context['targets'][0]['action__path'])
+  let sources_queue = [
+    \ {'name': 'file', 'args': [0, narrow_dir]},
+    \ {'name': 'file', 'args': ['new', narrow_dir]}
+  \ ]
 
-  if a:context.targets[0].kind == 'file'
-    call denite#do_action(a:context, 'tabopen', a:context.targets)
-  elseif a:context.targets[0].kind == 'directory'
-    let narrow_dir = denite#util#path2directory(a:context['targets'][0]['action__path'])
-    let sources_queue = [
-      \ {'name': 'file', 'args': [0, narrow_dir]},
-      \ {'name': 'file', 'args': ['new', narrow_dir]}
-    \ ]
-
-    return {'sources_queue': [sources_queue], 'path': a:context['targets'][0]['action__path']}
-  endif
+  return {'sources_queue': [sources_queue], 'path': a:context['targets'][0]['action__path']}
 endfunction
 function! s:my_own_denite_open_file_with_new_tab_for_dirmark(context) abort
   if filereadable(a:context['targets'][0]['action__path'])
@@ -403,7 +397,8 @@ function! s:my_own_denite_move_up_path_if_empty_input(context) abort
 
   return {'sources_queue': [sources_queue], 'path': path}
 endfunction
-call denite#custom#action('file,directory', 'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab'))
+call denite#custom#action('file',            'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab_for_file'))
+call denite#custom#action('directory',       'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab_for_directory'))
 call denite#custom#action('dirmark',         'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab_for_dirmark'))
 call denite#custom#action('source/filetype', 'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab_for_filetype'))
 call denite#custom#action('file,directory', 'my_move_up_path', function('s:my_own_denite_move_up_path'))
