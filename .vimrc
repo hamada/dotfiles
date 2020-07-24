@@ -315,10 +315,9 @@ autocmd FileType denite call s:denite_my_settings()
 autocmd FileType denite-filter call s:denite_filter_my_settings()
 
 function! s:denite_my_settings() abort
-  nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> <C-CR>  denite#do_map('do_action', 'open_file_with_new_tab')
+  nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action', 'open_file_with_new_tab')
   nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> u       denite#do_map('move_up_path')
+  nnoremap <silent><buffer><expr> u       denite#do_map('do_action', 'my_move_up_path')
   nnoremap <silent><buffer><expr> b       denite#do_map('do_action', 'add')
   nnoremap <silent><buffer><expr> v       denite#do_map('do_action', 'vsplit')
   nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
@@ -352,16 +351,29 @@ function! s:my_own_denite_open_file_with_new_tab(context) abort
   if a:context.targets[0].kind == 'file'
     call denite#do_action(a:context, 'tabopen', a:context.targets)
   elseif a:context.targets[0].kind == 'directory'
-    " FIXME: move_up_pathで上位のディレクトリに行けない (current directoryが変わってなさそう)
     let narrow_dir = denite#util#path2directory(a:context['targets'][0]['action__path'])
     let sources_queue = [
       \ {'name': 'file', 'args': [0, narrow_dir]},
       \ {'name': 'file', 'args': ['new', narrow_dir]}
     \ ]
-    return {'sources_queue': [sources_queue]}
+
+    return {'sources_queue': [sources_queue], 'path': a:context['targets'][0]['action__path']}
   endif
 endfunction
+" cd parent_directory for denite.
+" because denite move_up_path doesn't work with my_own_denite_open_file_with_new_tab function.
+function! s:my_own_denite_move_up_path(context) abort
+  let parent_path = fnamemodify(a:context['path'], ':h')
+  let narrow_dir = denite#util#path2directory(parent_path)
+  let sources_queue = [
+    \ {'name': 'file', 'args': [0, narrow_dir]},
+    \ {'name': 'file', 'args': ['new', narrow_dir]}
+  \ ]
+
+  return {'sources_queue': [sources_queue], 'path': parent_path}
+endfunction
 call denite#custom#action('file,directory', 'open_file_with_new_tab', function('s:my_own_denite_open_file_with_new_tab'))
+call denite#custom#action('file,directory', 'my_move_up_path', function('s:my_own_denite_move_up_path'))
 "--------------------------------------
 
 "--------------------------------------
