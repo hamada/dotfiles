@@ -237,7 +237,6 @@ if dein#load_state('~/.cache/dein')
     call dein#add('roxma/nvim-yarp') " needed for denite and vim 8
     call dein#add('roxma/vim-hug-neovim-rpc') " needed for denite and vim 8
   endif
-  call dein#add('preservim/nerdtree')
   call dein#add('vim-scripts/quickrun.vim')
   call dein#add('SirVer/ultisnips')
   call dein#add('vim-scripts/The-NERD-Commenter')
@@ -405,26 +404,6 @@ call denite#custom#action('file,directory', 'move_up_path_if_empty_input', funct
 call denite#custom#source('file', 'matchers', ['matcher/only_basename'])
 call denite#custom#source('file', 'converters', ['converter/full_path_abbr'])
 call denite#custom#source('file', 'sorters', ['sorter/case_insensitive'])
-"--------------------------------------
-
-"--------------------------------------
-" Settings for NerdTree
-" ref
-"   https://crowrabbit.hatenablog.com/entry/2019/06/04/NERDTree%E3%81%AE%E5%B0%8E%E5%85%A5
-"   https://www.toumasu-program.net/entry/2019/01/28/105352
-"   https://wonderwall.hatenablog.com/entry/2016/04/06/213105
-"--------------------------------------
-" nnoremap <silent> ,f :NERDTreeToggle<CR>
-" Close NerdTree when you open a file
-let g:NERDTreeQuitOnOpen = 1
-" Open new Tab for <CR>, not open with current buffer.
-let g:NERDTreeCustomOpenArgs = {'file':{'where': 't'}}
-
-augroup vimrc_nerdtree
-  autocmd!
-  " 他のバッファをすべて閉じた時にNERDTreeが開いていたらNERDTreeも一緒に閉じる
-  autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
-augroup END
 "--------------------------------------
 
 "----------------------------------------------------------------------------
