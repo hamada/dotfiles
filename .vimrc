@@ -245,6 +245,7 @@ if dein#load_state('~/.cache/dein')
   call dein#add('kmnk/denite-dirmark') " denite bookmark alternative
   call dein#add('Shougo/vimproc')
   call dein#add('Shougo/vimshell')
+  call dein#add('dense-analysis/ale')
   call dein#add('tpope/vim-rails')
   call dein#add('glidenote/octoeditor.vim')
   call dein#add('tpope/vim-fugitive')
@@ -426,6 +427,11 @@ let g:UltiSnipsSnippetDirectories = ['UltiSnips',$HOME.'/.vim/UltiSnips']
 " edit snippets file
 " nnoremap <silent> <C-f> :<C-u>tabe %<CR>:<C-u>NeoSnippetEdit<CR>
 "----------------------------------------------------------------------------
+
+" -------------------------------
+" settings for ALE
+let g:ale_fixers = { 'ruby': ['rubocop'], }
+" -------------------------------
 
 " customize NERD-Commenter
 let g:NERDCreateDefaultMappings = 0
