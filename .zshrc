@@ -15,6 +15,8 @@ setopt hist_ignore_dups
 setopt nobeep
 setopt correct
 
+# Start tmux session at zsh login
+[[ -z "$TMUX" && ! -z "$PS1" ]] && tmux
 
 bindkey -v #keybind vi like
 export EDITOR=vi
