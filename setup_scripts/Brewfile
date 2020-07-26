@@ -10,6 +10,7 @@ tap 'homebrew/bundle'
 brew 'git'
 brew 'gh'
 brew 'zsh'
+brew 'tmux'
 brew 'autojump'
 brew 'mas'
 
