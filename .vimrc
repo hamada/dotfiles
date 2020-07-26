@@ -61,6 +61,9 @@ set write
 
 set autochdir
 
+" show matched count when search with /, ? or *
+set shortmess-=S
+
 autocmd FileType php :set dictionary=~/.vim/dictionary/php.dict
 
 " associates following extensions with filetype
@@ -183,17 +186,6 @@ nnoremap <silent> <S-DOWN> :call DecTransp()<CR>
     endif
   endfunction "}}}
 
-nnoremap <expr> / _(":%s/<Cursor>/&/gn")
-function! s:move_cursor_pos_mapping(str, ...)
-    let left = get(a:, 1, "<Left>")
-    let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
-    return substitute(a:str, '<Cursor>', '', '') . lefts
-endfunction
-
-function! _(str)
-    return s:move_cursor_pos_mapping(a:str, "\<Left>")
-endfunction
-
 function! Taller() "{{{
   let n = &lines + 3
   execute 'set lines='.n
@@ -292,7 +284,6 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "   1. exec :Denite dirmark/add
 "   1. hit 'b' at directory to bookmark
 " TODO (upper is higher priority)
-"   - (Vim自体の TODO) 8.2になってから %s//%/gnの検索でカーソルが色んなところに飛ぶようになったので修正
 "   - denite-filter bufferのステータスラインを消したい
 "   - denite buffer内の、現在位置の表示を右ではなく左(出来れば左上)にする
 "   - ディレクトリだけではなくファイルもbookmarkできるようにする (denite-dirmarkの制約の可能性があるので自作するしかないかも？)
