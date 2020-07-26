@@ -15,6 +15,7 @@
 !/.unite
 !/.vimrc
 !/.zshrc
+!/.tmux.conf
 !/images/
 !/setup_scripts/
 !/alfred_workflows/
