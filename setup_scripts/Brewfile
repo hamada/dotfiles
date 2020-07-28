@@ -16,8 +16,7 @@ brew 'mas'
 
 brew 'rbenv'
 brew 'ruby-build'
-brew 'node'
-brew 'nvm'
+brew 'nvm' # node version manager
 brew 'python3'
 
 # peco (ref: http://qiita.com/xtetsuji/items/05f6f4c1b17854cdd75b)
