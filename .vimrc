@@ -284,12 +284,13 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "   1. exec :Denite dirmark/add
 "   1. hit 'b' at directory to bookmark
 " TODO (upper is higher priority)
+"   - inputにmatchしてる部分のカラースキームをデフォルトのカラースキームではなく、uniteのように背景変えずテキストを蛍光グリーンにする
 "   - denite-filter bufferのステータスラインを消したい
 "   - denite buffer内の、現在位置の表示を右ではなく左(出来れば左上)にする
 "   - ディレクトリだけではなくファイルもbookmarkできるようにする (denite-dirmarkの制約の可能性があるので自作するしかないかも？)
 "--------------------------------------
 " ファイル一覧
-nnoremap <silent> ,f :<C-u>DeniteBufferDir file file:new -start-filter -filter-split-direction=top -direction=top<CR>
+nnoremap <silent> ,f :<C-u>DeniteBufferDir file file:new -start-filter -filter-split-direction=top -direction=top -match-highlight<CR>
 " ブックマーク一覧
 nnoremap <silent> ,b :<C-u>Denite dirmark -start-filter -filter-split-direction=top -direction=top<CR>
 " filetype一覧
