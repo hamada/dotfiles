@@ -151,3 +151,7 @@ function gempeco() {
   $1 $gems_dir/$gem
 }
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+
+# for nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
