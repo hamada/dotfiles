@@ -51,6 +51,9 @@ alias gst="git status"
 alias gd="git diff"
 alias gdc="git diff --cached"
 
+# tmux alias
+alias tn="tmux new -t"
+
 # gpo() {
 	# local branch=$*;
   # if [ -n "$branch" ]; then
@@ -147,3 +150,4 @@ function gempeco() {
 
   $1 $gems_dir/$gem
 }
+export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
