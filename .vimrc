@@ -227,6 +227,8 @@ if dein#load_state('~/.cache/dein')
   " ------------------------------------------------
   call dein#add('vim-scripts/ShowMarks')
   call dein#add('vim-scripts/surround.vim')
+  " execute `$ pip3 install --user pynvim` to use denite
+  "   ref https://github.com/Shougo/denite.nvim#requirements
   call dein#add('Shougo/denite.nvim')
   if !has('nvim')
     call dein#add('roxma/nvim-yarp') " needed for denite and vim 8
