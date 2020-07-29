@@ -154,4 +154,10 @@ function gempeco() {
 
   $1 $gems_dir/$gem
 }
-export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+
+#-------------------------------------------------------
+# .zshrc for this machine
+#-------------------------------------------------------
+if [ -f $HOME/.zshrc_machine_specific ]; then
+    . $HOME/.zshrc_machine_specific
+fi
