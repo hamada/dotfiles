@@ -477,8 +477,14 @@ let g:friendlygrep_target_dir = 'code/somewhere/*'
 let g:friendlygrep_recursively = 1
 let g:friendlygrep_display_result_in = 'tab'
 "--------------------------------------------------------------------------------------------
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+" customize cursor shape for terminal
+"   ref: https://vim.fandom.com/wiki/Change_cursor_shape_in_different_modes
+" | for insert mode
+let &t_SI .= "\e[5 q"
+" block cursor for normal mode
+let &t_EI .= "\e[2 q"
+" blinking under cursor for replace mode
+let &t_SR .= "\e[3 q"
 "--------------------------------------------------------------------------------------------
 
 " vim script
