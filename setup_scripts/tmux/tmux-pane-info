@@ -1,0 +1,26 @@
+#!/bin/zsh
+
+# Display current directory($1 arg) and git status
+#
+# Do following setups to use
+#   1. make this script executable with `$ chmod u+x`
+#   1. create alias of this script in /usr/local/bin
+#     - `$ ln -s ~/dotfiles/setup_scripts/tmux/tmux-pane-info /usr/local/bin/tmux-pane-info`
+#   1. call this script from `.tmux.conf` like following
+#     - `set -g pane-border-format "#(tmux-pane-border '#{pane_current_path}')"`
+if git_status=$(cd $1 && git --no-optional-locks status 2>/dev/null ); then
+  git_branch="$(echo $git_status| awk 'NR==1 {print $3}')"
+  case $git_status in
+    *nothing\ to*    ) state="#[fg=black,bg=green]" ;;
+    *nothing\ added* ) state="#[fg=black,bg=yellow]" ;;
+    *#\ Untracked*   ) state="#[fg=black,bg=red]" ;; 
+                   * ) state="#[fg=black,bg=red]" ;;
+  esac
+  git_info="${state} ${git_branch}"
+else
+  git_info=""
+fi
+
+directory="#[bg=#282a36,fg=green] $1"
+
+echo "$directory $git_info "
