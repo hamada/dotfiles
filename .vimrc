@@ -64,6 +64,9 @@ set autochdir
 " show matched count when search with /, ? or *
 set shortmess-=S
 
+" use brew installed python
+set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.8/Python
+
 autocmd FileType php :set dictionary=~/.vim/dictionary/php.dict
 
 " associates following extensions with filetype
