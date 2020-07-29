@@ -16,11 +16,11 @@ if git_status=$(cd $1 && git --no-optional-locks status 2>/dev/null ); then
     *#\ Untracked*   ) state="#[fg=black,bg=red]" ;; 
                    * ) state="#[fg=black,bg=red]" ;;
   esac
-  git_info="${state} ${git_branch}"
+  git_info="${state} ${git_branch} "
 else
   git_info=""
 fi
 
-directory="#[bg=#282a36,fg=green] $1"
+directory="#[bg=#282a36,fg=green] $1 "
 
-echo "$directory $git_info "
+echo "$directory$git_info"
