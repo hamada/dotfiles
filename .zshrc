@@ -27,7 +27,7 @@ eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/bin:$PATH"
 
 #set prompt
-PROMPT=%F{green}''$'\n''%(!.#.$) '%f
+PROMPT=%F{green}'$ '%f
 
 #alias
 alias rm='rm -i'
