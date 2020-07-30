@@ -473,7 +473,7 @@ let g:octopress_vimfiler = 0
 " let g:octopress_template_dir_path = 'path/to/dir'
 "
 " customize friendly_grep
-let g:friendlygrep_target_dir = 'code/somewhere/*'
+let g:friendlygrep_target_dir = join(readfile(glob('~/dotfiles/.vim/friendly_grep_search_root_path')), "\n")
 let g:friendlygrep_recursively = 1
 let g:friendlygrep_display_result_in = 'tab'
 "--------------------------------------------------------------------------------------------

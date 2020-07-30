@@ -35,6 +35,7 @@
 .vim/plugin/rplugin/python3/*
 .vim/dein_installer.sh
 .vim/rplugin/python3/*
+.vim/friendly_grep_search_root_path
 
 .unite/directory_mru
 .unite/directory_mru_long
