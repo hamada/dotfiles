@@ -21,6 +21,11 @@ else
   git_info=""
 fi
 
+# PRの番号を取得
+# $ gh pr list | grep script-give-erp-admins-navis-admin-role| head -n 1| cut -f1
+# 指定したPRのstatusを取得 (最後のawkで前後の不要の空白を削除)
+# $ gh pr status |grep -A1 #2812| sed -n 2p | awk '{$1=$1};1'
+
 directory="#[bg=#282a36,fg=green] $1 "
 
 echo "$directory$git_info"
