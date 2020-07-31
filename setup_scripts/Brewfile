@@ -64,5 +64,6 @@ cask 'cmd-eikana' # ⌘英かな
 cask 'slack'
 
 mas 'Airmail 4', id: 918858936
+mas 'Pocket', id: 568494494
 
 # append brew settings on the situation. private or work
