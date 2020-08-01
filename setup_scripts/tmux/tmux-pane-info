@@ -8,6 +8,8 @@
 #     - `$ ln -s ~/dotfiles/setup_scripts/tmux/tmux-pane-info /usr/local/bin/tmux-pane-info`
 #   1. call this script from `.tmux.conf` like following
 #     - `set -g pane-border-format "#(tmux-pane-border '#{pane_current_path}')"`
+
+# TODO display git and PR info only for for current pane.
 if git_status=$(cd $1 && git --no-optional-locks status 2>/dev/null ); then
   git_branch="$(echo $git_status| awk 'NR==1 {print $3}')"
   case $git_status in
