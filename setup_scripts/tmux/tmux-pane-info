@@ -21,11 +21,25 @@ else
   git_info=""
 fi
 
-# PRの番号を取得
-# $ gh pr list | grep script-give-erp-admins-navis-admin-role| head -n 1| cut -f1
-# 指定したPRのstatusを取得 (最後のawkで前後の不要の空白を削除)
-# $ gh pr status |grep -A1 #2812| sed -n 2p | awk '{$1=$1};1'
+pr_id=$(cd $1 && gh pr list | grep $git_branch| head -n 1| cut -f1 2>/dev/null )
+if [[ $pr_id == *"not a git repository"* ]]; then
+  pr_info=""
+else
+  pr_status="$(cd $1 && gh pr status |grep -A1 $pr_id| sed -n 2p | awk '{$1=$1};1')"
+  if [ -n "$pr_status" ]; then
+    case $pr_status in
+      *failing*              ) pr_color="#[fg=black,bg=red]" ;;
+      *Changes\ requested*   ) pr_color="#[fg=black,bg=red]" ;;
+      *pending*              ) pr_color="#[fg=black,bg=yellow]" ;;
+                           * ) pr_color="#[fg=black,bg=green]" ;;
+    esac
+
+    pr_info="${pr_color} ${pr_status} "
+  else
+    pr_info=""
+  fi
+fi
 
 directory="#[bg=#282a36,fg=green] $1 "
 
-echo "$directory$git_info"
+echo "$directory$git_info$pr_info"
