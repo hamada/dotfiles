@@ -21,23 +21,29 @@ else
   git_info=""
 fi
 
-pr_id=$(cd $1 && gh pr list | grep $git_branch| head -n 1| cut -f1 2>/dev/null )
-if [[ $pr_id == *"not a git repository"* ]]; then
-  pr_info=""
-else
-  pr_status="$(cd $1 && gh pr status |grep -A1 $pr_id| sed -n 2p | awk '{$1=$1};1')"
-  if [ -n "$pr_status" ]; then
-    case $pr_status in
-      *failing*              ) pr_color="#[fg=black,bg=red]" ;;
-      *Changes\ requested*   ) pr_color="#[fg=black,bg=red]" ;;
-      *pending*              ) pr_color="#[fg=black,bg=yellow]" ;;
-                           * ) pr_color="#[fg=black,bg=green]" ;;
-    esac
-
-    pr_info="${pr_color} ${pr_status} "
-  else
+# There's a 20% chance that you get PR CI and Review status. becauese API requeting is so expensive.
+if [ $(($RANDOM % 100)) -lt 20 ]; then
+  # Get PR ID with branch, then Get PR CI and Review status, using GitHub API
+  pr_id=$(cd $1 && gh pr list | grep $git_branch| head -n 1| cut -f1 2>/dev/null )
+  if [[ $pr_id == *"not a git repository"* ]]; then
     pr_info=""
+  else
+    pr_status="$(cd $1 && gh pr status |grep -A1 $pr_id| sed -n 2p | awk '{$1=$1};1')"
+    if [ -n "$pr_status" ]; then
+      case $pr_status in
+        *failing*              ) pr_color="#[fg=black,bg=red]" ;;
+        *Changes\ requested*   ) pr_color="#[fg=black,bg=red]" ;;
+        *pending*              ) pr_color="#[fg=black,bg=yellow]" ;;
+                             * ) pr_color="#[fg=black,bg=green]" ;;
+      esac
+
+      pr_info="${pr_color} ${pr_status} "
+    else
+      pr_info=""
+    fi
   fi
+else
+  pr_info=""
 fi
 
 directory="#[bg=#282a36,fg=green] $1 "
