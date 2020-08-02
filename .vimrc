@@ -64,6 +64,10 @@ set autochdir
 " show matched count when search with /, ? or *
 set shortmess-=S
 
+" to prevennt to automatically fold code when you open a file
+" https://stackoverflow.com/questions/8316139/how-to-set-the-default-to-unfolded-when-you-open-a-file
+set foldlevel=99
+
 " use brew installed python
 set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.8/Python
 
@@ -289,13 +293,20 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "   1. exec :Denite dirmark/add
 "   1. hit 'b' at directory to bookmark
 " TODO (upper is higher priority)
-"   - inputにmatchしてる部分のカラースキームをデフォルトのカラースキームではなく、uniteのように背景変えずテキストを蛍光グリーンにする
-"   - denite-filter bufferのステータスラインを消したい
-"   - denite buffer内の、現在位置の表示を右ではなく左(出来れば左上)にする
+"   - deniteのcandidateの先頭の'file'という文字列を削除 (filterのマッチ対象にその文字列も入っているため)
 "   - ディレクトリだけではなくファイルもbookmarkできるようにする (denite-dirmarkの制約の可能性があるので自作するしかないかも？)
 "--------------------------------------
+function! SetStatuslineAndCallDeniteBufferDir()
+  call s:set_status_line_to_path(getcwd())
+
+  let deniteSources = 'file file:new'
+  let deniteOptions = '-start-filter -filter-split-direction=top -direction=top -match-highlight'
+  exec 'DeniteBufferDir '.deniteSources.' '.deniteOptions
+endfunction
+
 " ファイル一覧
-nnoremap <silent> ,f :<C-u>DeniteBufferDir file file:new -start-filter -filter-split-direction=top -direction=top -match-highlight<CR>
+nnoremap <silent> ,f :call SetStatuslineAndCallDeniteBufferDir()<CR>
+
 " ブックマーク一覧
 nnoremap <silent> ,b :<C-u>Denite dirmark -start-filter -filter-split-direction=top -direction=top<CR>
 " filetype一覧
@@ -319,6 +330,9 @@ function! s:denite_my_settings() abort
   " nnoremap <silent><buffer><expr> d       denite#do_map('do_action', 'delete')
   " nnoremap <silent><buffer><expr> q       denite#do_map('quit')
   " nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
+
+  " set color for filter matched candidate
+  highlight Search guibg=grey20 guifg=green
 endfunction
 function! s:denite_filter_my_settings() abort
   inoremap <silent><buffer><expr> <CR> denite#do_map('do_action', 'my_own_action_by_selected_kind')
@@ -331,11 +345,18 @@ function! s:denite_filter_my_settings() abort
   " inoremap <silent><buffer><expr> <C-j> denite#do_map('toggle_select')
 endfunction
 
+" set statusline
+function! s:set_status_line_to_path(path)
+  silent execute 'set statusline=' . a:path
+endfunction
+
 " Open file with new tab.
 function! s:my_own_denite_open_file_with_new_tab_for_file(context) abort
   call denite#do_action(a:context, 'tabopen', a:context.targets)
 endfunction
 function! s:my_own_denite_open_file_with_new_tab_for_directory(context) abort
+  call s:set_status_line_to_path(a:context['targets'][0]['action__path'])
+
   let narrow_dir = denite#util#path2directory(a:context['targets'][0]['action__path'])
   let sources_queue = [
     \ {'name': 'file', 'args': [0, narrow_dir]},
@@ -349,6 +370,8 @@ function! s:my_own_denite_open_file_with_new_tab_for_dirmark(context) abort
     " bookmarkがファイルの場合
     silent execute 'tabnew ' . a:context['targets'][0]['action__path']
   else " bookmarkがdirectoryの場合
+    call s:set_status_line_to_path(a:context['targets'][0]['action__path'])
+
     let narrow_dir = denite#util#path2directory(a:context['targets'][0]['action__path'])
     let sources_queue = [
       \ {'name': 'file', 'args': [0, narrow_dir]},
@@ -366,6 +389,8 @@ endfunction
 " because denite move_up_path doesn't work with my_own_denite_open_file_with_new_tab function.
 function! s:my_own_denite_move_up_path(context) abort
   let parent_path = fnamemodify(a:context['path'], ':h')
+  call s:set_status_line_to_path(parent_path)
+
   let narrow_dir = denite#util#path2directory(parent_path)
   let sources_queue = [
     \ {'name': 'file', 'args': [0, narrow_dir]},
@@ -381,6 +406,8 @@ function! s:my_own_denite_move_up_path_if_empty_input(context) abort
     let path = a:context['path']
   endif
 
+  call s:set_status_line_to_path(path)
+
   let narrow_dir = denite#util#path2directory(path)
   let sources_queue = [
     \ {'name': 'file', 'args': [0, narrow_dir]},
@@ -389,6 +416,7 @@ function! s:my_own_denite_move_up_path_if_empty_input(context) abort
 
   return {'sources_queue': [sources_queue], 'path': path}
 endfunction
+
 " call different function by selected kind (ref: denite help of denite#custom#action function)
 call denite#custom#action('file',            'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_file'))
 call denite#custom#action('directory',       'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_directory'))
@@ -400,7 +428,7 @@ call denite#custom#action('file,directory', 'move_up_path_if_empty_input', funct
 
 " my own macher ,converter and sorter.
 call denite#custom#source('file', 'matchers', ['matcher/only_basename'])
-call denite#custom#source('file', 'converters', ['converter/full_path_abbr'])
+" call denite#custom#source('file', 'converters', ['converter/full_path_abbr'])
 call denite#custom#source('file', 'sorters', ['sorter/case_insensitive'])
 "--------------------------------------
 
