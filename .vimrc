@@ -34,7 +34,9 @@ set laststatus=2
 "set statusline=%1*%F%m%r%h%w%*\ [filetype:\ %Y]\ [fenc:\ %{&fenc}]\ [enc:\ %{&enc}]\ [ff:\ %{&ff}]\ %2*%{fugitive#statusline()}%*%=%c,%l%11p%%
 hi User1 guifg=#000080 guibg=#c2bfa5
 hi User2 guifg=#990000 guibg=#c2bfa5
-set statusline=%F%m%r%h%w\ [filetype:\ %Y]\ [fenc:\ %{&fenc}]\ [enc:\ %{&enc}]\ [ff:\ %{&ff}]\ %{fugitive#statusline()}%=%c,%l%11p%%
+" use this variable later
+let my_own_statusline_format = '%F%m%r%h%w\ [filetype:\ %Y]\ [fenc:\ %{&fenc}]\ [enc:\ %{&enc}]\ [ff:\ %{&ff}]\ %{fugitive#statusline()}%=%c,%l%11p%%'
+execute 'set statusline='.my_own_statusline_format
 
 " customize search
 set hlsearch
@@ -428,12 +430,12 @@ call denite#custom#source('file', 'matchers', ['matcher/only_basename'])
 " call denite#custom#source('file', 'converters', ['converter/full_path_abbr'])
 call denite#custom#source('file', 'sorters', ['sorter/case_insensitive'])
 
-autocmd InsertLeave * call WhenLeaveInsertMode()
+autocmd InsertLeave * call WhenLeaveInsertMode(my_own_statusline_format)
 autocmd BufEnter *    call WhenEnterBuffer()
 
-function WhenLeaveInsertMode()
+function WhenLeaveInsertMode(statusline_format)
     if &ft =~ 'denite-filter'
-      execute 'set statusline=%F%m%r%h%w\ [filetype:\ %Y]\ [fenc:\ %{&fenc}]\ [enc:\ %{&enc}]\ [ff:\ %{&ff}]\ %{fugitive#statusline()}%=%c,%l%11p%%'
+      execute 'set statusline='.a:statusline_format
     endif
 endfunction
 
