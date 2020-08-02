@@ -64,6 +64,10 @@ set autochdir
 " show matched count when search with /, ? or *
 set shortmess-=S
 
+" to prevennt to automatically fold code when you open a file
+" https://stackoverflow.com/questions/8316139/how-to-set-the-default-to-unfolded-when-you-open-a-file
+set foldlevel=99
+
 " use brew installed python
 set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.8/Python
 
