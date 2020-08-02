@@ -289,6 +289,7 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "   1. exec :Denite dirmark/add
 "   1. hit 'b' at directory to bookmark
 " TODO (upper is higher priority)
+"   - deniteのcandidateの先頭の'file'という文字列を削除 (filterのマッチ対象にその文字列も入っているため)
 "   - ディレクトリだけではなくファイルもbookmarkできるようにする (denite-dirmarkの制約の可能性があるので自作するしかないかも？)
 "--------------------------------------
 function! SetStatuslineAndCallDeniteBufferDir()
