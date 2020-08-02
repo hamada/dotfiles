@@ -330,9 +330,6 @@ function! s:denite_my_settings() abort
   " nnoremap <silent><buffer><expr> d       denite#do_map('do_action', 'delete')
   " nnoremap <silent><buffer><expr> q       denite#do_map('quit')
   " nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
-
-  " set color for filter matched candidate
-  highlight Search guibg=grey20 guifg=green
 endfunction
 function! s:denite_filter_my_settings() abort
   inoremap <silent><buffer><expr> <CR> denite#do_map('do_action', 'my_own_action_by_selected_kind')
@@ -431,16 +428,8 @@ call denite#custom#source('file', 'matchers', ['matcher/only_basename'])
 " call denite#custom#source('file', 'converters', ['converter/full_path_abbr'])
 call denite#custom#source('file', 'sorters', ['sorter/case_insensitive'])
 
-autocmd InsertEnter * call WhenEnterInsertMode()
 autocmd InsertLeave * call WhenLeaveInsertMode()
-autocmd WinLeave * call WhenLeaveWindow()
-
-" TODO: set denite special color for matched text, when you focus to denite buffer from denite-filter
-function WhenEnterInsertMode()
-    if &ft =~ 'denite-filter'
-      highlight Search guibg=grey20 guifg=green
-    endif
-endfunction
+autocmd BufEnter *    call WhenEnterBuffer()
 
 function WhenLeaveInsertMode()
     if &ft =~ 'denite-filter'
@@ -448,10 +437,15 @@ function WhenLeaveInsertMode()
     endif
 endfunction
 
-function WhenLeaveWindow()
+" TODO: whether I should use color scheme for denite or set highlight like following
+"       - using denite specific color scheme like this`autocmd Filetype denite colorscheme denite_color`
+"         - ref: https://superuser.com/questions/270447/vim-color-scheme-for-specific-filetype
+"       - use `if condition` llike following
+function WhenEnterBuffer()
   if &ft =~ 'denite'
+    highlight Search guibg=grey20 guifg=green
   else
-    highlight Search guibg=peru guifg=wheat
+    colorscheme desert
   endif
 endfunction
 "--------------------------------------
