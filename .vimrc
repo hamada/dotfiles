@@ -289,7 +289,6 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "   1. exec :Denite dirmark/add
 "   1. hit 'b' at directory to bookmark
 " TODO (upper is higher priority)
-"   - inputにmatchしてる部分のカラースキームをデフォルトのカラースキームではなく、uniteのように背景変えずテキストを蛍光グリーンにする
 "   - denite-filter bufferのステータスラインを消したい
 "   - denite buffer内の、現在位置の表示を右ではなく左(出来れば左上)にする
 "   - ディレクトリだけではなくファイルもbookmarkできるようにする (denite-dirmarkの制約の可能性があるので自作するしかないかも？)
@@ -319,6 +318,9 @@ function! s:denite_my_settings() abort
   " nnoremap <silent><buffer><expr> d       denite#do_map('do_action', 'delete')
   " nnoremap <silent><buffer><expr> q       denite#do_map('quit')
   " nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
+
+  " set color for filter matched candidate
+  highlight Search guibg=grey20 guifg=green
 endfunction
 function! s:denite_filter_my_settings() abort
   inoremap <silent><buffer><expr> <CR> denite#do_map('do_action', 'my_own_action_by_selected_kind')
