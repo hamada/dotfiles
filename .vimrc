@@ -430,6 +430,30 @@ call denite#custom#action('file,directory', 'move_up_path_if_empty_input', funct
 call denite#custom#source('file', 'matchers', ['matcher/only_basename'])
 " call denite#custom#source('file', 'converters', ['converter/full_path_abbr'])
 call denite#custom#source('file', 'sorters', ['sorter/case_insensitive'])
+
+autocmd InsertEnter * call WhenEnterInsertMode()
+autocmd InsertLeave * call WhenLeaveInsertMode()
+autocmd WinLeave * call WhenLeaveWindow()
+
+" TODO: set denite special color for matched text, when you focus to denite buffer from denite-filter
+function WhenEnterInsertMode()
+    if &ft =~ 'denite-filter'
+      highlight Search guibg=grey20 guifg=green
+    endif
+endfunction
+
+function WhenLeaveInsertMode()
+    if &ft =~ 'denite-filter'
+      execute 'set statusline=%F%m%r%h%w\ [filetype:\ %Y]\ [fenc:\ %{&fenc}]\ [enc:\ %{&enc}]\ [ff:\ %{&ff}]\ %{fugitive#statusline()}%=%c,%l%11p%%'
+    endif
+endfunction
+
+function WhenLeaveWindow()
+  if &ft =~ 'denite'
+  else
+    highlight Search guibg=peru guifg=wheat
+  endif
+endfunction
 "--------------------------------------
 
 "----------------------------------------------------------------------------
