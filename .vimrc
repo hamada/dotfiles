@@ -291,8 +291,17 @@ let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 " TODO (upper is higher priority)
 "   - ディレクトリだけではなくファイルもbookmarkできるようにする (denite-dirmarkの制約の可能性があるので自作するしかないかも？)
 "--------------------------------------
+function! SetStatuslineAndCallDeniteBufferDir()
+  call s:set_status_line_to_path(getcwd())
+
+  let deniteSources = 'file file:new'
+  let deniteOptions = '-start-filter -filter-split-direction=top -direction=top -match-highlight'
+  exec 'DeniteBufferDir '.deniteSources.' '.deniteOptions
+endfunction
+
 " ファイル一覧
-nnoremap <silent> ,f :<C-u>DeniteBufferDir file file:new -start-filter -filter-split-direction=top -direction=top -match-highlight<CR>
+nnoremap <silent> ,f :call SetStatuslineAndCallDeniteBufferDir()<CR>
+
 " ブックマーク一覧
 nnoremap <silent> ,b :<C-u>Denite dirmark -start-filter -filter-split-direction=top -direction=top<CR>
 " filetype一覧
