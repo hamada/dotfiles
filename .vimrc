@@ -414,7 +414,7 @@ call denite#custom#action('file,directory', 'move_up_path_if_empty_input', funct
 
 " my own macher ,converter and sorter.
 call denite#custom#source('file', 'matchers', ['matcher/only_basename'])
-call denite#custom#source('file', 'converters', ['converter/full_path_abbr'])
+" call denite#custom#source('file', 'converters', ['converter/full_path_abbr'])
 call denite#custom#source('file', 'sorters', ['sorter/case_insensitive'])
 "--------------------------------------
 
