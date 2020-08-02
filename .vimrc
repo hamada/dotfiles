@@ -333,11 +333,18 @@ function! s:denite_filter_my_settings() abort
   " inoremap <silent><buffer><expr> <C-j> denite#do_map('toggle_select')
 endfunction
 
+" set statusline
+function! s:set_status_line_to_path(path)
+  silent execute 'set statusline=' . a:path
+endfunction
+
 " Open file with new tab.
 function! s:my_own_denite_open_file_with_new_tab_for_file(context) abort
   call denite#do_action(a:context, 'tabopen', a:context.targets)
 endfunction
 function! s:my_own_denite_open_file_with_new_tab_for_directory(context) abort
+  call s:set_status_line_to_path(a:context['targets'][0]['action__path'])
+
   let narrow_dir = denite#util#path2directory(a:context['targets'][0]['action__path'])
   let sources_queue = [
     \ {'name': 'file', 'args': [0, narrow_dir]},
@@ -351,6 +358,8 @@ function! s:my_own_denite_open_file_with_new_tab_for_dirmark(context) abort
     " bookmarkがファイルの場合
     silent execute 'tabnew ' . a:context['targets'][0]['action__path']
   else " bookmarkがdirectoryの場合
+    call s:set_status_line_to_path(a:context['targets'][0]['action__path'])
+
     let narrow_dir = denite#util#path2directory(a:context['targets'][0]['action__path'])
     let sources_queue = [
       \ {'name': 'file', 'args': [0, narrow_dir]},
@@ -368,6 +377,8 @@ endfunction
 " because denite move_up_path doesn't work with my_own_denite_open_file_with_new_tab function.
 function! s:my_own_denite_move_up_path(context) abort
   let parent_path = fnamemodify(a:context['path'], ':h')
+  call s:set_status_line_to_path(parent_path)
+
   let narrow_dir = denite#util#path2directory(parent_path)
   let sources_queue = [
     \ {'name': 'file', 'args': [0, narrow_dir]},
@@ -383,6 +394,8 @@ function! s:my_own_denite_move_up_path_if_empty_input(context) abort
     let path = a:context['path']
   endif
 
+  call s:set_status_line_to_path(path)
+
   let narrow_dir = denite#util#path2directory(path)
   let sources_queue = [
     \ {'name': 'file', 'args': [0, narrow_dir]},
@@ -391,6 +404,7 @@ function! s:my_own_denite_move_up_path_if_empty_input(context) abort
 
   return {'sources_queue': [sources_queue], 'path': path}
 endfunction
+
 " call different function by selected kind (ref: denite help of denite#custom#action function)
 call denite#custom#action('file',            'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_file'))
 call denite#custom#action('directory',       'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_directory'))
