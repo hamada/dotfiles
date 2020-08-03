@@ -302,7 +302,7 @@ function! SetStatuslineAndCallDeniteBufferDir()
   call s:set_status_line_to_path(getcwd())
 
   let deniteSources = 'file file:new'
-  let deniteOptions = '-start-filter -filter-split-direction=top -direction=top -match-highlight'
+  let deniteOptions = '-start-filter -filter-split-direction=top -direction=top'
   exec 'DeniteBufferDir '.deniteSources.' '.deniteOptions
 endfunction
 
@@ -431,24 +431,11 @@ call denite#custom#source('file', 'matchers', ['matcher/only_basename'])
 call denite#custom#source('file', 'sorters', ['sorter/case_insensitive'])
 
 autocmd InsertLeave * call WhenLeaveInsertMode(my_own_statusline_format)
-autocmd BufEnter *    call WhenEnterBuffer()
 
 function WhenLeaveInsertMode(statusline_format)
     if &ft =~ 'denite-filter'
       execute 'set statusline='.a:statusline_format
     endif
-endfunction
-
-" TODO: whether I should use color scheme for denite or set highlight like following
-"       - using denite specific color scheme like this`autocmd Filetype denite colorscheme denite_color`
-"         - ref: https://superuser.com/questions/270447/vim-color-scheme-for-specific-filetype
-"       - use `if condition` llike following
-function WhenEnterBuffer()
-  if &ft =~ 'denite'
-    highlight Search guibg=grey20 guifg=green
-  else
-    highlight Search guibg=peru   guifg=wheat
-  endif
 endfunction
 "--------------------------------------
 
