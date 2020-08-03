@@ -447,7 +447,7 @@ function WhenEnterBuffer()
   if &ft =~ 'denite'
     highlight Search guibg=grey20 guifg=green
   else
-    colorscheme desert
+    highlight Search guibg=peru   guifg=wheat
   endif
 endfunction
 "--------------------------------------
