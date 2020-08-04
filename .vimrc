@@ -70,6 +70,9 @@ set shortmess-=S
 " https://stackoverflow.com/questions/8316139/how-to-set-the-default-to-unfolded-when-you-open-a-file
 set foldlevel=99
 
+" specify manual. because something set this option `expr`.
+set foldmethod=manual
+
 " use brew installed python
 set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.8/Python
 
