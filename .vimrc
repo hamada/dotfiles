@@ -339,6 +339,7 @@ function! s:denite_my_settings() abort
 endfunction
 function! s:denite_filter_my_settings() abort
   inoremap <silent><buffer><expr> <CR> denite#do_map('do_action', 'my_own_action_by_selected_kind')
+  inoremap <silent><buffer><expr> <S-CR> denite#do_map('do_action', 'my_own_action_create_new_directory')
   " Close denite filter buffer when I hit jk (when I escape insert mode)
   imap <silent><buffer> jk <Plug>(denite_filter_quit)
   inoremap <silent><buffer><expr> <C-w> denite#do_map('do_action', 'move_up_path_if_empty_input')
@@ -387,6 +388,12 @@ endfunction
 function! s:my_own_denite_open_file_with_new_tab_for_filetype(context) abort
   execute a:context.targets[0].action__command
 endfunction
+" create a new directory
+function! s:my_own_denite_create_new_directory(context) abort
+  if a:context.sources[1]['args'][0] == 'new'
+    execute '!mkdir '.a:context.targets[0]['word']
+  end
+endfunction
 
 " cd parent_directory for denite.
 " because denite move_up_path doesn't work with my_own_denite_open_file_with_new_tab function.
@@ -425,6 +432,7 @@ call denite#custom#action('file',            'my_own_action_by_selected_kind', f
 call denite#custom#action('directory',       'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_directory'))
 call denite#custom#action('dirmark',         'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_dirmark'))
 call denite#custom#action('source/filetype', 'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_filetype'))
+call denite#custom#action('file',            'my_own_action_create_new_directory', function('s:my_own_denite_create_new_directory'))
 
 call denite#custom#action('file,directory', 'my_move_up_path', function('s:my_own_denite_move_up_path'))
 call denite#custom#action('file,directory', 'move_up_path_if_empty_input', function('s:my_own_denite_move_up_path_if_empty_input'))
