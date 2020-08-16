@@ -342,6 +342,7 @@ endfunction
 
 function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action', 'my_own_action_by_selected_kind')
+  nnoremap <silent><buffer><expr> <C-CR>  denite#do_map('do_action')
   nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> u       denite#do_map('do_action', 'my_move_up_path')
   nnoremap <silent><buffer><expr> <C-w>   denite#do_map('do_action', 'my_move_up_path')
@@ -355,6 +356,7 @@ function! s:denite_my_settings() abort
 endfunction
 function! s:denite_filter_my_settings() abort
   inoremap <silent><buffer><expr> <CR> denite#do_map('do_action', 'my_own_action_by_selected_kind')
+  inoremap <silent><buffer><expr> <C-CR> denite#do_map('do_action')
   inoremap <S-CR> <ESC>:call CreateFileRecursively()<CR>
   " Close denite filter buffer when I hit jk (when I escape insert mode)
   imap <silent><buffer> jk <Plug>(denite_filter_quit)
