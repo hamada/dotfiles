@@ -323,6 +323,22 @@ nnoremap <silent> ,r :<C-u>Denite ruby_class -start-filter -filter-split-directi
 autocmd FileType denite call s:denite_my_settings()
 " settings for denite filter buffer
 autocmd FileType denite-filter call s:denite_filter_my_settings()
+function! CreateFileRecursively() abort
+  let l:fullpath = g:my_own_denite_filter_buffer_statusline_contents. '/' .getline(1, '$')[-1]
+  let l:nodes = split(l:fullpath, '/')
+  let l:nodes_except_last = l:nodes[0:(len(l:nodes) - 2)]
+  let l:directory = '/'.join(l:nodes_except_last, '/')
+
+  if isdirectory(l:directory) == 0
+    if filereadable(l:directory) == 0
+      call mkdir(l:directory, 'p')
+      echo 'New directory created: '. l:directory
+    endif
+  endif
+  silent execute 'tabnew ' . l:fullpath
+  echo 'New File: '. l:fullpath
+  " TODO close remaining denite buffer and filter
+endfunction
 
 function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action', 'my_own_action_by_selected_kind')
@@ -339,7 +355,7 @@ function! s:denite_my_settings() abort
 endfunction
 function! s:denite_filter_my_settings() abort
   inoremap <silent><buffer><expr> <CR> denite#do_map('do_action', 'my_own_action_by_selected_kind')
-  inoremap <silent><buffer><expr> <S-CR> denite#do_map('do_action', 'my_own_action_create_new_directory')
+  inoremap <S-CR> <ESC>:call CreateFileRecursively()<CR>
   " Close denite filter buffer when I hit jk (when I escape insert mode)
   imap <silent><buffer> jk <Plug>(denite_filter_quit)
   inoremap <silent><buffer><expr> <C-w> denite#do_map('do_action', 'move_up_path_if_empty_input')
@@ -349,8 +365,10 @@ function! s:denite_filter_my_settings() abort
   " inoremap <silent><buffer><expr> <C-j> denite#do_map('toggle_select')
 endfunction
 
+let g:my_own_denite_filter_buffer_statusline_contents = getcwd()
 " set statusline
 function! s:set_status_line_to_path(path)
+  let g:my_own_denite_filter_buffer_statusline_contents = a:path
   silent execute 'set statusline=' . a:path
 endfunction
 
@@ -387,12 +405,6 @@ function! s:my_own_denite_open_file_with_new_tab_for_dirmark(context) abort
 endfunction
 function! s:my_own_denite_open_file_with_new_tab_for_filetype(context) abort
   execute a:context.targets[0].action__command
-endfunction
-" create a new directory
-function! s:my_own_denite_create_new_directory(context) abort
-  if a:context.sources[1]['args'][0] == 'new'
-    execute '!mkdir '.a:context.targets[0]['word']
-  end
 endfunction
 
 " cd parent_directory for denite.
@@ -432,7 +444,6 @@ call denite#custom#action('file',            'my_own_action_by_selected_kind', f
 call denite#custom#action('directory',       'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_directory'))
 call denite#custom#action('dirmark',         'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_dirmark'))
 call denite#custom#action('source/filetype', 'my_own_action_by_selected_kind', function('s:my_own_denite_open_file_with_new_tab_for_filetype'))
-call denite#custom#action('file',            'my_own_action_create_new_directory', function('s:my_own_denite_create_new_directory'))
 
 call denite#custom#action('file,directory', 'my_move_up_path', function('s:my_own_denite_move_up_path'))
 call denite#custom#action('file,directory', 'move_up_path_if_empty_input', function('s:my_own_denite_move_up_path_if_empty_input'))
