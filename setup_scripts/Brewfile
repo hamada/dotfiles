@@ -45,6 +45,11 @@ brew 'htop'
 
 brew 'docker-machine'
 
+# for risc-v and xv6
+tap  'riscv/riscv'
+brew 'riscv-tools'
+brew 'qemu'
+
 # brew 'telegraf'
 
 # Install with homebrew-casks
