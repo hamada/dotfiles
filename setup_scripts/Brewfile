@@ -48,7 +48,11 @@ brew 'docker-machine'
 # for risc-v and xv6
 tap  'riscv/riscv'
 brew 'riscv-tools'
+
+# to create os
 brew 'qemu'
+brew 'nasm'
+brew 'bochs'
 
 # brew 'telegraf'
 
