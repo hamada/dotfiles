@@ -97,6 +97,11 @@ export PATH=/usr/local/bin:$PATH
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh" # loads nvm
 
+# for zsh-autosuggestions
+# ref: https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#4169e1"
+
 #-------------------------------------------------------
 # peco commands
 #-------------------------------------------------------
