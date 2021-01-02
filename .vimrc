@@ -346,7 +346,6 @@ function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> u       denite#do_map('do_action', 'my_move_up_path')
   nnoremap <silent><buffer><expr> <C-w>   denite#do_map('do_action', 'my_move_up_path')
-  nnoremap <silent><buffer><expr> <C-h>   denite#do_map('do_action', 'my_move_up_path')
   nnoremap <silent><buffer><expr> b       denite#do_map('do_action', 'add')
   nnoremap <silent><buffer><expr> v       denite#do_map('do_action', 'vsplit')
   nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
@@ -361,7 +360,6 @@ function! s:denite_filter_my_settings() abort
   " Close denite filter buffer when I hit jk (when I escape insert mode)
   imap <silent><buffer> jk <Plug>(denite_filter_quit)
   inoremap <silent><buffer><expr> <C-w> denite#do_map('do_action', 'move_up_path_if_empty_input')
-  inoremap <silent><buffer><expr> <C-h> denite#do_map('do_action', 'move_up_path_if_empty_input')
   " ref for following actions: https://zaief.jp/vim/denite
   " toggle_select
   " inoremap <silent><buffer><expr> <C-j> denite#do_map('toggle_select')
