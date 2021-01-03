@@ -74,7 +74,7 @@ set foldlevel=99
 set foldmethod=manual
 
 " use brew installed python
-set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.8/Python
+set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.9/Python
 
 autocmd FileType php :set dictionary=~/.vim/dictionary/php.dict
 
