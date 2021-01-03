@@ -8,3 +8,5 @@ ln -s ~/dotfiles/.bashrc ~/.bashrc
 ln -s ~/dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/dotfiles/.init.lua ~/.hammerspoon/init.lua
 ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
+ln -s ~/dotfiles/.yabairc ~/.yabairc
+ln -s ~/dotfiles/.skhdrc ~/.skhdrc

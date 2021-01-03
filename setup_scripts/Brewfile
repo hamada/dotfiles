@@ -31,6 +31,10 @@ tap 'homebrew/cask-fonts'
 brew 'ricty'
 cask 'font-ricty-diminished'
 
+# tile manager
+brew 'koekeishiya/formulae/yabai'
+brew 'koekeishiya/formulae/skhd'
+
 # for AWS Commandline Interface
 brew 'awscli'
 

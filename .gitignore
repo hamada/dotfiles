@@ -16,6 +16,8 @@
 !/.vimrc
 !/.zshrc
 !/.tmux.conf
+!/.yabairc
+!/.skhdrc
 !/images/
 !/setup_scripts/
 !/alfred_workflows/
