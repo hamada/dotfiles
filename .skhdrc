@@ -1,18 +1,30 @@
-# yabai config
+# How to Use yabai
 #
-# ref
+# basic
 #   - https://qiita.com/psyashes/items/68ac40659ddbe04f8f7f
 #   - https://github.com/koekeishiya/yabai/wiki
 #
 # logs
+#   - log:       /usr/local/var/log/yabai/yabai.out.log
+#   - error log: /usr/local/var/log/yabai/yabai.err.log
 #
-# - log:       /usr/local/var/log/yabai/yabai.out.log
-# - error log: /usr/local/var/log/yabai/yabai.err.log
+# setup
 #
-# launch
+#   1. homebrewでyabaiとskhdをインスール
+#   1. 環境設定 > Mission Control で「ディスプレイごとに個別の操作スペース」をONにする 
+#     - これをしないとyabaiは使えず、エラーログに"yabai: 'display has separate spaces' is disabled! abort.." と出力される
+#   1. 環境設定のアクセシビリティで、yabaiとskhdを許可
+#   1. put `.yabairc` and `.skhdrc` on $HOME/
+#   1. yabaiとskhdをMac起動時に自動で起動するように設定
+#   1. yabaiとskhdを起動
+#     - `$ brew services start koekeishiya/formulae/yabai`
+#     - `$ brew services start skhd`
 #
-# restart yabai: `$ brew services restart koekeishiya/formulae/yabai`
-# restart skhd:  `$ brew services restart skhd`
+# relaunch
+#
+# after modifing `.yabairc` or `.skhdrc`, restart yabai and skhd.
+#   - restart yabai: `$ brew services restart koekeishiya/formulae/yabai`
+#   - restart skhd:  `$ brew services restart skhd`
 
 # ################################################################ #
 # THE FOLLOWING IS AN EXPLANATION OF THE GRAMMAR THAT SKHD PARSES. #
