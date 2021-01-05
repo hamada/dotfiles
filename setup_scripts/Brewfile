@@ -18,6 +18,7 @@ brew 'rbenv'
 brew 'ruby-build'
 brew 'nvm' # node version manager
 brew 'python3'
+brew 'rust'
 
 # peco (ref: http://qiita.com/xtetsuji/items/05f6f4c1b17854cdd75b)
 brew 'peco'
@@ -29,6 +30,10 @@ brew 'jq'
 tap 'homebrew/cask-fonts'
 brew 'ricty'
 cask 'font-ricty-diminished'
+
+# tile manager
+brew 'koekeishiya/formulae/yabai'
+brew 'koekeishiya/formulae/skhd'
 
 # for AWS Commandline Interface
 brew 'awscli'
@@ -44,6 +49,15 @@ brew 'watch'
 brew 'htop'
 
 brew 'docker-machine'
+
+# for risc-v and xv6
+tap  'riscv/riscv'
+brew 'riscv-tools'
+
+# to create os
+brew 'qemu'
+brew 'nasm'
+brew 'bochs'
 
 # brew 'telegraf'
 
