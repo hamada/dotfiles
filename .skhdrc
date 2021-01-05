@@ -117,10 +117,14 @@ shift + cmd - h : yabai -m window --warp east
 shift + alt - 0 : yabai -m space --balance
 
 # grid format: <rows>:<cols>:<start-x>:<start-y>:<width>:<height>
+alt - up     : yabai -m window --grid 2:1:0:0:1:0 # make floating window fill upper-half of screen
+alt - down   : yabai -m window --grid 2:1:0:2:1:0 # make floating window fill lower-half of screen
+alt - left   : yabai -m window --grid 1:2:0:0:1:1 # make floating window fill left-half of screen
+alt - right  : yabai -m window --grid 1:2:2:0:1:1 # make floating window fill right-half of screen
 shift + alt - up     : yabai -m window --grid 1:1:0:0:1:1 # make floating window fill screen
-shift + alt - left   : yabai -m window --grid 1:2:0:0:1:1 # make floating window fill left-half of screen
+shift + alt - down   : yabai -m window --grid 2:1:0:2:1:0 # make floating window fill lower-half of screen
+shift + alt - left   : yabai -m window --grid 1:12:1:0:12:1 # make floating window fill right-half of screen, but create a space left side for slack sidebar
 shift + alt - right  : yabai -m window --grid 1:2:2:0:1:1 # make floating window fill right-half of screen
-shift + alt - down   : yabai -m window --grid 1:12:1:0:12:1 # make floating window fill right-half of screen, but create a space left side for slack sidebar
 
 # create desktop, move window and follow focus - uses jq for parsing json (brew install jq)
 shift + cmd - n : yabai -m space --create && \
