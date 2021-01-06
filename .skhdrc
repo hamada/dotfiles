@@ -117,14 +117,12 @@
 # shift + alt - 0 : yabai -m space --balance
 
 # grid format: <rows>:<cols>:<start-x>:<start-y>:<width>:<height>
-alt - up     : yabai -m window --grid 2:1:0:0:1:0 # make floating window fill upper-half of screen
-alt - down   : yabai -m window --grid 2:1:0:2:1:0 # make floating window fill lower-half of screen
-alt - left   : yabai -m window --grid 1:2:0:0:1:1 # make floating window fill left-half of screen
-alt - right  : yabai -m window --grid 1:2:2:0:1:1 # make floating window fill right-half of screen
-shift + alt - up     : yabai -m window --grid 1:1:0:0:1:1 # make floating window fill screen
-shift + alt - down   : yabai -m window --grid 2:1:0:2:1:0 # make floating window fill lower-half of screen
-shift + alt - left   : yabai -m window --grid 1:12:1:0:12:1 # make floating window fill right-half of screen, but create a space left side for slack sidebar
-shift + alt - right  : yabai -m window --grid 1:2:2:0:1:1 # make floating window fill right-half of screen
+shift + alt - k : yabai -m window --grid 2:1:0:0:1:0   # make floating window fill upper-half of screen
+shift + alt - j : yabai -m window --grid 2:1:0:2:1:0   # make floating window fill lower-half of screen
+shift + alt - h : yabai -m window --grid 1:2:0:0:1:1   # make floating window fill left-half of screen
+shift + alt - l : yabai -m window --grid 1:2:2:0:1:1   # make floating window fill right-half of screen
+shift + alt - i : yabai -m window --grid 1:1:0:0:1:1   # make floating window fill screen
+shift + alt - y : yabai -m window --grid 1:12:1:0:12:1 # make floating window fill right-half of screen, but create a space left side for slack sidebar
 
 # create desktop, move window and follow focus - uses jq for parsing json (brew install jq)
 # shift + cmd - n : yabai -m space --create && \
@@ -149,16 +147,17 @@ shift + alt - right  : yabai -m window --grid 1:2:2:0:1:1 # make floating window
 # ctrl + cmd - 1  : yabai -m window --display 1; yabai -m display --focus 1
 
 # move floating window
-shift + ctrl - a : yabai -m window --move rel:-20:0
-shift + ctrl - s : yabai -m window --move rel:0:20
+alt - up    : yabai -m window --move rel:0:-20
+alt - down  : yabai -m window --move rel:0:20
+alt - left  : yabai -m window --move rel:-20:0
+alt - right : yabai -m window --move rel:20:0
 
 # increase window size
-shift + alt - a : yabai -m window --resize left:-20:0
-shift + alt - w : yabai -m window --resize top:0:-20
-
+shift + alt - up    : yabai -m window --resize top:0:-20
+shift + alt - right : yabai -m window --resize left:-20:0
 # decrease window size
-shift + cmd - s : yabai -m window --resize bottom:0:-20
-shift + cmd - w : yabai -m window --resize top:0:20
+shift + alt - down  : yabai -m window --resize bottom:0:-20
+shift + alt - left  : yabai -m window --resize left:20:0
 
 # set insertion point in focused container
 # ctrl + alt - h : yabai -m window --insert west
