@@ -238,7 +238,10 @@ if dein#load_state('~/.cache/dein')
   call dein#add('vim-scripts/surround.vim')
   " execute `$ pip3 install --user pynvim` to use denite
   "   ref https://github.com/Shougo/denite.nvim#requirements
-  call dein#add('Shougo/denite.nvim')
+  "
+  " NOTE: specify revision to install denite.nvim working with my own `matcher/only_basename` matcher.
+  "       latest denite.nvim(c5fd700) doesn't works with the matcher.
+  call dein#add('Shougo/denite.nvim', { 'rev': '15f05df' })
   if !has('nvim')
     call dein#add('roxma/nvim-yarp') " needed for denite and vim 8
     call dein#add('roxma/vim-hug-neovim-rpc') " needed for denite and vim 8
@@ -350,8 +353,8 @@ function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> b       denite#do_map('do_action', 'add')
   nnoremap <silent><buffer><expr> v       denite#do_map('do_action', 'vsplit')
   nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q       denite#do_map('quit')
   " nnoremap <silent><buffer><expr> d       denite#do_map('do_action', 'delete')
-  " nnoremap <silent><buffer><expr> q       denite#do_map('quit')
   " nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
 endfunction
 function! s:denite_filter_my_settings() abort
@@ -360,6 +363,8 @@ function! s:denite_filter_my_settings() abort
   inoremap <S-CR> <ESC>:call CreateFileRecursively()<CR>
   " Close denite filter buffer when I hit jk (when I escape insert mode)
   imap <silent><buffer> jk <Plug>(denite_filter_quit)
+  " this is for incoming denite version issue (ref: https://github.com/Shougo/denite.nvim/issues/835)
+  " imap <silent><buffer> jk <Plug>(denite_filter_update)
   inoremap <silent><buffer><expr> <C-w> denite#do_map('do_action', 'move_up_path_if_empty_input')
   " ref for following actions: https://zaief.jp/vim/denite
   " toggle_select
