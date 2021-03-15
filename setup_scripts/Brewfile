@@ -10,6 +10,7 @@ tap 'homebrew/bundle'
 brew 'git'
 brew 'gh'
 brew 'zsh'
+brew 'zsh-autosuggestions'
 brew 'tmux'
 brew 'autojump'
 brew 'mas'
@@ -28,7 +29,6 @@ brew 'the_silver_searcher'
 brew 'jq'
 
 tap 'homebrew/cask-fonts'
-brew 'ricty'
 cask 'font-ricty-diminished'
 
 # tile manager
@@ -39,8 +39,6 @@ brew 'koekeishiya/formulae/skhd'
 brew 'awscli'
 
 brew 'terraform'
-
-brew 'circleci'
 
 brew 'mysql'
 brew 'redis'
@@ -62,7 +60,7 @@ brew 'qemu'
 brew 'nasm'
 brew 'bochs'
 
-# brew 'telegraf'
+brew 'telegraf'
 
 # Install with homebrew-casks
 # Available apps: https://github.com/phinze/homebrew-cask/tree/master/Casks
@@ -76,11 +74,21 @@ cask 'google-japanese-ime'
 cask 'macvim'
 cask 'sequel-pro'
 cask 'iterm2'
-cask 'hammerspoon'
-cask 'cmd-eikana' # ⌘英かな
 cask 'slack'
+cask 'zoom'
+cask 'lastpass'
+cask 'kindle'
+cask 'notion'
+cask 'hey'
 
-mas 'Airmail 4', id: 918858936
-mas 'Pocket', id: 568494494
+# (M1 Macと?)互換性がないので使えないというエラーが出たので
+# Brewfileではインストールしない。手動でインストールすること
+# mas 'Trello', id: 461504587
+mas 'TweetDeck', id: 485812721
 
 # append brew settings on the situation. private or work
+# Brewfile only for private use
+
+cask 'dropbox'
+cask 'vagrant'
+cask 'virtualbox'
