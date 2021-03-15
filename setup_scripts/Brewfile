@@ -80,6 +80,7 @@ cask 'lastpass'
 cask 'kindle'
 cask 'notion'
 cask 'hey'
+cask 'cmd-eikana' # ⌘英かな
 
 # (M1 Macと?)互換性がないので使えないというエラーが出たので
 # Brewfileではインストールしない。手動でインストールすること
