@@ -38,6 +38,8 @@ brew 'koekeishiya/formulae/skhd'
 # for AWS Commandline Interface
 brew 'awscli'
 
+brew 'terraform'
+
 brew 'circleci'
 
 brew 'mysql'
@@ -49,6 +51,7 @@ brew 'watch'
 brew 'htop'
 
 brew 'docker-machine'
+brew 'minikube'
 
 # for risc-v and xv6
 tap  'riscv/riscv'
