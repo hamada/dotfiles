@@ -266,6 +266,7 @@ if dein#load_state('~/.cache/dein')
   call dein#add('rhysd/vim-textobj-ruby')
   call dein#add('slim-template/vim-slim')
   call dein#add('plasticboy/vim-markdown')
+  call dein#add('cespare/vim-toml')
   call dein#add('akira-hamada/friendly-grep.vim')
 
   call dein#end()
