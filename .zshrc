@@ -16,7 +16,26 @@ setopt nobeep
 setopt correct
 
 # Start tmux session at zsh login
-[[ -z "$TMUX" && ! -z "$PS1" ]] && tmux
+# You can select a session if any tmux session already exists.
+#   ref: https://qiita.com/ssh0/items/a9956a74bff8254a606a
+export PERCOL="peco"
+if [[ ! -n $TMUX && $- == *l* ]]; then
+  # get the IDs
+  ID="`tmux list-sessions`"
+  if [[ -z "$ID" ]]; then
+    tmux new-session
+  fi
+  create_new_session="Create New Session"
+  ID="$ID\n${create_new_session}:"
+  ID="`echo $ID | $PERCOL | cut -d: -f1`"
+  if [[ "$ID" = "${create_new_session}" ]]; then
+    tmux new-session
+  elif [[ -n "$ID" ]]; then
+    tmux attach-session -t "$ID"
+  else
+    :  # Start terminal normally
+  fi
+fi
 
 bindkey -v #keybind vi like
 export EDITOR=vi
