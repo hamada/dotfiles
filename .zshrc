@@ -15,6 +15,8 @@ setopt hist_ignore_dups
 setopt nobeep
 setopt correct
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # Start tmux session at zsh login
 # You can select a session if any tmux session already exists.
 #   ref: https://qiita.com/ssh0/items/a9956a74bff8254a606a
