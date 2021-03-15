@@ -73,8 +73,15 @@ set foldlevel=99
 " Disable vim-markdown folding. because vim-markdown sets `foldmethod=expr` arbitrarily.
 let g:vim_markdown_folding_disabled = 1
 
-" use brew installed python
-set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.9/Python
+" settings for M1 Mac
+if system("uname -m") == "arm64\n"
+  " use brew installed python for nvim-yarp (ref: https://github.com/roxma/nvim-yarp)
+  let g:python3_host_prog='/opt/homebrew/bin/python3'
+else
+  " settings Intel Mac
+  " use brew installed python
+  set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.9/Python
+endif
 
 autocmd FileType php :set dictionary=~/.vim/dictionary/php.dict
 
