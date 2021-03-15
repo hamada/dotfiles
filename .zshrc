@@ -54,6 +54,9 @@ alias gdc="git diff --cached"
 # tmux alias
 alias tn="tmux new -t"
 
+# docker, kubernetes alias
+alias k="kubectl"
+
 # gpo() {
 	# local branch=$*;
   # if [ -n "$branch" ]; then
