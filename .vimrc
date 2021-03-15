@@ -70,8 +70,8 @@ set shortmess-=S
 " https://stackoverflow.com/questions/8316139/how-to-set-the-default-to-unfolded-when-you-open-a-file
 set foldlevel=99
 
-" specify manual. because something set this option `expr`.
-set foldmethod=manual
+" Disable vim-markdown folding. because vim-markdown sets `foldmethod=expr` arbitrarily.
+let g:vim_markdown_folding_disabled = 1
 
 " use brew installed python
 set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.9/Python
