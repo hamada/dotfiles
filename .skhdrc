@@ -11,14 +11,14 @@
 # setup
 #
 #   1. homebrewでyabaiとskhdをインスール
+#   1. put `.yabairc` and `.skhdrc` on $HOME/
 #   1. 環境設定 > Mission Control で「ディスプレイごとに個別の操作スペース」をONにする 
 #     - これをしないとyabaiは使えず、エラーログに"yabai: 'display has separate spaces' is disabled! abort.." と出力される
-#   1. 環境設定のアクセシビリティで、yabaiとskhdを許可
-#   1. put `.yabairc` and `.skhdrc` on $HOME/
-#   1. yabaiとskhdをMac起動時に自動で起動するように設定
 #   1. yabaiとskhdを起動
 #     - `$ brew services start koekeishiya/formulae/yabai`
 #     - `$ brew services start skhd`
+#     - 起動すると 環境設定 > セキュリティ > アクセシビリティでyabaiとskhdを許可するように促されるので許可する。
+#   1. yabaiとskhdをMac起動時に自動で起動するように設定
 #
 # relaunch
 #
