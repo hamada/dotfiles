@@ -119,7 +119,7 @@ export PATH=/usr/local/bin:$PATH
 
 # for nvm
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh" # loads nvm
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh" # loads nvm
 
 # for zsh-autosuggestions
 # ref: https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#manual-git-clone
