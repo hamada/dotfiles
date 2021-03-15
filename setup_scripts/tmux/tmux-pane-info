@@ -5,7 +5,7 @@
 # Do following setups to use
 #   1. make this script executable with `$ chmod u+x`
 #   1. create alias of this script in /usr/local/bin
-#     - `$ ln -s ~/dotfiles/setup_scripts/tmux/tmux-pane-info /usr/local/bin/tmux-pane-info`
+#     - `$ sudo ln -s ~/dotfiles/setup_scripts/tmux/tmux-pane-info /usr/local/bin/tmux-pane-info`
 #   1. call this script from `.tmux.conf` like following
 #     - `set -g pane-border-format "#(tmux-pane-border '#{pane_current_path}')"`
 
