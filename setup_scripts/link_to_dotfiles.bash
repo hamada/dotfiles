@@ -9,4 +9,4 @@ ln -s ~/dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/.yabairc ~/.yabairc
 ln -s ~/dotfiles/.skhdrc ~/.skhdrc
-ln -s ~/dotfiles/.config ~/.config
+ln -s ~/dotfiles/.config/karabiner/assets/complex_modifications ~/.config/karabiner/assets/complex_modifications
