@@ -23,15 +23,28 @@ class Filter(Base):
         ignorecase = context['ignorecase']
         if context['input'] == '':
             return candidates
-
         pattern = context['input']
+
         if ignorecase:
             pattern = pattern.lower()
-            candidates = [x for x in candidates
-                          if pattern in basename(x['word'].lower())]
+            # basenameにpatternが含まれればmatch
+            # matched_candidates = [x for x in candidates
+                          # if pattern in basename(x['word'].lower())]
+
+            # patternを正規表現として扱い、正規表現にmatchしたものを返す
+            try:
+                # 入力を正規表現に変換
+                p = re.compile(pattern, flags=re.IGNORECASE)
+            except Exception:
+                return []
+            matched_candidates = [x for x in candidates if p.search(basename(x['word'].lower()))]
         else:
-            candidates = [x for x in candidates if pattern in basename(x['word'])]
-        return candidates
+            matched_candidates = [x for x in candidates if pattern in basename(x['word'])]
+
+        return matched_candidates
+        # マッチしたものをマッチ率が高いもの順に並び替えして返す (なんか並び替わってるけどうまく行ってないかも？要確認)
+        # return sorted(matched_candidates, key=lambda candidate: -(len(basename(candidate['word']))))
+        # return sorted(matched_candidates, key=lambda candidate: -(len(re.search(pattern, basename(candidate['word'])).group(0))/len(basename(candidate['word']))))
 
     def convert_pattern(self, input_str: str) -> str:
         return '|'.join([re.escape(x) for x in split_input(input_str)])
