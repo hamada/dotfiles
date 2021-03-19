@@ -121,6 +121,10 @@ export PATH=/usr/local/bin:$PATH
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh" # loads nvm
 
+# for gatsby
+# ref: https://qiita.com/yudwig/items/c533f676b7b8015da723
+export PKG_CONFIG_PATH="/opt/homebrew/opt/zlib/lib/pkgconfig"
+
 # for zsh-autosuggestions
 # ref: https://formulae.brew.sh/formula/zsh-autosuggestions
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh

@@ -14,6 +14,17 @@ brew 'zsh-autosuggestions'
 brew 'tmux'
 brew 'autojump'
 brew 'mas'
+brew 'firebase-cli'
+
+# these for gatsbyjs in M1 Mac
+# ref: https://qiita.com/yudwig/items/c533f676b7b8015da723
+brew 'pkg-config'
+brew 'glib'
+brew 'zlib'
+brew 'libjpeg-turbo'
+brew 'libpng'
+brew 'webp'
+brew 'vips' # know as libvips
 
 brew 'rbenv'
 brew 'ruby-build'
