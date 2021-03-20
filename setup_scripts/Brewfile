@@ -59,7 +59,11 @@ brew 'wget'
 brew 'watch'
 brew 'htop'
 
-brew 'docker-machine'
+# M1 Mac対応するまではDocker-DesktopをGUIから普通にインストールする
+# brew 'docker'
+# 下記の説明を見ると、Doker-Desktop使うならもうdocker-machineは必要無いかも
+# https://docs.docker.jp/machine/overview.html#what-is-docker-machine
+# brew 'docker-machine'
 brew 'minikube'
 
 # for risc-v and xv6
@@ -92,6 +96,10 @@ cask 'kindle'
 cask 'notion'
 cask 'hey'
 cask 'cmd-eikana' # ⌘英かな
+# とりあえず書いてるけど2021年3月20日時点では、brew経由ではM1 Mac対応のdocker-desktopはダウンロード出来ないので
+# https://docs.docker.com/docker-for-mac/apple-m1/ からM1 Mac対応の Docker Desktop RC 1(2021-03-18 published)を
+# インストールした
+# cask 'docker' # docker-desktop
 
 # (M1 Macと?)互換性がないので使えないというエラーが出たので
 # Brewfileではインストールしない。手動でインストールすること
