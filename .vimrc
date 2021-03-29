@@ -278,6 +278,7 @@ if dein#load_state('~/.cache/dein')
   call dein#add('plasticboy/vim-markdown')
   call dein#add('cespare/vim-toml')
   call dein#add('akira-hamada/friendly-grep.vim')
+  call dein#add('hashivim/vim-terraform')
 
   call dein#end()
   call dein#save_state()
