@@ -1,3 +1,5 @@
+arch_name="$(uname -m)" # to detect M1 mac or Intel Mac (ref: https://cutecoder.org/software/detecting-apple-silicon-shell-script/)
+
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 setopt no_complete_aliases
 export LANG=ja_JP.UTF-8
@@ -15,7 +17,9 @@ setopt hist_ignore_dups
 setopt nobeep
 setopt correct
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if [ "${arch_name}" = "arm64" ]; then # M1 Mac
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # Start tmux session at zsh login
 # You can select a session if any tmux session already exists.
@@ -119,7 +123,11 @@ export PATH=/usr/local/bin:$PATH
 
 # for nvm
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh" # loads nvm
+if [ "${arch_name}" = "x86_64" ]; then # Intel Mac
+  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh" # loads nvm
+else # M1 Mac
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh" # loads nvm
+fi
 
 # for gatsby
 # ref: https://qiita.com/yudwig/items/c533f676b7b8015da723
