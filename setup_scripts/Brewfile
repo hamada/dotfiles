@@ -8,6 +8,7 @@
 tap 'homebrew/bundle'
 
 brew 'git'
+brew 'git-delta'
 brew 'gh'
 brew 'zsh'
 brew 'zsh-autosuggestions'

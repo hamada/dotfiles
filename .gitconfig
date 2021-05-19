@@ -5,6 +5,7 @@
   keepBackup = true
 [core]
 	editor = vim
+  pager = delta
 	excludesfile = /Users/akira/.gitignore
 [pretty]
   medium-reverse = format:%C(red reverse)%d%Creset%C(white reverse) %h% Creset %C(green reverse) %an %Creset %C(cyan)%ar%Creset%n%C(white bold)%w(80)%s%Creset%n%n%w(80,2,2)%b
@@ -29,3 +30,12 @@
 	required = true
 [pull]
 	rebase = false
+[interactive]
+  diffFilter = delta --color-only
+[delta] # ref: https://github.com/dandavison/delta/blob/master/README.md
+  diff-so-fancy=true
+  keep-plus-minus-markers=true
+  minus-emph-style="red bold auto"
+  plus-emph-style="green bold auto"
+  hunk-header-style="omit"
+  line-numbers=true
