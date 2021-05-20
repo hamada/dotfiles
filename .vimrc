@@ -70,6 +70,9 @@ set shortmess-=S
 " https://stackoverflow.com/questions/8316139/how-to-set-the-default-to-unfolded-when-you-open-a-file
 set foldlevel=99
 
+" customoize fold text style
+set foldtext=getline(v:foldstart)
+
 " Disable vim-markdown folding. because vim-markdown sets `foldmethod=expr` arbitrarily.
 let g:vim_markdown_folding_disabled = 1
 
