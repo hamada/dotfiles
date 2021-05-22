@@ -67,7 +67,6 @@ if [[ $(command -v exa) ]]; then
 else
   alias ls=' ls -G' # ls with coloring
 fi
-alias pr='powder restart; powder applog'
 
 # git alias
 alias g="git"
@@ -78,10 +77,6 @@ alias gch="git checkout"
 alias gnb="git checkout -b"
 alias gb="git branch"
 alias gdb="git branch -d"
-alias gm="git merge"
-alias gpull="git pull origin master; growlnotify -m Done!;"
-alias gph="git push heroku master; growlnotify -m Done!;"
-alias gps="git push staging master; growlnotify -m Done!;"
 alias gst="git status"
 alias gd="git diff"
 alias gdc="git diff --cached"
@@ -100,12 +95,6 @@ alias k="kubectl"
   # fi
 # }
 
-# rake alias
-alias rdm="echo rake db:migrate; rake db:migrate; growlnotify -m Done!; echo next rdtp;"
-alias rdtp="echo rake db:test:prepare; rake db:test:prepare; growlnotify -m Done!; echo next rdp;"
-alias rdp="echo rake db:populate; rake db:populate; growlnotify -m Done!; echo next rds;"
-alias rds="echo rake db:seed; rake db:seed; growlnotify -m Done!; echo next gnb;"
-
 # add Path to my pivotaltracker commands
 PATH="$PATH":~/commands
 
@@ -123,9 +112,6 @@ precmd () {
 [ -f $(brew --prefix)/etc/profile.d/autojump.sh ] && . $(brew --prefix)/etc/profile.d/autojump.sh
 
 autoload -U compinit && compinit -u
-
-#for growl
-growl() { echo -e $'\e]9;'${1}'\007' ; return  ; }
 
 export PATH=/usr/local/bin:$PATH
 #PATH=/opt/local/bin:/opt/local/sbin:$PATH
