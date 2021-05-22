@@ -9,7 +9,12 @@ setopt auto_pushd #use cd -<TAB>
 setopt pushd_ignore_dups
 
 export LSCOLORS="gxfxcxdxbxegedabagacad"
-
+# colors for exa (ref: https://the.exa.website/docs/colour-themes)
+#   Basic format is `part_name=fgcolor;bgcolor;effect:`
+#   Special format for ANSI 256 color. `nnn` is ANSI 256 color number (ref: https://jonasjacek.github.io/colors/)
+#     - Foreground: `38;5;nnn` 
+#     - Background: `48;5;nnn`
+export EXA_COLORS="ur=38;5;3;1:uw=38;5;5;1:ux=38;5;1;1:ue=38;5;1;1:gr=38;5;249:gw=38;5;249:gx=38;5;249:tr=38;5;249:tw=38;5;249:tx=38;5;249:xa=38;5;12:sn=38;5;7:sb=38;5;7:uu=38;5;249:un=38;5;241:gu=38;5;245:gn=38;5;241:da=38;5;245:fi=38;5;15:di=38;5;45:ex=38;5;1:*.png=38;5;4:*.jpg=38;5;4:*.gif=38;5;4"
 
 setopt hist_ignore_space
 setopt hist_ignore_dups
@@ -56,7 +61,12 @@ PROMPT=%F{green}'$ '%f
 
 #alias
 alias rm='rm -i'
-alias ls=' ls -G' #ls with coloring
+if [[ $(command -v exa) ]]; then
+  alias ls=' exa'
+  alias l=' exa -alh --time-style long-iso'
+else
+  alias ls=' ls -G' # ls with coloring
+fi
 alias pr='powder restart; powder applog'
 
 # git alias
