@@ -257,7 +257,7 @@ if dein#load_state('~/.cache/dein')
     call dein#add('roxma/vim-hug-neovim-rpc') " needed for denite and vim 8
   endif
   call dein#add('vim-scripts/quickrun.vim')
-  call dein#add('SirVer/ultisnips')
+  call dein#add('SirVer/ultisnips') " commentout for now. a error happens
   call dein#add('vim-scripts/The-NERD-Commenter')
   call dein#add('vim-scripts/operator-user')
   call dein#add('vim-scripts/operator-replace')
@@ -486,18 +486,20 @@ endfunction
 "         - https://github.com/kenjinino/vim-ultisnips-ruby/blob/master/ruby_snipmate.snippets
 "----------------------------------------------------------------------------
 let g:UltiSnipsExpandTrigger = "<C-k>"
-let g:UltiSnipsJumpForwardTrigger = "<c-k>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-b>"
+let g:UltiSnipsJumpForwardTrigger = "<C-k>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-b>"
+
+let g:UltiSnipsEditSplit="vertical"
 " load my own snippets (.vim/snippets/ is old directory)
 let g:UltiSnipsSnippetDirectories = ['UltiSnips',$HOME.'/.vim/UltiSnips']
+" edit snippets file
+nnoremap <silent> <C-f> :UltiSnipsEdit<CR>
 
 " customize neocomplcache.vim
 " let g:neocomplcache_enable_auto_select = 1 " auto select first of options
 " let g:neocomplcache_auto_completion_start_length = 3 " start to complete after 3 chars
 " let g:neocomplcache_lock_iminsert = 1 " not use neocomplcache when IME is ON
 
-" edit snippets file
-" nnoremap <silent> <C-f> :<C-u>tabe %<CR>:<C-u>NeoSnippetEdit<CR>
 "----------------------------------------------------------------------------
 
 " -------------------------------
