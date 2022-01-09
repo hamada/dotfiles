@@ -15,6 +15,7 @@ brew 'tmux'
 brew 'autojump'
 brew 'mas'
 brew 'firebase-cli'
+brew 'vim' # I don't use Mac installed vim, because I need python3 supported vim for UltiSnippet.
 
 # these for gatsbyjs in M1 Mac
 # ref: https://qiita.com/yudwig/items/c533f676b7b8015da723
