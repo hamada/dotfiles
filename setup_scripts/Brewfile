@@ -83,6 +83,12 @@ brew 'bochs'
 
 brew 'telegraf'
 
+# for my own keyboard
+brew 'qmk/qmk/qmk'
+# for qmk-toolbox
+tap 'homebrew/cask-drivers'
+cask 'qmk-toolbox'
+
 # Install with homebrew-casks
 # Available apps: https://github.com/phinze/homebrew-cask/tree/master/Casks
 cask_args appdir: "/Applications"
