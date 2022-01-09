@@ -257,7 +257,7 @@ if dein#load_state('~/.cache/dein')
     call dein#add('roxma/vim-hug-neovim-rpc') " needed for denite and vim 8
   endif
   call dein#add('vim-scripts/quickrun.vim')
-  call dein#add('SirVer/ultisnips') " commentout for now. a error happens
+  call dein#add('SirVer/ultisnips')
   call dein#add('vim-scripts/The-NERD-Commenter')
   call dein#add('vim-scripts/operator-user')
   call dein#add('vim-scripts/operator-replace')
