@@ -54,6 +54,9 @@ brew 'terraform'
 
 brew 'mysql'
 brew 'redis'
+brew 'planetscale/tap/pscale'
+# planetscale requires this for for certain commands.
+brew 'mysql-client'
 
 brew 'httperf'
 brew 'wget'
@@ -79,6 +82,12 @@ brew 'nasm'
 brew 'bochs'
 
 brew 'telegraf'
+
+# for my own keyboard
+brew 'qmk/qmk/qmk'
+# for qmk-toolbox
+tap 'homebrew/cask-drivers'
+cask 'qmk-toolbox'
 
 # Install with homebrew-casks
 # Available apps: https://github.com/phinze/homebrew-cask/tree/master/Casks
