@@ -133,6 +133,11 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/zlib/lib/pkgconfig"
 # ref: https://formulae.brew.sh/formula/zsh-autosuggestions
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#0099ff"
+# bind forward-word to ctrl-k. ref: https://oovu70.hatenadiary.org/entry/20120405/p1
+bindkey "^K" forward-word
+ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
+  forward-word
+)
 
 #-------------------------------------------------------
 # peco commands
