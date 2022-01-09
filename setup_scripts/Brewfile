@@ -54,6 +54,9 @@ brew 'terraform'
 
 brew 'mysql'
 brew 'redis'
+brew 'planetscale/tap/pscale'
+# planetscale requires this for for certain commands.
+brew 'mysql-client'
 
 brew 'httperf'
 brew 'wget'
