@@ -17,16 +17,6 @@ brew 'mas'
 brew 'firebase-cli'
 brew 'vim' # I don't use Mac installed vim, because I need python3 supported vim for UltiSnippet.
 
-# these for gatsbyjs in M1 Mac
-# ref: https://qiita.com/yudwig/items/c533f676b7b8015da723
-brew 'pkg-config'
-brew 'glib'
-brew 'zlib'
-brew 'libjpeg-turbo'
-brew 'libpng'
-brew 'webp'
-brew 'vips' # know as libvips
-
 brew 'rbenv'
 brew 'ruby-build'
 brew 'nvm' # node version manager
