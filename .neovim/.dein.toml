@@ -1,5 +1,10 @@
 [[plugins]]
 repo = 'vim-scripts/ShowMarks'
+hook_add = '''
+lua <<EOF
+vim.g.showmarks_include = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+EOF
+'''
 
 [[plugins]]
 repo = 'vim-scripts/surround.vim'

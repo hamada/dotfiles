@@ -318,14 +318,10 @@ vnoremap <silent> <C-d> :call DupLines()<CR>
     execute 'normal '.ori_pos.'gg'
   endfunction "}}}
 
-" Settings for showmarks.vim
-"--------------------------------------------------------------------------------------------
-let g:showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-"--------------------------------------------------------------------------------------------
-
 " Settings for Github Copilot
 "--------------------------------------------------------------------------------------------
 " NOTE: you have to install node and `npm install --global neovim`
+" NOTE: if you write this on .dein.toml, it doesn't work. that's why I write here.
 " NOTE: g:node_host_prog doesn't work. use `g:copilot_node_command`
 "       ref: https://github.com/orgs/community/discussions/13310#discussioncomment-2511090
 let g:copilot_node_command = "/Users/akira/.nvm/versions/node/v18.16.1/bin/node"
