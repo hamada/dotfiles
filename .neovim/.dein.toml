@@ -1,0 +1,108 @@
+[[plugins]]
+repo = 'vim-scripts/ShowMarks'
+
+[[plugins]]
+repo = 'vim-scripts/surround.vim'
+
+[[plugins]]
+repo = 'vim-scripts/The-NERD-Commenter'
+
+[[plugins]]
+repo = 'vim-scripts/operator-user'
+
+[[plugins]]
+repo = 'vim-scripts/operator-replace'
+
+[[plugins]]
+repo = 'nvim-telescope/telescope.nvim'
+rev = '0.1.2'
+depends = ['nvim-lua/plenary.nvim']
+
+hook_add = '''
+lua <<EOF
+require('telescope').setup{
+  defaults = {
+    hidden = true,
+    layout_config = { height = 0.9, prompt_position = 'top' },
+    sorting_strategy = 'ascending',
+    mappings = {
+      n = {
+        ["q"] = require('telescope.actions').close,
+        ["v"] = require('telescope.actions').select_vertical,
+      }
+    }
+  },
+
+  pickers = {
+    find_files = {
+      mappings = {
+        n = {
+          ["<CR>"] = require('telescope.actions').select_tab,
+        },
+        i = {
+          ["<CR>"] = require('telescope.actions').select_tab,
+        },
+      },
+    }
+  }
+}
+
+vim.api.nvim_set_keymap(
+  "n",
+  ",F",
+  ":Telescope filetypes<CR>",
+  { noremap = true }
+)
+EOF
+'''
+
+[[plugins]]
+repo = 'nvim-lua/plenary.nvim'
+
+[[plugins]]
+# for other refs: https://zenn.dev/takuya/articles/4472285edbc132
+repo = 'nvim-telescope/telescope-file-browser.nvim'
+depends = ['nvim-telescope/telescope.nvim', 'nvim-tree/nvim-web-devicons']
+
+hook_add = '''
+lua <<EOF
+vim.api.nvim_set_keymap(
+  "n",
+  ",f",
+  ":Telescope file_browser path=%:p:h select_buffer=true hidden=true hide_parent_dir=true<CR>",
+  { noremap = true }
+)
+
+local fb_actions = require "telescope".extensions.file_browser.actions
+mappings = {
+  i = {
+      ["<C-w>"] = fb_actions.goto_parent_dir
+  },
+},
+
+require("telescope").load_extension "file_browser"
+EOF
+'''
+
+[[plugins]]
+repo = 'nvim-tree/nvim-web-devicons'
+# then, did the followings
+#   1. installed font via `$ brew install font-hack-nerd-font`
+#   2. set guifont to `Hack\ Nerd\ Font`
+
+[[plugins]]
+repo = 'nvim-treesitter/nvim-treesitter'
+
+[[plugins]]
+repo = 'github/copilot.vim'
+# hook_source = 'let g:copilot_node_command = "/Users/akira/.nvm/versions/node/v18.16.1/bin/node"'
+
+[[plugins]]
+repo = 'sainnhe/sonokai'
+
+hook_add = '''
+lua <<EOF
+vim.cmd 'let g:sonokai_better_performance = 1'
+vim.cmd 'colorscheme sonokai'
+EOF
+'''
