@@ -1,0 +1,135 @@
+{
+    "Class definition": {
+        "prefix": "class",
+        "body": ["class ${1:ClassName}", "\t$0", "end"]
+    },
+    "for loop": {
+        "prefix": "for",
+        "body": ["for ${1:value} in ${2:enumerable} do", "\t$0", "end"]
+    },
+    "if": {
+        "prefix": "if",
+        "body": ["if ${1:test}", "\t$0", "end"]
+    },
+    "if else": {
+        "prefix": "ife",
+        "body": ["if ${1:test}", "\t$2", "else", "\t$0", "end"]
+    },
+    "if elsif": {
+        "prefix": "ifei",
+        "body": ["if ${1:test}", "\t$2", "elsif ${3:test}", "\t$0", "end"]
+    },
+    "if elsif else": {
+        "prefix": "ifee",
+        "body": ["if ${1:test}", "\t$2", "elsif ${3:test}", "\t$4", "else", "\t$0", "end"]
+    },
+    "case": {
+        "prefix": "case",
+        "body": [
+            "case ${1:test}",
+            "when $2",
+            "\t$3",
+            "when $4",
+            "\t$5",
+            "else",
+            "\t$6",
+            "end"
+        ]
+    },
+    "Module definition": {
+        "prefix": "module",
+        "body": ["module ${1:ModuleName}", "\t$0", "end"]
+    },
+    "unless": {
+        "prefix": "unless",
+        "body": ["unless ${1:test}", "\t$0", "end"]
+    },
+    "until loop": {
+        "prefix": "until",
+        "body": ["until ${1:test}", "\t$0", "end"]
+    },
+    "while loop": {
+        "prefix": "while",
+        "body": ["while ${1:test}", "\t$0", "end"]
+    },
+    "method definition": {
+        "prefix": "def",
+        "body": ["def ${1:method_name}", "\t$0", "end"]
+    },
+    "Insert do … end block": {
+        "prefix": "do",
+        "body": ["do", "\t$0", "end"]
+    },
+    "Insert do |variable| … end block": {
+        "prefix": "dop",
+        "body": ["do |${1:variable}|", "\t$0", "end"]
+    },
+    "Insert frozen literal string": {
+        "prefix": "frozen",
+        "body": ["# frozen_string_literal: true", "", "", ""]
+    },
+    "Insert require": {
+        "prefix": "req",
+        "body": "require '${1}'$0"
+    },
+    "Insert pry call": {
+        "prefix": "pry",
+        "body": ["require 'pry'", "binding.pry"]
+    },
+    "Insert RSpec.describe class": {
+        "prefix": "rdesc",
+        "body": ["RSpec.describe ${1:described_class} do", "\t$0", "end"]
+    },
+    "Insert describe class": {
+        "prefix": "desc",
+        "body": ["describe ${1:described_class} do", "\t$0", "end"]
+    },
+    "Insert context block": {
+        "prefix": "context",
+        "body": ["context '${1:message}' do", "\t$0", "end"]
+    },
+    "Insert before block": {
+        "prefix": "bef",
+        "body": ["before :${1:each} do", "\t$0", "end"]
+    },
+    "Insert let": {
+        "prefix": "let",
+        "body": "let(:${1:object}) { $0 }"
+    },
+    "Insert let!": {
+        "prefix": "let!",
+        "body": "let!(:${1:object}) { $0 }"
+    },
+    "Insert subject definition": {
+        "prefix": "subj",
+        "body": "subject(:${1:name}) { $0 }"
+    },
+    "Insert expect": {
+        "prefix": "exp",
+        "body": "expect(${1:object}).to ${0}"
+    },
+    "Insert expect with block": {
+        "prefix": "expb",
+        "body": "expect { ${1:object} }.to ${0}"
+    },
+    "Insert expect with raise_error": {
+        "prefix": "experr",
+        "body": "expect { ${1:object} }.to raise_error ${2:StandardError}"
+    },
+    "Insert allow": {
+        "prefix": "allow",
+        "body": "allow(${1:object}).to $0"
+    },
+    "Insert shared_examples": {
+        "prefix": "shared",
+        "body": "shared_examples '${0:shared examples name}'"
+    },
+    "Insert it_behaves_like": {
+        "prefix": "ibl",
+        "body": "it_behaves_like '${0:shared examples name}'"
+    },
+    "Insert it block": {
+        "prefix": "it",
+        "body": ["it '${1:spec_name}' do", "\t$0", "end"]
+    }
+}

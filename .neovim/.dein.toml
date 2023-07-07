@@ -106,3 +106,18 @@ vim.cmd 'let g:sonokai_better_performance = 1'
 vim.cmd 'colorscheme sonokai'
 EOF
 '''
+
+[[plugins]]
+repo = 'hrsh7th/vim-vsnip'
+depends = ['hrsh7th/vim-vsnip-integ']
+# snippets are in $HOME/.vsnip/ directory
+# helpful snippets comes from https://github.com/rafamadriz/friendly-snippets
+hook_add = '''
+lua <<EOF
+vim.g.vsnip_snippet_dir = '/Users/akira/.neovim/vsnip'
+vim.cmd "imap <expr> <C-k> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-k>'"
+EOF
+'''
+
+[[plugins]]
+repo = 'hrsh7th/vim-vsnip-integ'
