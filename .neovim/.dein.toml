@@ -79,11 +79,28 @@ vim.api.nvim_set_keymap(
 )
 
 local fb_actions = require "telescope".extensions.file_browser.actions
-mappings = {
-  i = {
-      ["<C-w>"] = fb_actions.goto_parent_dir
+require("telescope").setup {
+  extensions = {
+    file_browser = {
+      mappings = {
+        i = {
+          ["<C-h>"] = false,
+          ["<bs>"] = false,
+          ["<C-w>"] = function(prompt_bufnr, bypass)
+             local action_state = require "telescope.actions.state"
+             local current_picker = action_state.get_current_picker(prompt_bufnr)
+
+             if current_picker:_get_prompt() == "" then
+               fb_actions.goto_parent_dir(prompt_bufnr, bypass)
+             else
+               vim.cmd "normal! ciw"
+             end
+           end,
+        }
+      },
+    },
   },
-},
+}
 
 require("telescope").load_extension "file_browser"
 EOF
