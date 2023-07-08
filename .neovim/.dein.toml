@@ -86,6 +86,8 @@ require("telescope").setup {
         i = {
           ["<C-h>"] = false,
           ["<bs>"] = false,
+          -- originally this comes from https://github.com/nvim-telescope/telescope-file-browser.nvim/blob/e03ff55962417b69c85ef41424079bb0580546ba/lua/telescope/_extensions/file_browser/actions.lua#L761
+          -- I customized it.
           ["<C-w>"] = function(prompt_bufnr, bypass)
              local action_state = require "telescope.actions.state"
              local current_picker = action_state.get_current_picker(prompt_bufnr)
@@ -93,6 +95,7 @@ require("telescope").setup {
              if current_picker:_get_prompt() == "" then
                fb_actions.goto_parent_dir(prompt_bufnr, bypass)
              else
+               -- remove word, keeping insert mode.
                vim.cmd "normal! ciw"
              end
            end,
