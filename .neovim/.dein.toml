@@ -34,7 +34,7 @@ require('telescope').setup{
       n = {
         ["q"] = require('telescope.actions').close,
         ["v"] = require('telescope.actions').select_vertical,
-      }
+      },
     }
   },
 
@@ -48,7 +48,7 @@ require('telescope').setup{
           ["<CR>"] = require('telescope.actions').select_tab,
         },
       },
-    }
+    },
   }
 }
 
@@ -56,6 +56,13 @@ vim.api.nvim_set_keymap(
   "n",
   ",F",
   ":Telescope filetypes<CR>",
+  { noremap = true }
+)
+
+vim.api.nvim_set_keymap(
+  "n",
+  ",b",
+  ":luafile /Users/akira/code/lua/telescope_file_bookmarks_picker.lua<CR>",
   { noremap = true }
 )
 EOF
@@ -82,8 +89,17 @@ local fb_actions = require "telescope".extensions.file_browser.actions
 require("telescope").setup {
   extensions = {
     file_browser = {
+      path="%:p:h",
+      hidden = true,
+      hide_parent_dir = true,
+      hijack_netrw = true,
+      file_ignore_patterns = {".DS_Store", ".Trash", ".CFUserTextEncoding"},
       mappings = {
+        n = {
+          ["<CR>"] = require('telescope.actions').select_tab,
+        },
         i = {
+          ["<CR>"] = require('telescope.actions').select_tab,
           ["<C-h>"] = false,
           ["<bs>"] = false,
           -- originally this comes from https://github.com/nvim-telescope/telescope-file-browser.nvim/blob/e03ff55962417b69c85ef41424079bb0580546ba/lua/telescope/_extensions/file_browser/actions.lua#L761
@@ -146,3 +162,44 @@ EOF
 
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip-integ'
+
+[[plugins]]
+repo = 'MattesGroeger/vim-bookmarks'
+hook_add = '''
+lua <<EOF
+vim.g.bookmark_sign = '♥'
+vim.g.bookmark_highlight_lines = 1
+vim.g.bookmark_auto_save_file = '/Users/akira/.neovim/.vim-bookmarks'
+vim.g.bookmark_auto_save = 0
+EOF
+'''
+
+[[plugins]]
+repo = 'tom-anders/telescope-vim-bookmarks.nvim'
+depends = ['nvim-telescope/telescope.nvim', 'MattesGroeger/vim-bookmarks']
+hook_add = '''
+lua <<EOF
+-- vim.api.nvim_set_keymap(
+--   "n",
+--   ",b",
+--   ":Telescope vim_bookmarks all tail_path=false width_text=30<CR>",
+--   { noremap = true }
+-- )
+-- 
+-- require("telescope").setup {
+--   extensions = {
+--     vim_bookmarks = {
+--       mappings = {
+--         n = {
+--           ["<CR>"] = require('telescope.actions').select_tab,
+--         },
+--         i = {
+--           ["<CR>"] = require('telescope.actions').select_tab,
+--         }
+--       }
+--     }
+--   }
+-- }
+-- require('telescope').load_extension('vim_bookmarks')
+EOF
+'''
