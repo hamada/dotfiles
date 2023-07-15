@@ -1,5 +1,3 @@
--- init.lua for migration
-
 --**************************************************************
 -- Memo
 --**************************************************************
@@ -13,6 +11,15 @@
 --    ref: 
 --      - https://applech2.com/archives/20211107-vimr-neovim-gui-for-macos-in-swift-support-apple-silicon.html
 --      - https://applech2.com/archives/20211107-vimr-neovim-gui-for-macos-in-swift-support-apple-silicon.html
+--
+--  About lua
+--    refs
+--      - https://github.com/willelz/nvim-lua-guide-ja/blob/master/README.ja.md
+--      - https://zenn.dev/hisasann/articles/neovim-settings-to-lua
+--      - https://zenn.dev/slin/articles/2020-11-03-neovim-lua2
+--      - https://riq0h.jp/2023/01/20/210601/
+--      - https://uhoho.hatenablog.jp/entry/2023/05/18/063603
+--      - https://joker1007.hatenablog.com/entry/2022/09/03/172957
 --**************************************************************
 -- Basic Settings
 --**************************************************************
