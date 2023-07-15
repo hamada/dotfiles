@@ -204,7 +204,7 @@ vim.keymap.set('n', '<SPACE>', '<PageDown>zz', { noremap = true })
 vim.keymap.set('n', '<D-SPACE>', '<PageUp>zz', { noremap = true })
 
 -- OPTIMIZE: convert these into lua style. I don't know why but these doesn't work
-vim.cmd("nnoremap <C-e> :<C-u>tabnew ~/.config/nvim/init.lua<Enter> :se nowrap<Enter>:<C-u>90vs ~/.neovim/.dein.toml<Enter> :se nowrap<Enter>")
+vim.cmd("nnoremap <C-e> :<C-u>105vs ~/.config/nvim/init.lua<Enter> :se nowrap<Enter>")
 vim.cmd("nnoremap <C-s> :<C-u>source ~/.config/nvim/init.lua<Enter>")
 -- vim.keymap.set('n', '<C-e>', '<C-u>tabnew ~/.config/nvim/init.lua<Enter> :se nowrap<Enter>:<C-u>90vs ~/.neovim/.dein.toml<Enter> :se nowrap<Enter>', { noremap = true })
 -- vim.keymap.set('n', '<C-s>', '<C-u>source ~/.config/nvim/init.lua<Enter>', { noremap = true })
