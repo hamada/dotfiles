@@ -1,3 +1,6 @@
+-- TODOs
+--   - git commit my telescope bookmarks picker
+--   - add symbolic links for neovim files without using cp
 --**************************************************************
 -- Memo
 --**************************************************************
