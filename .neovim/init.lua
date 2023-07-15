@@ -65,11 +65,13 @@ vim.opt.list = true
 vim.opt.listchars = 'tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%'
 vim.opt.mouse = 'a'
 -- swap files
-vim.opt.swapfile = true
-vim.opt.directory = '$HOME/.neovim/swap'
+-- FIXME: if true, this creates weird files. so disable temporarily
+vim.opt.swapfile = false
+-- vim.opt.directory = '$HOME/.neovim/swap'
 -- backup files
-vim.opt.backup = true
-vim.opt.backupdir = '$HOME/.neovim/backup'
+-- FIXME: if true, this creates weird files. so disable temporarily
+vim.opt.backup = false
+-- vim.opt.backupdir = '$HOME/.neovim/backup'
 
 -- vertical split right everytime
 vim.opt.splitright = true
