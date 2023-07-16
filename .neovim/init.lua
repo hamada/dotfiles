@@ -114,6 +114,8 @@ vim.cmd('autocmd BufEnter * if &filetype == "project" || &filetype == "" | setlo
 --   command = 'setlocal ft=markdown',
 -- })
 
+-- set filetype mdx for .mdx file
+vim.filetype.add({ extension = { mdx = 'mdx' } })
 --********************************************************************************************
 -- Theme Related Settings
 --********************************************************************************************
@@ -204,7 +206,7 @@ vim.keymap.set('i', '<D-SPACE>', ' ', { noremap = true })
 -- OPTIMIZE: convert these into lua style. I don't know why but these doesn't work
 vim.cmd("nnoremap <C-e> :<C-u>105vs ~/.config/nvim/init.lua<Enter> :se nowrap<Enter>")
 vim.cmd("nnoremap <C-s> :<C-u>source ~/.config/nvim/init.lua<Enter>")
--- vim.keymap.set('n', '<C-e>', '<C-u>tabnew ~/.config/nvim/init.lua<Enter> :se nowrap<Enter>:<C-u>90vs ~/.neovim/.dein.toml<Enter> :se nowrap<Enter>', { noremap = true })
+-- vim.keymap.set('n', '<C-e>', '<C-u>tabnew ~/.config/nvim/init.lua<Enter> :se nowrap<Enter>:<C-u>90vs ~/.config/nvim/.dein.toml<Enter> :se nowrap<Enter>', { noremap = true })
 -- vim.keymap.set('n', '<C-s>', '<C-u>source ~/.config/nvim/init.lua<Enter>', { noremap = true })
 
 -- move page tab
@@ -485,7 +487,7 @@ require('lazy').setup(
                        fb_actions.goto_parent_dir(prompt_bufnr, bypass)
                      else
                        -- remove word, keeping insert mode.
-                       vim.cmd "normal! ciw"
+                       vim.cmd "normal! ddi"
                      end
                    end,
                 }
@@ -504,6 +506,8 @@ require('lazy').setup(
         require('nvim-treesitter.configs').setup {
           highlight = { enable = true, },
         }
+
+        require("nvim-treesitter.parsers").filetype_to_parsername.mdx = 'markdown'
       end
     },
     {
@@ -523,7 +527,7 @@ require('lazy').setup(
       config = function()
         -- snippets are in $HOME/.vsnip/ directory
         -- helpful snippets comes from https://github.com/rafamadriz/friendly-snippets
-        vim.g.vsnip_snippet_dir = '/Users/akira/.neovim/vsnip'
+        vim.g.vsnip_snippet_dir = '/Users/akira/.config/nvim/vsnip'
         vim.cmd "imap <expr> <C-k> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-k>'"
       end
     },
