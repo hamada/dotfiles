@@ -88,12 +88,6 @@ vim.opt.shortmess = vim.opt.shortmess - 'S'
 -- https://stackoverflow.com/questions/8316139/how-to-set-the-default-to-unfolded-when-you-open-a-file
 vim.opt.foldlevel = 99
 
--- customoize fold text style
---   OPTIMIZE: convert this to lua style
---   this doesn't work
---   vim.opt.foldtext = getline(v:foldstart)
-vim.cmd("set foldtext=getline(v:foldstart)")
-
 -- if you yank words, it's shared with clipboard
 vim.opt.clipboard = 'unnamed'
 -- when IME enabled, set cursor following color
