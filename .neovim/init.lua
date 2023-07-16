@@ -205,6 +205,7 @@ vim.keymap.set('n', '<SPACE>', '<PageDown>zz', { noremap = true })
 --   FIXME: this doesn't work because of https://stackoverflow.com/questions/279959/how-can-i-make-shiftspacebar-page-up-in-vim
 --   ref: about karabinar elements https://qiita.com/yohm/items/de35f3874fd0e679ccdf
 vim.keymap.set('n', '<D-SPACE>', '<PageUp>zz', { noremap = true })
+vim.keymap.set('i', '<D-SPACE>', ' ', { noremap = true })
 
 -- OPTIMIZE: convert these into lua style. I don't know why but these doesn't work
 vim.cmd("nnoremap <C-e> :<C-u>105vs ~/.config/nvim/init.lua<Enter> :se nowrap<Enter>")
