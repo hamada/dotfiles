@@ -385,6 +385,15 @@ require('lazy').setup(
       },
     },
     {
+      'SidOfc/mkdx',
+      cond = false,
+      init = function()
+        -- change keymapping for toggling checkbox
+        vim.keymap.set('n', ',c', '<Plug>(mkdx-checkbox-next-n)')
+        vim.keymap.set('v', ',c', '<Plug>(mkdx-checkbox-next-v)')
+      end
+    },
+    {
       'nvim-telescope/telescope.nvim',
       tag = '0.1.2',
       dependencies = { 'nvim-lua/plenary.nvim' },
