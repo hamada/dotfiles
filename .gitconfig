@@ -39,3 +39,9 @@
   plus-emph-style="green bold auto"
   hunk-header-style="omit"
   line-numbers=true
+[includeIf "gitdir:~/code/hamada_repos/"]
+  path = ~/code/hamada_repos/.gitconfig
+[includeIf "gitdir:~/dotfiles/"]
+  path = ~/code/hamada_repos/.gitconfig
+[includeIf "gitdir:~/keyboards/"]
+  path = ~/code/hamada_repos/.gitconfig
