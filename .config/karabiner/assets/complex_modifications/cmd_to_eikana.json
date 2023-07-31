@@ -1,0 +1,93 @@
+{
+  "title": "command to 英かなキー",
+  "rules": [
+    {
+      "description": "command to 英かなキー",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "left_command",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "parameters": {
+            "basic.to_if_held_down_threshold_milliseconds": 10
+          },
+          "to": [
+            {
+              "key_code": "left_command",
+              "lazy": true
+            }
+          ],
+          "to_if_held_down": [
+            {
+              "key_code": "left_command"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "japanese_eisuu"
+            },
+            {
+              "shell_command": "NVIM_LISTEN_ADDRESS=localhost NVIM_LISTEN_PORT=22222 /Users/akira/.rbenv/shims/ruby /Users/akira/code/ruby/neovim_rpc_test/nvim_publish_ime_change_event.rb deactivated"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "description": "",
+              "bundle_identifiers": [
+                "com.github.wez.wezterm"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "right_command",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "parameters": {
+            "basic.to_if_held_down_threshold_milliseconds": 10
+          },
+          "to": [
+            {
+              "key_code": "right_command",
+              "lazy": true
+            }
+          ],
+          "to_if_held_down": [
+            {
+              "key_code": "right_command"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "japanese_kana"
+            },
+            {
+              "shell_command": "NVIM_LISTEN_ADDRESS=localhost NVIM_LISTEN_PORT=22222 /Users/akira/.rbenv/shims/ruby /Users/akira/code/ruby/neovim_rpc_test/nvim_publish_ime_change_event.rb activated"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "com.github.wez.wezterm"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

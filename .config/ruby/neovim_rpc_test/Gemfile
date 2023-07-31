@@ -1,0 +1,6 @@
+source "https://rubygems.org"
+
+# if you use 0.49.0, it uses RBS. so, to use YARD, you need to use 0.48.0.
+# after bundle install, run `$ bundle exec yard gems`
+#   ref: https://hawksnowlog.blogspot.com/2021/08/solargraph-intellisense-rubygems.html
+gem "msgpack-rpc"
