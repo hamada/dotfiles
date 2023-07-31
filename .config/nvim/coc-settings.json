@@ -1,0 +1,18 @@
+{
+    "npm.binPath": "~/.nvm/versions/node/v18.16.1/bin/npm",
+    "_comment": "ref: https://github.com/neoclide/coc-solargraph",
+    "_comment": "ref: https://github.com/castwide/solargraph",
+    "_comment": "ref: https://rooter.jp/programming/vim-modern-ruby/",
+    "solargraph": {
+      "_comment": "use solargraph installed by bundle install(Gemfile) of each project",
+      "commandPath": "~/.rbenv/shims/solargraph",
+      "checkGemVersion": false,
+    },
+    "languageserver": {
+      "rubocop": {
+        "command": "~/.rbenv/shims/rubocop",
+        "args": ["--lsp"],
+        "filetypes": ["ruby"]
+      },
+    }
+}
