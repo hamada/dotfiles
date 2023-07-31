@@ -1,6 +1,24 @@
+--**************************************************************
 -- TODOs
---   - git commit my telescope bookmarks picker
+--**************************************************************
 --   - add symbolic links for neovim files without using cp
+--   - write down all current coc settings
+--   - git commit these
+--     - my telescope bookmarks picker and bookmark file
+--     - .config/nvim/init.lua
+--     - wezterm settings
+--     - IME settings and ruby remote plugin script
+--     - karabinar elements settings
+--     - forked my own telescope file browser
+--     - coc settings
+--   - regex match for (file browser) telescope
+--   - order telescope file browser results by directory first, Capital letter file, then lower letter file.
+--     - hide dotfiles in default if I can. (but I can search it when I type dot)
+--   - save and store reference docs, pages and articles related to my settings
+--   - after commiting .config/nvim/init.lua, remove comments out code and clean up
+--   - migrate IME ruby remote plugin script to bash or lua script (not use ruby)
+--**************************************************************
+
 --**************************************************************
 -- Memo
 --**************************************************************
@@ -23,9 +41,22 @@
 --      - https://riq0h.jp/2023/01/20/210601/
 --      - https://uhoho.hatenablog.jp/entry/2023/05/18/063603
 --      - https://joker1007.hatenablog.com/entry/2022/09/03/172957
+--  About My Nvim env
+--    - GUI like standalone app based on Wezterm
+--       - neovim is running with server settings
+--    - IME settings
+--       - karabiner elements (override 英数/かな key push, then run to communicate to nvim)
+--       - ruby script communicates to nvim
+--       - macism CLI command
+--    - My Own Telescope Settings
+--       - Bookmark Picker
+--       - Forked File Browser
+--**************************************************************
+
 --**************************************************************
 -- Basic Settings
 --**************************************************************
+vim.opt.title = true
 vim.opt.fenc = 'utf-8'
 vim.opt.number = true
 vim.opt.ruler = true
@@ -90,15 +121,12 @@ vim.opt.foldlevel = 99
 
 -- if you yank words, it's shared with clipboard
 vim.opt.clipboard = 'unnamed'
--- when IME enabled, set cursor following color
--- FIXME: this doesn't work with neovim
--- highlight CursorIM guibg=skyBlue guifg=NONE
 -- 挿入モード・検索モードでのデフォルトのIME状態設定
-vim.opt.iminsert = 0
-vim.opt.imsearch = 0
+-- vim.opt.iminsert = 0
+-- vim.opt.imsearch = 0
 -- 挿入モードでのIME状態を記憶させない
-vim.keymap.set('i', '<ESC><ESC>', ':set iminsert=0<CR>', { noremap = true, silent = true })
-vim.opt.imdisable = false
+-- vim.keymap.set('i', '<ESC>', '<ESC>:set iminsert=0<CR>', { noremap = true, silent = true })
+-- vim.opt.imdisable = false
 
 -- OPTIMIZE: convert this into lua style
 vim.cmd('autocmd BufEnter * if &filetype == "project" || &filetype == "" | setlocal ft=markdown | endif')
@@ -138,9 +166,6 @@ vim.cmd("set guioptions-=e") -- use tabline
 -- OPTIMIZE: convert this into lua style
 vim.cmd([[
 set tabline=%!MakeTabLine()
-hi TabLineSel ctermfg=Black ctermbg=White guifg=Black guibg=White
-hi TabLine ctermfg=Black ctermfg=Gray ctermbg=black guifg=White guibg=grey21
-hi TabLineFill ctermbg=black guifg=grey8
 
 function! s:tabpage_label(n) "{{{
   " t:title と言う変数があったらそれを使う
@@ -200,14 +225,17 @@ vim.keymap.set('n', '<SPACE>', '<PageDown>zz', { noremap = true })
 --   because neovim can't accept shift-space directly
 --   FIXME: this doesn't work because of https://stackoverflow.com/questions/279959/how-can-i-make-shiftspacebar-page-up-in-vim
 --   ref: about karabinar elements https://qiita.com/yohm/items/de35f3874fd0e679ccdf
-vim.keymap.set('n', '<D-SPACE>', '<PageUp>zz', { noremap = true })
-vim.keymap.set('i', '<D-SPACE>', ' ', { noremap = true })
+-- vim.keymap.set('n', '<D-SPACE>', '<PageUp>zz', { noremap = true })
+-- vim.keymap.set('i', '<D-SPACE>', ' ', { noremap = true })
 
--- OPTIMIZE: convert these into lua style. I don't know why but these doesn't work
-vim.cmd("nnoremap <C-e> :<C-u>105vs ~/.config/nvim/init.lua<Enter> :se nowrap<Enter>")
-vim.cmd("nnoremap <C-s> :<C-u>source ~/.config/nvim/init.lua<Enter>")
--- vim.keymap.set('n', '<C-e>', '<C-u>tabnew ~/.config/nvim/init.lua<Enter> :se nowrap<Enter>:<C-u>90vs ~/.config/nvim/.dein.toml<Enter> :se nowrap<Enter>', { noremap = true })
--- vim.keymap.set('n', '<C-s>', '<C-u>source ~/.config/nvim/init.lua<Enter>', { noremap = true })
+-- wezterm maps shift-space to ctrl-space
+vim.keymap.set('n', '<C-SPACE>', '<PageUp>zz', { noremap = true })
+vim.keymap.set('i', '<C-SPACE>', ' ', { noremap = true })
+-- wezterm maps command-t to ctrl-t (to disable new tab feature of wezter app)
+vim.keymap.set('n', '<C-t>', '<ESC>:tabnew<CR>', { noremap = true, silent = true })
+
+vim.keymap.set('n', '<C-e>', ':<C-u>105vs ~/.config/nvim/init.lua<Enter> :se nowrap<Enter>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-s>', ':<C-u>source ~/.config/nvim/init.lua<Enter>', { noremap = true, silent = true })
 
 -- move page tab
 vim.keymap.set('n', 'H', 'gT', { noremap = true })
@@ -235,7 +263,7 @@ vim.keymap.set('i', '"', '""<LEFT>', { noremap = true })
 vim.keymap.set('n', 'x', '"_x', { noremap = true })
 
 -- open new vsplit window
-vim.keymap.set('n', 'vs', ':<C-u>vnew<CR>', { noremap = true })
+vim.keymap.set('n', 'vs', ':<C-u>vnew<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'vS', ':<C-u>vsplit<CR>', { noremap = true })
 vim.keymap.set('n', '<C-h>', ":call ShiftVbar('left', 5)<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<C-l>', ":call ShiftVbar('right', 5)<CR>", { noremap = true, silent = true })
@@ -265,7 +293,7 @@ endfunction "}}}
 vim.cmd("source $VIMRUNTIME/macros/matchit.vim")
 
 
--- タブを開いた時の元のタブがからの場合閉じる
+-- タブを開いた時の元のタブが空の場合閉じる
 vim.api.nvim_create_autocmd({ 'TabEnter' }, {
   pattern = '*',
   command = 'call ClosePreviousEmptyTab()',
@@ -329,409 +357,563 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require('lazy').setup(
+require('lazy').setup({
   -- Plugins List
   {
-    {
-      'sainnhe/sonokai',
-      config = function()
-        vim.g.sonokai_better_performance = 1
-        vim.cmd('colorscheme sonokai')
-      end
+    'sainnhe/sonokai',
+    config = function()
+      vim.g.sonokai_better_performance = 1
+      vim.cmd('colorscheme sonokai')
+    end
+  },
+  {
+    'chentoast/marks.nvim',
+    init = function()
+      require'marks'.setup()
+    end
+  },
+  { 'vim-scripts/surround.vim' },
+  {
+    'vim-scripts/The-NERD-Commenter',
+    config = function()
+      vim.g.NERDCreateDefaultMappings = 0
+      vim.g.NERDSpaceDelims = 1
+    end,
+    init = function()
+      vim.keymap.set('n', '<C-c>', '<Plug>NERDCommenterToggle', { noremap = false })
+      vim.keymap.set('v', '<C-c>', '<Plug>NERDCommenterToggle', { noremap = false })
+      vim.keymap.set('v', '<C-d>', ':call DupLines()<CR>', { noremap = true, silent = true })
+      vim.cmd([[
+      " This function depends on NERDCommenter
+      function! DupLines()  range "{{{
+        let selected_num = line("'>") - line("'<") + 1
+        let ori_pos = line("'<")
+        " 選択中の行をyank
+        normal! ""gvy
+        " yankした物をPする
+        normal P
+        " selected_numの分、下に移動する
+        execute 'normal '.selected_num.'j'
+        " Vモードに入る
+        execute 'normal V'.selected_num.'j'
+        " コメントアウトする
+        call NERDComment(1, 'norm')
+        " ビジュアルモードからエスケープ
+        execute "normal! \e\e"
+        " 元の位置に戻る
+        execute 'normal '.ori_pos.'gg'
+      endfunction "}}}
+      ]])
+    end
+  },
+  {
+    'numToStr/Comment.nvim',
+    cond = false,
+    config = function()
+      require('Comment').setup()
+    end
+  },
+  { 'vim-scripts/operator-user' },
+  {
+    'vim-scripts/operator-replace',
+    keys = {
+      { "R", "<Plug>(operator-replace)", mode = 'n' },
     },
-    {
-      'chentoast/marks.nvim',
-      init = function()
-        require'marks'.setup()
-      end
-    },
-    { 'vim-scripts/surround.vim' },
-    {
-      'vim-scripts/The-NERD-Commenter',
-      config = function()
-        vim.g.NERDCreateDefaultMappings = 0
-        vim.g.NERDSpaceDelims = 1
-      end,
-      init = function()
-        vim.keymap.set('n', '<C-c>', '<Plug>NERDCommenterToggle', { noremap = false })
-        vim.keymap.set('v', '<C-c>', '<Plug>NERDCommenterToggle', { noremap = false })
-        vim.keymap.set('v', '<C-d>', ':call DupLines()<CR>', { noremap = true, silent = true })
-        vim.cmd([[
-        " This function depends on NERDCommenter
-        function! DupLines()  range "{{{
-          let selected_num = line("'>") - line("'<") + 1
-          let ori_pos = line("'<")
-          " 選択中の行をyank
-          normal! ""gvy
-          " yankした物をPする
-          normal P
-          " selected_numの分、下に移動する
-          execute 'normal '.selected_num.'j'
-          " Vモードに入る
-          execute 'normal V'.selected_num.'j'
-          " コメントアウトする
-          call NERDComment(1, 'norm')
-          " ビジュアルモードからエスケープ
-          execute "normal! \e\e"
-          " 元の位置に戻る
-          execute 'normal '.ori_pos.'gg'
-        endfunction "}}}
-        ]])
-      end
-    },
-    { 'vim-scripts/operator-user' },
-    {
-      'vim-scripts/operator-replace',
-      keys = {
-        { "R", "<Plug>(operator-replace)", mode = 'n' },
-      },
-    },
-    {
-      'SidOfc/mkdx',
-      cond = false,
-      init = function()
-        -- change keymapping for toggling checkbox
-        vim.keymap.set('n', ',c', '<Plug>(mkdx-checkbox-next-n)')
-        vim.keymap.set('v', ',c', '<Plug>(mkdx-checkbox-next-v)')
-      end
-    },
-    {
-      'nvim-telescope/telescope.nvim',
-      tag = '0.1.2',
-      dependencies = { 'nvim-lua/plenary.nvim' },
-      init = function()
-        require('telescope').setup{
-          defaults = {
-            hidden = true,
-            layout_config = { height = 0.9, prompt_position = 'top' },
-            sorting_strategy = 'ascending',
-            mappings = {
-              n = {
-                ["q"] = require('telescope.actions').close,
-                ["v"] = require('telescope.actions').select_vertical,
-              },
-            }
-          },
-
-          pickers = {
-            find_files = {
-              mappings = {
-                n = {
-                  ["<CR>"] = require('telescope.actions').select_tab,
-                },
-                i = {
-                  ["<CR>"] = require('telescope.actions').select_tab,
-                },
-              },
+  },
+  {
+    'SidOfc/mkdx',
+    cond = false,
+    init = function()
+      -- change keymapping for toggling checkbox
+      vim.keymap.set('n', ',c', '<Plug>(mkdx-checkbox-next-n)')
+      vim.keymap.set('v', ',c', '<Plug>(mkdx-checkbox-next-v)')
+    end
+  },
+  {
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.2',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    init = function()
+      require('telescope').setup{
+        defaults = {
+          hidden = true,
+          layout_config = { height = 0.9, prompt_position = 'top' },
+          sorting_strategy = 'ascending',
+          mappings = {
+            n = {
+              ["q"] = require('telescope.actions').close,
+              ["v"] = require('telescope.actions').select_vertical,
             },
           }
-        }
+        },
 
-        vim.api.nvim_set_keymap(
-          "n",
-          ",F",
-          ":Telescope filetypes<CR>",
-          { noremap = true }
-        )
-
-        vim.api.nvim_set_keymap(
-          "n",
-          ",b",
-          ":luafile /Users/akira/code/lua/telescope_file_bookmarks_picker.lua<CR>",
-          { noremap = true }
-        )
-      end,
-    },
-    {
-      -- for other refs: https://zenn.dev/takuya/articles/4472285edbc132
-      'nvim-telescope/telescope-file-browser.nvim',
-      dependencies = {
-        'nvim-telescope/telescope.nvim',
-        -- For nvim-web-devicons, did the followings after installing devicons plugin
-        --   1. installed font via `$ brew install font-hack-nerd-font`
-        --   2. set guifont to `Hack\ Nerd\ Font`
-        'nvim-tree/nvim-web-devicons'
-      },
-      init = function()
-        vim.api.nvim_set_keymap(
-          "n",
-          ",f",
-          ":Telescope file_browser path=%:p:h select_buffer=true hidden=true hide_parent_dir=true<CR>",
-          { noremap = true }
-        )
-
-        local fb_actions = require "telescope".extensions.file_browser.actions
-        require("telescope").setup {
-          extensions = {
-            file_browser = {
-              path="%:p:h",
-              hidden = true,
-              hide_parent_dir = true,
-              hijack_netrw = true,
-              file_ignore_patterns = {".DS_Store", ".Trash", ".CFUserTextEncoding"},
-              mappings = {
-                n = {
-                  ["<CR>"] = require('telescope.actions').select_tab,
-                },
-                i = {
-                  ["<CR>"] = require('telescope.actions').select_tab,
-                  ["<C-h>"] = false,
-                  ["<bs>"] = false,
-                  -- originally this comes from https://github.com/nvim-telescope/telescope-file-browser.nvim/blob/e03ff55962417b69c85ef41424079bb0580546ba/lua/telescope/_extensions/file_browser/actions.lua#L761
-                  -- I customized it.
-                  ["<C-w>"] = function(prompt_bufnr, bypass)
-                     local action_state = require "telescope.actions.state"
-                     local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                     if current_picker:_get_prompt() == "" then
-                       fb_actions.goto_parent_dir(prompt_bufnr, bypass)
-                     else
-                       -- remove word, keeping insert mode.
-                       vim.cmd "normal! ddi"
-                     end
-                   end,
-                }
+        pickers = {
+          find_files = {
+            mappings = {
+              n = {
+                ["<CR>"] = require('telescope.actions').select_tab,
+              },
+              i = {
+                ["<CR>"] = require('telescope.actions').select_tab,
               },
             },
           },
         }
+      }
 
-        require("telescope").load_extension "file_browser"
-      end
+      vim.api.nvim_set_keymap(
+        "n",
+        ",F",
+        ":Telescope filetypes<CR>",
+        { noremap = true }
+      )
+
+      vim.api.nvim_set_keymap(
+        "n",
+        ",b",
+        ":luafile /Users/akira/code/lua/telescope_file_bookmarks_picker.lua<CR>",
+        { noremap = true }
+      )
+    end,
+  },
+  {
+    -- for other refs: https://zenn.dev/takuya/articles/4472285edbc132
+    -- 'nvim-telescope/telescope-file-browser.nvim',
+    -- 'hamada/telescope-file-browser.nvim',
+    -- use forked and locally cloned repo. Because use absolute path for Picker title.
+    dir = '~/code/lua/telescope-file-browser.nvim',
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+      -- For nvim-web-devicons, did the followings after installing devicons plugin
+      --   1. installed font via `$ brew install font-hack-nerd-font`
+      --   2. set guifont to `Hack\ Nerd\ Font`
+      'nvim-tree/nvim-web-devicons'
     },
-    {
-      'nvim-treesitter/nvim-treesitter',
-      build = ":TSUpdate",
-      init = function()
-        require('nvim-treesitter.configs').setup {
-          highlight = { enable = true, },
-        }
+    init = function()
+      vim.api.nvim_set_keymap(
+        "n",
+        ",f",
+        ":Telescope file_browser path=%:p:h select_buffer=true hidden=true hide_parent_dir=true<CR>",
+        { noremap = true }
+      )
 
-        require("nvim-treesitter.parsers").filetype_to_parsername.mdx = 'markdown'
+      local fb_actions = require "telescope".extensions.file_browser.actions
+      require("telescope").setup {
+        extensions = {
+          file_browser = {
+            path="%:p:h",
+            hidden = true,
+            hide_parent_dir = true,
+            hijack_netrw = true,
+            -- results_title = function(a, b)
+              -- if true then
+                -- 'this is true'
+              -- else
+                -- 'this is false'
+              -- end
+            -- end,
+            -- results_title = 'hoge',
+            -- results_title = 'hoge',
+            file_ignore_patterns = {".DS_Store", ".Trash", ".CFUserTextEncoding"},
+            mappings = {
+              n = {
+                ["<CR>"] = require('telescope.actions').select_tab,
+              },
+              i = {
+                ["<CR>"] = require('telescope.actions').select_tab,
+                ["<C-h>"] = false,
+                ["<bs>"] = false,
+                -- originally this comes from https://github.com/nvim-telescope/telescope-file-browser.nvim/blob/e03ff55962417b69c85ef41424079bb0580546ba/lua/telescope/_extensions/file_browser/actions.lua#L761
+                -- I customized it.
+                ["<C-w>"] = function(prompt_bufnr, bypass)
+                   local action_state = require "telescope.actions.state"
+                   local current_picker = action_state.get_current_picker(prompt_bufnr)
+
+                   if current_picker:_get_prompt() == "" then
+                     fb_actions.goto_parent_dir(prompt_bufnr, bypass)
+                   else
+                     -- remove word, keeping insert mode.
+                     vim.cmd "normal! ddi"
+                   end
+                 end,
+              }
+            },
+          },
+        },
+      }
+
+      require("telescope").load_extension "file_browser"
+    end
+  },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ":TSUpdate",
+    init = function()
+      require('nvim-treesitter.configs').setup {
+        highlight = { enable = true, },
+      }
+
+      vim.treesitter.language.register('markdown', 'mdx')
+    end
+  },
+  {
+    'github/copilot.vim',
+    event = 'InsertEnter',
+    config = function()
+      -- NOTE: you have to install node and `npm install --global neovim`
+      -- NOTE: g:node_host_prog doesn't work. use `g:copilot_node_command`
+      --       ref: https://github.com/orgs/community/discussions/13310#discussioncomment-2511090
+      vim.g.copilot_node_command = "/Users/akira/.nvm/versions/node/v18.16.1/bin/node"
+      vim.g.copilot_filetypes = { markdown = true }
+    end
+  },
+  {
+    'hrsh7th/vim-vsnip',
+    dependencies = { 'hrsh7th/vim-vsnip-integ' },
+    event = 'InsertEnter',
+    config = function()
+      -- snippets are in $HOME/.vsnip/ directory
+      -- helpful snippets comes from https://github.com/rafamadriz/friendly-snippets
+      vim.g.vsnip_snippet_dir = '/Users/akira/.config/nvim/vsnip'
+      vim.cmd "imap <expr> <C-k> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-k>'"
+    end
+  },
+  {
+    -- config of coc.nvim is in `~/.config/nvim/coc-settings.json`
+    'neoclide/coc.nvim',
+    -- cond = false,
+    branch = 'release',
+    init = function()
+      -- do the following after installing coc.nvim via lazy.nvim. you need install yarn dependencies of coc.nvim
+      --   (you can find out coc.nvim directory by :Lazy command in neovim, and select coc.nvim in lazy.nvim UI)
+      --  `$ cd /Users/akira/.local/share/nvim/lazy/coc.nvim`
+      --  `$ nvm use v18.16.1`
+      --  `$ npm install -g yarn`
+      --  `$ yarn install`
+      vim.g.coc_node_path = '/Users/akira/.nvm/versions/node/v18.16.1/bin/node'
+    end,
+    config = function()
+      -- Some servers have issues with backup files, see #649
+      vim.opt.backup = false
+      vim.opt.writebackup = false
+
+      -- Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
+      -- delays and poor user experience
+      vim.opt.updatetime = 300
+
+      -- Always show the signcolumn, otherwise it would shift the text each time
+      -- diagnostics appeared/became resolved
+      vim.opt.signcolumn = "yes"
+
+      local keyset = vim.keymap.set
+      -- Autocomplete
+      function _G.check_back_space()
+          local col = vim.fn.col('.') - 1
+          return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
       end
-    },
-    {
-      'github/copilot.vim',
-      event = 'InsertEnter',
-      config = function()
-        -- NOTE: you have to install node and `npm install --global neovim`
-        -- NOTE: g:node_host_prog doesn't work. use `g:copilot_node_command`
-        --       ref: https://github.com/orgs/community/discussions/13310#discussioncomment-2511090
-        vim.g.copilot_node_command = "/Users/akira/.nvm/versions/node/v18.16.1/bin/node"
+
+      -- Use Tab for trigger completion with characters ahead and navigate
+      -- NOTE: There's always a completion item selected by default, you may want to enable
+      -- no select by setting `"suggest.noselect": true` in your configuration file
+      -- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
+      -- other plugins before putting this into your config
+      local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
+      keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
+      keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
+
+      -- Make <CR> to accept selected completion item or notify coc.nvim to format
+      -- <C-g>u breaks current undo, please make your own choice
+      keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
+
+      -- Use <c-j> to trigger snippets
+      keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
+      -- Use <c-space> to trigger completion
+      keyset("i", "<c-space>", "coc#refresh()", {silent = true, expr = true})
+
+      -- Use `[g` and `]g` to navigate diagnostics
+      -- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+      keyset("n", "[g", "<Plug>(coc-diagnostic-prev)", {silent = true})
+      keyset("n", "]g", "<Plug>(coc-diagnostic-next)", {silent = true})
+
+      -- GoTo code navigation
+      keyset("n", "gd", "<Plug>(coc-definition)", {silent = true})
+      keyset("n", "gy", "<Plug>(coc-type-definition)", {silent = true})
+      keyset("n", "gi", "<Plug>(coc-implementation)", {silent = true})
+      keyset("n", "gr", "<Plug>(coc-references)", {silent = true})
+
+
+      -- Use K to show documentation in preview window
+      function _G.show_docs()
+          local cw = vim.fn.expand('<cword>')
+          if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
+              vim.api.nvim_command('h ' .. cw)
+          elseif vim.api.nvim_eval('coc#rpc#ready()') then
+              vim.fn.CocActionAsync('doHover')
+          else
+              vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
+          end
       end
+      keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
+
+
+      -- Highlight the symbol and its references on a CursorHold event(cursor is idle)
+      vim.api.nvim_create_augroup("CocGroup", {})
+      vim.api.nvim_create_autocmd("CursorHold", {
+          group = "CocGroup",
+          command = "silent call CocActionAsync('highlight')",
+          desc = "Highlight symbol under cursor on CursorHold"
+      })
+
+
+      -- Symbol renaming
+      keyset("n", "<leader>rn", "<Plug>(coc-rename)", {silent = true})
+
+
+      -- Formatting selected code
+      keyset("x", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
+      keyset("n", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
+
+
+      -- Setup formatexpr specified filetype(s)
+      vim.api.nvim_create_autocmd("FileType", {
+          group = "CocGroup",
+          pattern = "typescript,json",
+          command = "setl formatexpr=CocAction('formatSelected')",
+          desc = "Setup formatexpr specified filetype(s)."
+      })
+
+      -- Update signature help on jump placeholder
+      vim.api.nvim_create_autocmd("User", {
+          group = "CocGroup",
+          pattern = "CocJumpPlaceholder",
+          command = "call CocActionAsync('showSignatureHelp')",
+          desc = "Update signature help on jump placeholder"
+      })
+
+      -- Apply codeAction to the selected region
+      -- Example: `<leader>aap` for current paragraph
+      local opts = {silent = true, nowait = true}
+      keyset("x", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
+      keyset("n", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
+
+      -- Remap keys for apply code actions at the cursor position.
+      keyset("n", "<leader>ac", "<Plug>(coc-codeaction-cursor)", opts)
+      -- Remap keys for apply source code actions for current file.
+      keyset("n", "<leader>as", "<Plug>(coc-codeaction-source)", opts)
+      -- Apply the most preferred quickfix action on the current line.
+      keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", opts)
+
+      -- Remap keys for apply refactor code actions.
+      keyset("n", "<leader>re", "<Plug>(coc-codeaction-refactor)", { silent = true })
+      keyset("x", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+      keyset("n", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+
+      -- Run the Code Lens actions on the current line
+      keyset("n", "<leader>cl", "<Plug>(coc-codelens-action)", opts)
+
+
+      -- Map function and class text objects
+      -- NOTE: Requires 'textDocument.documentSymbol' support from the language server
+      keyset("x", "if", "<Plug>(coc-funcobj-i)", opts)
+      keyset("o", "if", "<Plug>(coc-funcobj-i)", opts)
+      keyset("x", "af", "<Plug>(coc-funcobj-a)", opts)
+      keyset("o", "af", "<Plug>(coc-funcobj-a)", opts)
+      keyset("x", "ic", "<Plug>(coc-classobj-i)", opts)
+      keyset("o", "ic", "<Plug>(coc-classobj-i)", opts)
+      keyset("x", "ac", "<Plug>(coc-classobj-a)", opts)
+      keyset("o", "ac", "<Plug>(coc-classobj-a)", opts)
+
+
+      -- Remap <C-f> and <C-b> to scroll float windows/popups
+      ---@diagnostic disable-next-line: redefined-local
+      local opts = {silent = true, nowait = true, expr = true}
+      keyset("n", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
+      keyset("n", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
+      keyset("i", "<C-f>",
+             'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<Right>"', opts)
+      keyset("i", "<C-b>",
+             'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0)<cr>" : "<Left>"', opts)
+      keyset("v", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
+      keyset("v", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
+
+
+      -- Use CTRL-S for selections ranges
+      -- Requires 'textDocument/selectionRange' support of language server
+      -- this conflicts with other keybindings. so, disable this temporarily.
+      -- keyset("n", "<C-s>", "<Plug>(coc-range-select)", {silent = true})
+      keyset("x", "<C-s>", "<Plug>(coc-range-select)", {silent = true})
+
+
+      -- Add `:Format` command to format current buffer
+      vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
+
+      -- " Add `:Fold` command to fold current buffer
+      vim.api.nvim_create_user_command("Fold", "call CocAction('fold', <f-args>)", {nargs = '?'})
+
+      -- Add `:OR` command for organize imports of the current buffer
+      vim.api.nvim_create_user_command("OR", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
+
+      -- Add (Neo)Vim's native statusline support
+      -- NOTE: Please see `:h coc-status` for integrations with external plugins that
+      -- provide custom statusline: lightline.vim, vim-airline
+      vim.opt.statusline:prepend("%{coc#status()}%{get(b:,'coc_current_function','')}")
+
+      -- Mappings for CoCList
+      -- code actions and coc stuff
+      ---@diagnostic disable-next-line: redefined-local
+      local opts = {silent = true, nowait = true}
+      -- OPTIMIZE: temporarily disabled, because <space> conflicts with other keymap
+      -- Show all diagnostics
+      -- keyset("n", "<space>a", ":<C-u>CocList diagnostics<cr>", opts)
+      -- -- Manage extensions
+      -- keyset("n", "<space>e", ":<C-u>CocList extensions<cr>", opts)
+      -- -- Show commands
+      -- keyset("n", "<space>c", ":<C-u>CocList commands<cr>", opts)
+      -- -- Find symbol of current document
+      -- keyset("n", "<space>o", ":<C-u>CocList outline<cr>", opts)
+      -- -- Search workspace symbols
+      -- keyset("n", "<space>s", ":<C-u>CocList -I symbols<cr>", opts)
+      -- -- Do default action for next item
+      -- keyset("n", "<space>j", ":<C-u>CocNext<cr>", opts)
+      -- -- Do default action for previous item
+      -- keyset("n", "<space>k", ":<C-u>CocPrev<cr>", opts)
+      -- -- Resume latest coc list
+      -- keyset("n", "<space>p", ":<C-u>CocListResume<cr>", opts)
+    end
+  },
+  {
+    'folke/noice.nvim',
+    cond = false,
+    event = 'VeryLazy',
+    opts = {
+      -- add any options here
     },
-    {
-      'hrsh7th/vim-vsnip',
-      dependencies = { 'hrsh7th/vim-vsnip-integ' },
-      event = 'InsertEnter',
-      config = function()
-        -- snippets are in $HOME/.vsnip/ directory
-        -- helpful snippets comes from https://github.com/rafamadriz/friendly-snippets
-        vim.g.vsnip_snippet_dir = '/Users/akira/.config/nvim/vsnip'
-        vim.cmd "imap <expr> <C-k> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-k>'"
-      end
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      'MunifTanjim/nui.nvim',
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      'rcarriga/nvim-notify',
     },
-    {
-      -- config of coc.nvim is in `~/.config/nvim/coc-settings.json`
-      'neoclide/coc.nvim',
-      branch = 'release',
-      init = function()
-        -- do the following after installing coc.nvim via lazy.nvim. you need install yarn dependencies of coc.nvim
-        --   (you can find out coc.nvim directory by :Lazy command in neovim, and select coc.nvim in lazy.nvim UI)
-        --  `$ cd /Users/akira/.local/share/nvim/lazy/coc.nvim`
-        --  `$ nvm use v18.16.1`
-        --  `$ npm install -g yarn`
-        --  `$ yarn install`
-        vim.g.coc_node_path = '/Users/akira/.nvm/versions/node/v18.16.1/bin/node'
-      end,
-      config = function()
-        -- Some servers have issues with backup files, see #649
-        vim.opt.backup = false
-        vim.opt.writebackup = false
+    init = function()
+      require("noice").setup({
+        lsp = {
+          -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+          override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true,
+          },
+        },
+        -- you can enable a preset for easier configuration
+        presets = {
+          bottom_search = true, -- use a classic bottom cmdline for search
+          command_palette = true, -- position the cmdline and popupmenu together
+          long_message_to_split = true, -- long messages will be sent to a split
+          inc_rename = false, -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = false, -- add a border to hover docs and signature help
+        },
+      })
+    end,
+  },
+  {
+    'akira-hamada/friendly-grep.vim',
+    config = function()
+      vim.keymap.set('n', '<C-g>', '<ESC>:FriendlyGrep<CR>', { noremap = true })
 
-        -- Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
-        -- delays and poor user experience
-        vim.opt.updatetime = 300
+      vim.keymap.set('n', '<LEFT>', ':cprevious<CR>', { noremap = true })
+      vim.keymap.set('n', '<RIGHT>', ':cnext<CR>', { noremap = true })
+      vim.keymap.set('n', '<UP>', ':<C-u>cfirst<CR>', { noremap = true })
+      vim.keymap.set('n', '<DOWN>', ':<C-u>clast<CR>', { noremap = true })
 
-        -- Always show the signcolumn, otherwise it would shift the text each time
-        -- diagnostics appeared/became resolved
-        vim.opt.signcolumn = "yes"
-
-        local keyset = vim.keymap.set
-        -- Autocomplete
-        function _G.check_back_space()
-            local col = vim.fn.col('.') - 1
-            return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
-        end
-
-        -- Use Tab for trigger completion with characters ahead and navigate
-        -- NOTE: There's always a completion item selected by default, you may want to enable
-        -- no select by setting `"suggest.noselect": true` in your configuration file
-        -- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
-        -- other plugins before putting this into your config
-        local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
-        keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
-        keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
-
-        -- Make <CR> to accept selected completion item or notify coc.nvim to format
-        -- <C-g>u breaks current undo, please make your own choice
-        keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
-
-        -- Use <c-j> to trigger snippets
-        keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
-        -- Use <c-space> to trigger completion
-        keyset("i", "<c-space>", "coc#refresh()", {silent = true, expr = true})
-
-        -- Use `[g` and `]g` to navigate diagnostics
-        -- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
-        keyset("n", "[g", "<Plug>(coc-diagnostic-prev)", {silent = true})
-        keyset("n", "]g", "<Plug>(coc-diagnostic-next)", {silent = true})
-
-        -- GoTo code navigation
-        keyset("n", "gd", "<Plug>(coc-definition)", {silent = true})
-        keyset("n", "gy", "<Plug>(coc-type-definition)", {silent = true})
-        keyset("n", "gi", "<Plug>(coc-implementation)", {silent = true})
-        keyset("n", "gr", "<Plug>(coc-references)", {silent = true})
-
-
-        -- Use K to show documentation in preview window
-        function _G.show_docs()
-            local cw = vim.fn.expand('<cword>')
-            if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
-                vim.api.nvim_command('h ' .. cw)
-            elseif vim.api.nvim_eval('coc#rpc#ready()') then
-                vim.fn.CocActionAsync('doHover')
-            else
-                vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
-            end
-        end
-        keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
-
-
-        -- Highlight the symbol and its references on a CursorHold event(cursor is idle)
-        vim.api.nvim_create_augroup("CocGroup", {})
-        vim.api.nvim_create_autocmd("CursorHold", {
-            group = "CocGroup",
-            command = "silent call CocActionAsync('highlight')",
-            desc = "Highlight symbol under cursor on CursorHold"
-        })
-
-
-        -- Symbol renaming
-        keyset("n", "<leader>rn", "<Plug>(coc-rename)", {silent = true})
-
-
-        -- Formatting selected code
-        keyset("x", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
-        keyset("n", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
-
-
-        -- Setup formatexpr specified filetype(s)
-        vim.api.nvim_create_autocmd("FileType", {
-            group = "CocGroup",
-            pattern = "typescript,json",
-            command = "setl formatexpr=CocAction('formatSelected')",
-            desc = "Setup formatexpr specified filetype(s)."
-        })
-
-        -- Update signature help on jump placeholder
-        vim.api.nvim_create_autocmd("User", {
-            group = "CocGroup",
-            pattern = "CocJumpPlaceholder",
-            command = "call CocActionAsync('showSignatureHelp')",
-            desc = "Update signature help on jump placeholder"
-        })
-
-        -- Apply codeAction to the selected region
-        -- Example: `<leader>aap` for current paragraph
-        local opts = {silent = true, nowait = true}
-        keyset("x", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
-        keyset("n", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
-
-        -- Remap keys for apply code actions at the cursor position.
-        keyset("n", "<leader>ac", "<Plug>(coc-codeaction-cursor)", opts)
-        -- Remap keys for apply source code actions for current file.
-        keyset("n", "<leader>as", "<Plug>(coc-codeaction-source)", opts)
-        -- Apply the most preferred quickfix action on the current line.
-        keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", opts)
-
-        -- Remap keys for apply refactor code actions.
-        keyset("n", "<leader>re", "<Plug>(coc-codeaction-refactor)", { silent = true })
-        keyset("x", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
-        keyset("n", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
-
-        -- Run the Code Lens actions on the current line
-        keyset("n", "<leader>cl", "<Plug>(coc-codelens-action)", opts)
-
-
-        -- Map function and class text objects
-        -- NOTE: Requires 'textDocument.documentSymbol' support from the language server
-        keyset("x", "if", "<Plug>(coc-funcobj-i)", opts)
-        keyset("o", "if", "<Plug>(coc-funcobj-i)", opts)
-        keyset("x", "af", "<Plug>(coc-funcobj-a)", opts)
-        keyset("o", "af", "<Plug>(coc-funcobj-a)", opts)
-        keyset("x", "ic", "<Plug>(coc-classobj-i)", opts)
-        keyset("o", "ic", "<Plug>(coc-classobj-i)", opts)
-        keyset("x", "ac", "<Plug>(coc-classobj-a)", opts)
-        keyset("o", "ac", "<Plug>(coc-classobj-a)", opts)
-
-
-        -- Remap <C-f> and <C-b> to scroll float windows/popups
-        ---@diagnostic disable-next-line: redefined-local
-        local opts = {silent = true, nowait = true, expr = true}
-        keyset("n", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-        keyset("n", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-        keyset("i", "<C-f>",
-               'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<Right>"', opts)
-        keyset("i", "<C-b>",
-               'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0)<cr>" : "<Left>"', opts)
-        keyset("v", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-        keyset("v", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-
-
-        -- Use CTRL-S for selections ranges
-        -- Requires 'textDocument/selectionRange' support of language server
-        -- this conflicts with other keybindings. so, disable this temporarily.
-        -- keyset("n", "<C-s>", "<Plug>(coc-range-select)", {silent = true})
-        keyset("x", "<C-s>", "<Plug>(coc-range-select)", {silent = true})
-
-
-        -- Add `:Format` command to format current buffer
-        vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
-
-        -- " Add `:Fold` command to fold current buffer
-        vim.api.nvim_create_user_command("Fold", "call CocAction('fold', <f-args>)", {nargs = '?'})
-
-        -- Add `:OR` command for organize imports of the current buffer
-        vim.api.nvim_create_user_command("OR", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
-
-        -- Add (Neo)Vim's native statusline support
-        -- NOTE: Please see `:h coc-status` for integrations with external plugins that
-        -- provide custom statusline: lightline.vim, vim-airline
-        vim.opt.statusline:prepend("%{coc#status()}%{get(b:,'coc_current_function','')}")
-
-        -- Mappings for CoCList
-        -- code actions and coc stuff
-        ---@diagnostic disable-next-line: redefined-local
-        local opts = {silent = true, nowait = true}
-        -- OPTIMIZE: temporarily disabled, because <space> conflicts with other keymap
-        -- Show all diagnostics
-        -- keyset("n", "<space>a", ":<C-u>CocList diagnostics<cr>", opts)
-        -- -- Manage extensions
-        -- keyset("n", "<space>e", ":<C-u>CocList extensions<cr>", opts)
-        -- -- Show commands
-        -- keyset("n", "<space>c", ":<C-u>CocList commands<cr>", opts)
-        -- -- Find symbol of current document
-        -- keyset("n", "<space>o", ":<C-u>CocList outline<cr>", opts)
-        -- -- Search workspace symbols
-        -- keyset("n", "<space>s", ":<C-u>CocList -I symbols<cr>", opts)
-        -- -- Do default action for next item
-        -- keyset("n", "<space>j", ":<C-u>CocNext<cr>", opts)
-        -- -- Do default action for previous item
-        -- keyset("n", "<space>k", ":<C-u>CocPrev<cr>", opts)
-        -- -- Resume latest coc list
-        -- keyset("n", "<space>p", ":<C-u>CocListResume<cr>", opts)
-      end
-    },
+      -- let g:friendlygrep_target_dir = join(readfile(glob('~/dotfiles/.vim/friendly_grep_search_root_path')), "\n")
+      vim.g.friendlygrep_recursively = 1
+      vim.g.friendlygrep_display_result_in = 'tab'
+    end
   }
-)
+})
+
+-- *****************************************************
+-- IME manupilation
+-- refs
+--   - https://github.com/laishulu/macism/
+--   - https://qiita.com/callmekohei/items/343f09c619665a5c9886
+--   - http://iranoan.my.coocan.jp/essay/pc/201810080.htm
+--
+-- FIXME: these cause problem (if change mode to Insert mode, it changes IME to ja unexpectedly)
+--  - https://github.com/qvacua/vimr/pull/900/files
+--  - https://github.com/qvacua/vimr/blob/e34d9765d269ea823b526c3e4e250f9dc7271d17/NvimView/Sources/NvimView/NvimView%2BUiBridge.swift#L69C12-L69C35
+--  - -> these are cause of the problem. So, I commented out the code and manually build VimR for my own.
+-- *****************************************************
+
+-- `:lua IsIMEIsActivated()` to get current input method status
+function _G.IsIMEIsActivated()
+  local imstate = vim.fn.system('/opt/homebrew/bin/macism')
+  if string.find(imstate, "Roman") then
+    return 0 -- not ja
+  else
+    return 1 -- ja
+  end
+end
+
+function _G:DeactivateIME()
+  vim.fn.system('/opt/homebrew/bin/macism com.google.inputmethod.Japanese.Roman')
+  -- vim.fn.system('/opt/homebrew/bin/macism com.apple.keylayout.ABC')
+end
+
+
+vim.api.nvim_create_autocmd( 'InsertLeave', {
+  callback = function()
+    -- if IsIMEIsActivated() then
+      -- DeactivateIME()
+    -- end
+    vim.cmd([[
+      highlight Cursor gui=NONE guibg=Khaki
+      highlight ICursor gui=NONE guibg=Khaki
+    ]])
+    DeactivateIME()
+  end
+})
+
+vim.api.nvim_create_autocmd( 'InsertEnter', {
+  callback = function()
+    DeactivateIME()
+  end
+})
+
+-- settings for Cursor Color
+vim.opt.termguicolors = true
+vim.cmd('highlight  Cursor gui=NONE guibg=khaki')
+vim.cmd('highlight ICursor gui=NONE guibg=khaki')
+-- there's blink in wezterm config too.
+vim.opt.guicursor='n:block-Cursor-blinkwait5-blinkon5-blinkoff5,i-ci:ver100-ICursor-blinkwait5-blinkon5-blinkoff5'
+-- NOTE: these above are just cursor colors. font colors are set by iTermtext font colors
+  -- font color under cursor in iTerm `Cursor Colors > Cursor Text`
+  -- font color for ja text before determined in iTerm `Basic Colors > Foreground`
+
+-- You can activate these my own Event (ref: https://github.com/vim-jp/issues/issues/142)
+--   `:doautocmd User ImeDeactivated`
+--   `:doautocmd User ImeActivated`
+vim.cmd([[
+autocmd User ImeDeactivated highlight Cursor gui=NONE guibg=Khaki   | highlight ICursor gui=NONE guibg=Khaki
+autocmd User ImeActivated   highlight Cursor gui=NONE guibg=SkyBlue | highlight ICursor gui=NONE guibg=SkyBlue
+]])
+
+vim.cmd('highlight CursorLine gui=NONE guibg=#242424')
+-- settings for Visual mode Line Color (not cursor of visual mode)
+vim.cmd('highlight Visual gui=NONE guifg=khaki guibg=olivedrab')
+-- settings for Comment Color
+-- vim.cmd('highlight Comment guifg=#708c70')
+
+-- NOTE: settings for the followings are in wezterm config
+  -- default cursor color (Cursor in command mode, visual mode)
+  -- font color while inputting japanese text (before determined)
+  -- background color while inputting japanese text (before determined)
+  -- thickness of the cursor while insert mode (vertical bar)
+
+-- Selected Tab Background Color
+--   original color are ctermfg=235 ctermbg=203 guifg=#2c2e34 guibg=#ff6077
+vim.cmd('highlight TabLineSel guibg=#e2e2e3')
+
+vim.cmd('highlight Folded guifg=Khaki')
