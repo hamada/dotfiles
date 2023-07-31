@@ -3,14 +3,6 @@
 --**************************************************************
 --   - add symbolic links for neovim files without using cp
 --   - write down all current coc settings
---   - git commit these
---     - my telescope bookmarks picker and bookmark file
---     - .config/nvim/init.lua
---     - wezterm settings
---     - IME settings and ruby remote plugin script
---     - karabinar elements settings
---     - forked my own telescope file browser
---     - coc settings
 --   - regex match for (file browser) telescope
 --   - order telescope file browser results by directory first, Capital letter file, then lower letter file.
 --     - hide dotfiles in default if I can. (but I can search it when I type dot)
@@ -70,11 +62,6 @@ augroup vimrc_set_cursorline_only_active_window
   autocmd WinLeave * setlocal nocursorline nocursorcolumn
 augroup END
 ]])
--- augroup vimrc_set_cursorline_only_active_window
---   autocmd!
---   autocmd VimEnter,BufWinEnter,WinEnter * setlocal cursorline cursorcolumn
---   autocmd WinLeave * setlocal nocursorline nocursorcolumn
--- augroup END
 vim.opt.wrap = true
 vim.opt.scrolloff = 10
 
@@ -121,12 +108,6 @@ vim.opt.foldlevel = 99
 
 -- if you yank words, it's shared with clipboard
 vim.opt.clipboard = 'unnamed'
--- 挿入モード・検索モードでのデフォルトのIME状態設定
--- vim.opt.iminsert = 0
--- vim.opt.imsearch = 0
--- 挿入モードでのIME状態を記憶させない
--- vim.keymap.set('i', '<ESC>', '<ESC>:set iminsert=0<CR>', { noremap = true, silent = true })
--- vim.opt.imdisable = false
 
 -- OPTIMIZE: convert this into lua style
 vim.cmd('autocmd BufEnter * if &filetype == "project" || &filetype == "" | setlocal ft=markdown | endif')
@@ -148,14 +129,10 @@ vim.filetype.add({ extension = { mdx = 'mdx' } })
 -- Theme Related Settings
 --********************************************************************************************
 
--- color schema is in .config/nvim/colors/desert.vim 
--- vim.cmd('colorscheme desert')
-
 vim.opt.guifont = 'Hack Nerd Font bold:h13'
 vim.api.nvim_create_user_command("ResetFont", function(opts)
   vim.cmd("set guifont=Hack Nerd Font bold:h13")
 end, {})
--- vim.opt.guifont = 'Ricty Diminished bold:h14'
 -- vim.api.nvim_create_user_command("ResetFont", function(opts)
 --   vim.cmd("set guifont=Ricty Diminished bold:h14")
 -- end, {})
@@ -221,13 +198,6 @@ vim.keymap.set('n', '<ESC><ESC>', ':nohlsearch<CR><Esc>', { noremap = true })
 vim.keymap.set('n', ';', ':', { noremap = true })
 vim.keymap.set('n', ':', ';', { noremap = true })
 vim.keymap.set('n', '<SPACE>', '<PageDown>zz', { noremap = true })
--- Karabinar elements changes shift-space to command-space
---   because neovim can't accept shift-space directly
---   FIXME: this doesn't work because of https://stackoverflow.com/questions/279959/how-can-i-make-shiftspacebar-page-up-in-vim
---   ref: about karabinar elements https://qiita.com/yohm/items/de35f3874fd0e679ccdf
--- vim.keymap.set('n', '<D-SPACE>', '<PageUp>zz', { noremap = true })
--- vim.keymap.set('i', '<D-SPACE>', ' ', { noremap = true })
-
 -- wezterm maps shift-space to ctrl-space
 vim.keymap.set('n', '<C-SPACE>', '<PageUp>zz', { noremap = true })
 vim.keymap.set('i', '<C-SPACE>', ' ', { noremap = true })
@@ -834,18 +804,13 @@ require('lazy').setup({
   }
 })
 
--- *****************************************************
--- IME manupilation
+-- ***********************************************************************************************
+-- IME Manupilation
 -- refs
 --   - https://github.com/laishulu/macism/
 --   - https://qiita.com/callmekohei/items/343f09c619665a5c9886
 --   - http://iranoan.my.coocan.jp/essay/pc/201810080.htm
---
--- FIXME: these cause problem (if change mode to Insert mode, it changes IME to ja unexpectedly)
---  - https://github.com/qvacua/vimr/pull/900/files
---  - https://github.com/qvacua/vimr/blob/e34d9765d269ea823b526c3e4e250f9dc7271d17/NvimView/Sources/NvimView/NvimView%2BUiBridge.swift#L69C12-L69C35
---  - -> these are cause of the problem. So, I commented out the code and manually build VimR for my own.
--- *****************************************************
+-- ***********************************************************************************************
 
 -- `:lua IsIMEIsActivated()` to get current input method status
 function _G.IsIMEIsActivated()
@@ -859,15 +824,11 @@ end
 
 function _G:DeactivateIME()
   vim.fn.system('/opt/homebrew/bin/macism com.google.inputmethod.Japanese.Roman')
-  -- vim.fn.system('/opt/homebrew/bin/macism com.apple.keylayout.ABC')
 end
 
 
-vim.api.nvim_create_autocmd( 'InsertLeave', {
+vim.api.nvim_create_autocmd('InsertLeave', {
   callback = function()
-    -- if IsIMEIsActivated() then
-      -- DeactivateIME()
-    -- end
     vim.cmd([[
       highlight Cursor gui=NONE guibg=Khaki
       highlight ICursor gui=NONE guibg=Khaki
@@ -876,44 +837,42 @@ vim.api.nvim_create_autocmd( 'InsertLeave', {
   end
 })
 
-vim.api.nvim_create_autocmd( 'InsertEnter', {
+vim.api.nvim_create_autocmd('InsertEnter', {
   callback = function()
     DeactivateIME()
   end
 })
 
--- settings for Cursor Color
-vim.opt.termguicolors = true
-vim.cmd('highlight  Cursor gui=NONE guibg=khaki')
-vim.cmd('highlight ICursor gui=NONE guibg=khaki')
--- there's blink in wezterm config too.
-vim.opt.guicursor='n:block-Cursor-blinkwait5-blinkon5-blinkoff5,i-ci:ver100-ICursor-blinkwait5-blinkon5-blinkoff5'
--- NOTE: these above are just cursor colors. font colors are set by iTermtext font colors
-  -- font color under cursor in iTerm `Cursor Colors > Cursor Text`
-  -- font color for ja text before determined in iTerm `Basic Colors > Foreground`
-
+-- My own events to switch color based on IME state.
 -- You can activate these my own Event (ref: https://github.com/vim-jp/issues/issues/142)
---   `:doautocmd User ImeDeactivated`
---   `:doautocmd User ImeActivated`
+  -- `:doautocmd User ImeDeactivated`
+  -- `:doautocmd User ImeActivated`
+-- My own Ruby Script publish this event based on IME state by karabinar elements
 vim.cmd([[
 autocmd User ImeDeactivated highlight Cursor gui=NONE guibg=Khaki   | highlight ICursor gui=NONE guibg=Khaki
 autocmd User ImeActivated   highlight Cursor gui=NONE guibg=SkyBlue | highlight ICursor gui=NONE guibg=SkyBlue
 ]])
+-- ***********************************************************************************************
 
-vim.cmd('highlight CursorLine gui=NONE guibg=#242424')
--- settings for Visual mode Line Color (not cursor of visual mode)
-vim.cmd('highlight Visual gui=NONE guifg=khaki guibg=olivedrab')
--- settings for Comment Color
--- vim.cmd('highlight Comment guifg=#708c70')
 
+-- ***********************************************************************************************
+-- Color Settings
+--
 -- NOTE: settings for the followings are in wezterm config
-  -- default cursor color (Cursor in command mode, visual mode)
-  -- font color while inputting japanese text (before determined)
-  -- background color while inputting japanese text (before determined)
-  -- thickness of the cursor while insert mode (vertical bar)
+--   default cursor color (Cursor in command mode, visual mode)
+--   font color while inputting japanese text (before determined)
+--   background color while inputting japanese text (before determined)
+--   thickness of the cursor while insert mode (vertical bar)
+-- ***********************************************************************************************
+vim.opt.termguicolors = true
+-- there's blink setting in wezterm config too.
+vim.opt.guicursor='n:block-Cursor-blinkwait5-blinkon5-blinkoff5,i-ci:ver100-ICursor-blinkwait5-blinkon5-blinkoff5'
 
--- Selected Tab Background Color
---   original color are ctermfg=235 ctermbg=203 guifg=#2c2e34 guibg=#ff6077
-vim.cmd('highlight TabLineSel guibg=#e2e2e3')
+-- settings for Cursor Color
+vim.cmd('highlight  Cursor gui=NONE guibg=khaki')
+vim.cmd('highlight ICursor gui=NONE guibg=khaki')
+vim.cmd('highlight CursorLine gui=NONE guibg=#242424')
 
-vim.cmd('highlight Folded guifg=Khaki')
+vim.cmd('highlight Visual gui=NONE guifg=khaki guibg=olivedrab') -- settings for Visual mode Line Color (not cursor of visual mode)
+vim.cmd('highlight Folded guifg=#e7c664 guibg=#212121') -- Folded Text Color
+vim.cmd('highlight TabLineSel guibg=#e2e2e3') -- Selected Tab Background Color
