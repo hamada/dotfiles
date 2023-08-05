@@ -441,7 +441,7 @@ require('lazy').setup({
       vim.api.nvim_set_keymap(
         "n",
         ",b",
-        ":luafile /Users/akira/code/lua/telescope_file_bookmarks_picker.lua<CR>",
+        ":luafile ~/code/lua/telescope_file_bookmarks_picker.lua<CR>",
         { noremap = true }
       )
     end,
@@ -533,7 +533,7 @@ require('lazy').setup({
       -- NOTE: you have to install node and `npm install --global neovim`
       -- NOTE: g:node_host_prog doesn't work. use `g:copilot_node_command`
       --       ref: https://github.com/orgs/community/discussions/13310#discussioncomment-2511090
-      vim.g.copilot_node_command = "/Users/akira/.nvm/versions/node/v18.16.1/bin/node"
+      vim.g.copilot_node_command = "~/.nvm/versions/node/v18.16.1/bin/node"
       vim.g.copilot_filetypes = { markdown = true }
     end
   },
@@ -544,7 +544,7 @@ require('lazy').setup({
     config = function()
       -- snippets are in $HOME/.vsnip/ directory
       -- helpful snippets comes from https://github.com/rafamadriz/friendly-snippets
-      vim.g.vsnip_snippet_dir = '/Users/akira/.config/nvim/vsnip'
+      vim.g.vsnip_snippet_dir = '~/.config/nvim/vsnip'
       vim.cmd "imap <expr> <C-k> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-k>'"
     end
   },
@@ -556,11 +556,11 @@ require('lazy').setup({
     init = function()
       -- do the following after installing coc.nvim via lazy.nvim. you need install yarn dependencies of coc.nvim
       --   (you can find out coc.nvim directory by :Lazy command in neovim, and select coc.nvim in lazy.nvim UI)
-      --  `$ cd /Users/akira/.local/share/nvim/lazy/coc.nvim`
+      --  `$ cd ~/.local/share/nvim/lazy/coc.nvim`
       --  `$ nvm use v18.16.1`
       --  `$ npm install -g yarn`
       --  `$ yarn install`
-      vim.g.coc_node_path = '/Users/akira/.nvm/versions/node/v18.16.1/bin/node'
+      vim.g.coc_node_path = '~/.nvm/versions/node/v18.16.1/bin/node'
     end,
     config = function()
       -- Some servers have issues with backup files, see #649
