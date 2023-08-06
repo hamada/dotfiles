@@ -330,13 +330,6 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- Plugins List
   {
-    'sainnhe/sonokai',
-    config = function()
-      vim.g.sonokai_better_performance = 1
-      vim.cmd('colorscheme sonokai')
-    end
-  },
-  {
     'chentoast/marks.nvim',
     init = function()
       require'marks'.setup()
@@ -539,9 +532,35 @@ require('lazy').setup({
       require('nvim-treesitter.configs').setup {
         highlight = { enable = true, },
       }
+      -- require("vim.treesitter.query").set("ruby", "(class)", "@hoge")
 
       vim.treesitter.language.register('markdown', 'mdx')
     end
+  },
+  {
+    'sainnhe/sonokai',
+    config = function()
+      vim.g.sonokai_better_performance = 1
+      vim.cmd('colorscheme sonokai')
+
+      -- Settings for Ruby Code Colors
+      -- refs
+      --   - https://zenn.dev/vim_jp/articles/2022-12-25-vim-nvim-treesitter-2022-changes
+      --   - https://github.com/sainnhe/sonokai/blob/adb066ac5250556ccfca22f901c9710a735f23c2/colors/sonokai.vim#L2388-L2398
+      --   - https://zenn.dev/monaqa/articles/2021-12-22-vim-nvim-treesitter-highlight
+      --   - https://blog.atusy.net/2023/04/19/tsnode-marker-nvim/
+      --   - https://www.reddit.com/r/neovim/comments/m8zedt/how_to_change_a_particular_syntax_token_highlight/
+      --   - https://github.com/nvim-treesitter/nvim-treesitter#highlight
+
+      -- vim.cmd('highlight @text.title.1.markdown guifg=Purple')
+      vim.cmd('highlight @symbol.ruby guifg=SkyBlue')
+      vim.cmd('highlight @operator.ruby guifg=#e2e2e3')
+      vim.cmd('highlight @type.ruby guifg=#f29b68')
+    end
+  },
+  {
+    'nvim-treesitter/playground',
+    cond = false,
   },
   {
     'github/copilot.vim',
