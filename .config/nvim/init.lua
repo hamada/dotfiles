@@ -437,13 +437,6 @@ require('lazy').setup({
         ":Telescope filetypes<CR>",
         { noremap = true }
       )
-
-      vim.api.nvim_set_keymap(
-        "n",
-        ",b",
-        ":luafile ~/code/lua/telescope_file_bookmarks_picker.lua<CR>",
-        { noremap = true }
-      )
     end,
   },
   {
@@ -513,6 +506,30 @@ require('lazy').setup({
       }
 
       require("telescope").load_extension "file_browser"
+    end
+  },
+  {
+    dir = '~/code/lua/telescope-file-bookmarks.nvim',
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+      -- For nvim-web-devicons, did the followings after installing devicons plugin
+      --   1. installed font via `$ brew install font-hack-nerd-font`
+      --   2. set guifont to `Hack\ Nerd\ Font`
+      'nvim-tree/nvim-web-devicons'
+    },
+    init = function()
+      opts = {
+        bookmarks_file_path = vim.fn.expand("$HOME/.config/nvim/.telescope_vim_bookmarks.json")
+      }
+
+      vim.api.nvim_set_keymap(
+        "n",
+        ",b",
+        ":lua require('telescope-file-bookmarks').run(opts)<CR>",
+        { noremap = true, silent = true }
+      )
+
+      -- require("telescope").load_extension "file_bookmarks"
     end
   },
   {
