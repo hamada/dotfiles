@@ -477,7 +477,15 @@ require('lazy').setup({
               n = {
                 ["<CR>"] = function(prompt_bufnr, bypass)
                   telescope_actions.select_tab(prompt_bufnr, bypass)
-                  vim.cmd('startinsert')
+
+                  local entry_path = require("telescope.actions.state").get_selected_entry().Path
+                  if entry_path:is_dir() then
+                    vim.cmd('startinsert')
+                  else
+                    -- not sure why. but cursor is on 2nd column in 1st line.
+                    -- so move cursor to left.
+                    vim.cmd('normal! h')
+                  end
                 end,
               },
               i = {
