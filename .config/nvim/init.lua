@@ -509,7 +509,7 @@ require('lazy').setup({
     end
   },
   {
-    dir = '~/code/lua/telescope-file-bookmarks.nvim',
+    'hamada/telescope-file-bookmarks.nvim',
     dependencies = {
       'nvim-telescope/telescope.nvim',
       -- For nvim-web-devicons, did the followings after installing devicons plugin
