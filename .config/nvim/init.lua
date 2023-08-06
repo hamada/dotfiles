@@ -453,6 +453,7 @@ require('lazy').setup({
         { noremap = true }
       )
 
+      local telescope_actions = require('telescope.actions')
       local fb_actions = require "telescope".extensions.file_browser.actions
       require("telescope").setup {
         extensions = {
@@ -474,7 +475,10 @@ require('lazy').setup({
             file_ignore_patterns = {".DS_Store", ".Trash", ".CFUserTextEncoding"},
             mappings = {
               n = {
-                ["<CR>"] = require('telescope.actions').select_tab,
+                ["<CR>"] = function(prompt_bufnr, bypass)
+                  telescope_actions.select_tab(prompt_bufnr, bypass)
+                  vim.cmd('startinsert')
+                end,
               },
               i = {
                 ["<CR>"] = require('telescope.actions').select_tab,
