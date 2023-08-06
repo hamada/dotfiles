@@ -459,6 +459,7 @@ require('lazy').setup({
           file_browser = {
             path="%:p:h",
             hidden = true,
+            display_stat = false,
             hide_parent_dir = true,
             hijack_netrw = true,
             -- results_title = function(a, b)
@@ -523,6 +524,16 @@ require('lazy').setup({
       )
 
       -- require("telescope").load_extension "file_bookmarks"
+    end
+  },
+  {
+    'hamada/telescope-file-myown-sorter.nvim',
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+      'nvim-tree/nvim-web-devicons'
+    },
+    init = function()
+      require("telescope").load_extension "file-myown-sorter"
     end
   },
   {
