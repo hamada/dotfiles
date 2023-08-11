@@ -545,6 +545,34 @@ require('lazy').setup({
     end
   },
   {
+    'octarect/telescope-menu.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+    init = function()
+      require("telescope").setup {
+        extensions = {
+          menu = {
+            default = {
+              items = {
+                -- You can add an item of menu in the form of { "<display>", "<command>" }
+                { "Wrap toggle", "set wrap!" },
+                { "Copilot disable", "Copilot disable" },
+                { "Copilot enable", "Copilot enable" },
+                { "Checkhealth", "checkhealth" },
+                { "Show LSP Info", "LspInfo" },
+                { "Files", "Telescope find_files" },
+                -- The above examples are syntax-sugars of the following;
+                -- { display = "Change colorscheme", value = "Telescope colorscheme" },
+              },
+            },
+          },
+        },
+      }
+
+      require("telescope").load_extension "menu"
+      vim.api.nvim_set_keymap("n", ",c", ":Telescope menu<CR>", { noremap = true, silent = true })
+    end
+  },
+  {
     'nvim-treesitter/nvim-treesitter',
     build = ":TSUpdate",
     init = function()
