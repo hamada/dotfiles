@@ -30,6 +30,7 @@ config.window_padding = {
 -- ************************************************************************************
 -- Font Settings
 -- ************************************************************************************
+-- config.font = wezterm.font('UDEV Gothic 35NF', { weight = 'Bold' })
 config.font = wezterm.font('HackGen35 Console NF', { weight = 'Bold' })
 config.font_size = 13
 
@@ -69,6 +70,8 @@ config.keys = {
   { key = 't', mods = 'CMD', action = wezterm.action.SendKey { key = 't', mods = 'CTRL' }, },
   -- NOTE: neovim maps ctrl-space to reverse page move
   { key = ' ', mods = 'SHIFT', action = wezterm.action.SendKey { key = ' ', mods = 'CTRL' }, },
+  -- NOTE: neovim maps ctrl-` to select all
+  { key = 'a', mods = 'CMD', action = wezterm.action.SendKey { key = '`', mods = 'CTRL' }, },
   -- assigns to 英・かなキー
   --   refs
   --     https://wezfurlong.org/wezterm/config/keys.html#configuring-key-assignments
