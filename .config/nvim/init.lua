@@ -206,6 +206,10 @@ else
   vim.keymap.set('n', '<C-e>', ':<C-u>105vs ~/.config/nvim/init.lua<Enter> :se nowrap<Enter>', { noremap = true, silent = true })
   vim.keymap.set('n', '<C-s>', ':<C-u>source ~/.config/nvim/init.lua<Enter>', { noremap = true, silent = true })
 
+  -- select all
+  -- NOTE: wezterm maps ctrl-a to ctrl-` (because nvim can't directly map command key)
+  vim.keymap.set('n', '<C-`>', 'ggVG', { noremap = true })
+
   -- move page tab
   vim.keymap.set('n', 'H', 'gT', { noremap = true })
   vim.keymap.set('n', 'L', 'gt', { noremap = true })
@@ -588,6 +592,7 @@ else
         vim.treesitter.language.register('markdown', 'mdx')
       end
     },
+    { 'slim-template/vim-slim' },
     {
       'sainnhe/sonokai',
       config = function()
