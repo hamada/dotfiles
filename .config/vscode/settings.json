@@ -1,0 +1,24 @@
+{
+  "editor.accessibilitySupport": "off",
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "trailing",
+  "editor.tabSize": 2,
+  "files.associations": {
+    "*.mdx": "markdown"
+  },
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "terminal.integrated.env.osx": {
+    "FIG_NEW_SESSION": "1"
+  },
+  "window.zoomLevel": 1,
+  "workbench.startupEditor": "none",
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  },
+  "files.defaultLanguage": "markdown",
+  "security.workspace.trust.untrustedFiles": "open"
+}
