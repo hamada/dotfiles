@@ -585,7 +585,12 @@ else
       build = ":TSUpdate",
       init = function()
         require('nvim-treesitter.configs').setup {
-          highlight = { enable = true, },
+          highlight = {
+            enable = true,
+            -- set true to fix matchit jump by `%` for some ruby (rspec) code.
+            -- related issue: https://github.com/neovim/neovim/issues/22089
+            additional_vim_regex_highlighting = true
+          },
         }
         -- require("vim.treesitter.query").set("ruby", "(class)", "@hoge")
 
