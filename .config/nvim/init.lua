@@ -625,6 +625,8 @@ else
     },
     {
       'github/copilot.vim',
+      -- temporarily disabled because for copilot chat
+      cond = false,
       event = 'InsertEnter',
       config = function()
         -- NOTE: you have to install node and `npm install --global neovim`
@@ -633,6 +635,115 @@ else
         vim.g.copilot_node_command = "~/.nvm/versions/node/v18.16.1/bin/node"
         vim.g.copilot_filetypes = { markdown = true }
       end
+    },
+    {
+      "CopilotC-Nvim/CopilotChat.nvim",
+      branch = "canary",
+      dependencies = {
+        { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+        { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+        { "nvim-telescope/telescope.nvim" }, -- for telescope help actions (optional)
+      },
+      init = function()
+        -- Probablly this is no longer needed after new version Copilot Chat started to work.
+        -- vim.g.python3_host_prog = "/opt/homebrew/bin/python3"
+      end,
+      opts = {
+        --system_prompt = prompts.COPILOT_INSTRUCTIONS, -- System prompt to use
+        model = 'gpt-4', -- GPT model to use
+        temperature = 0.1, -- GPT temperature
+        debug = false, -- Enable debug logging
+        show_user_selection = false, -- Shows user selection in chat
+        show_system_prompt = false, -- Shows system prompt in chat
+        show_folds = true, -- Shows folds for sections in chat
+        clear_chat_on_new_prompt = false, -- Clears chat on every new prompt
+        auto_follow_cursor = true, -- Auto-follow cursor in chat
+        name = '🤖 CopilotChat', -- Name to use in chat (default: 'CopilotChat')
+        separator = '---', -- Separator to use in chat
+        mappings = {
+          -- close = "q", -- Close chat (default)
+          reset = "<C-r>", -- Clear the chat buffer
+          -- complete = "<Tab>", -- Change to insert mode and press tab to get the completion (default)
+          -- submit_prompt = "<CR>", -- Submit question to Copilot Chat (default)
+          -- accept_diff = "<C-a>", -- Accept the diff (default)
+          -- show_diff = "<C-s>", -- Show the diff (default)
+        },
+        prompts = { -- Favorite Prompts
+          ExplainInJapanese = 'Explain how this code works in Japanese.',
+          Explain = 'Explain how this code works.',
+          Review = 'Review the following code and provide concise suggestions.',
+          ReviewInJapanese = 'Review the following code and provide concise suggestions in Japanese.',
+          Tests = "Please explain how the selected code works, then generate unit tests for it.",
+          Refactor = "Please refactor the following code to improve its clarity and readability.",
+          -- Text-related prompts.
+          TranslateToJapanese = 'Translate it into Japanese',
+          TranslateToEnglish = 'Translate it into English',
+          Summarize = "Please summarize the following text.",
+          Spelling = "Please correct any grammar and spelling errors in the following text.",
+          Wording = "Please improve the grammar and wording of the following text.",
+          Concise = "Please rewrite the following text to make it more concise.",
+        }
+      },
+      build = function()
+        vim.notify("Please update the remote plugins by running ':UpdateRemotePlugins', then restart Neovim.")
+      end,
+      event = "VeryLazy",
+      keys = {
+        {
+          ",c",
+          mode = "n",
+          -- function()
+            -- local input = vim.fn.input("CopilotChat: ")
+            -- if input ~= "" then
+              -- vim.cmd("CopilotChat " .. input)
+            -- end
+          -- end,
+          function()
+            require("CopilotChat").open({
+              selection = require("CopilotChat.select").buffer,
+              -- window = {
+                -- layout = 'float',
+                -- title = 'My Title',
+              -- },
+            })
+            vim.cmd('startinsert')
+          end,
+          desc = "CopilotChat - vsplit prompt",
+        },
+        {
+          ",v",
+          mode = "n",
+          function()
+            require("CopilotChat.code_actions").show_prompt_actions({ selection = require("CopilotChat.select").buffer })
+          end,
+          desc = "CopilotChat - prompt actions",
+        },
+        {
+          ",v",
+          ":lua require('CopilotChat.code_actions').show_prompt_actions({ selection = require('CopilotChat.select').visual })<CR>",
+          mode = "x",
+          desc = "CopilotChat - prompt actions",
+        },
+        {
+          "<C-i>",
+          mode = "n",
+          function()
+            require("CopilotChat").open({
+              -- selection = require("CopilotChat.select").line, -- default
+              window = {
+                layout = 'float',
+                relative = 'cursor',
+                border = 'rounded', -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
+                width = 1,
+                height = 0.4,
+                row = 1
+              },
+            })
+            vim.cmd('startinsert')
+          end,
+          desc = "CopilotChat - inline prompt",
+        },
+      },
     },
     {
       'hrsh7th/vim-vsnip',
@@ -921,7 +1032,6 @@ else
   function _G:DeactivateIME()
     vim.fn.system('/opt/homebrew/bin/macism com.google.inputmethod.Japanese.Roman')
   end
-
 
   vim.api.nvim_create_autocmd('InsertLeave', {
     callback = function()
