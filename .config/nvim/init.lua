@@ -552,7 +552,6 @@ else
               default = {
                 items = {
                   -- You can add an item of menu in the form of { "<display>", "<command>" }
-                  -- { "copilot this file", 'call system("~/.config/nvim/invoke_github_copilot_in_vscode"." ".expand("%:p")." ".line(".")." ".col("."))' },
                   { "Wrap toggle", "set wrap!" },
                   { "CoCDisable", "CocDisable" },
                   -- { "Copilot disable", "Copilot disable" },
