@@ -64,14 +64,6 @@ else
   vim.opt.wrap = true
   vim.opt.scrolloff = 10
 
-  --********************************************************************************************
-  -- Customize Statusline
-  --********************************************************************************************
-  -- vim.opt.laststatus = 3 -- https://wed.dev/pr-neovim-vscode -- activate this by lualine.nvim 
-  -- vim.opt.laststatus = 2
-  -- vim.g.my_own_statusline_format = "%F%m%r%h%w [filetype: %Y] [fenc: %{&fenc}] [enc: %{&enc}] [ff: %{&ff}] %=%c,%l%11p%%"
-  -- vim.opt.statusline = vim.g.my_own_statusline_format
-
   -- customize indent
   vim.opt.autoindent = true
   vim.opt.smartindent = false
@@ -98,9 +90,6 @@ else
   vim.opt.splitright = true
 
   vim.opt.autochdir = true
-
-  -- show matched count when search with /, ? or *
-  -- vim.opt.shortmess = vim.opt.shortmess - 'S' -- activate this by lualine.nvim
 
   -- to prevennt to automatically fold code when you open a file
   -- https://stackoverflow.com/questions/8316139/how-to-set-the-default-to-unfolded-when-you-open-a-file
