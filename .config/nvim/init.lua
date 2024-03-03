@@ -385,7 +385,7 @@ require('lazy').setup({
   },
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.2',
+    tag = '0.1.5',
     dependencies = { 'nvim-lua/plenary.nvim' },
     init = function()
       require('telescope').setup{
@@ -425,9 +425,13 @@ require('lazy').setup({
   },
   {
     -- for other refs: https://zenn.dev/takuya/articles/4472285edbc132
-    -- 'nvim-telescope/telescope-file-browser.nvim',
-    -- 'hamada/telescope-file-browser.nvim',
-    -- use forked and locally cloned repo. Because use absolute path for Picker title.
+    -- use forked and locally cloned repo.
+    --    - 'nvim-telescope/telescope-file-browser.nvim',
+    --    - 'hamada/telescope-file-browser.nvim',
+    -- reasons
+    --    - I'd like to use absolute path for Picker title.
+    --       - https://github.com/hamada/telescope-file-browser.nvim/tree/abs-path-for-result_title
+    --    - I'd like to create new file in new tab (defined fb_actions.create_in_new_tab)
     dir = '~/code/lua/telescope-file-browser.nvim',
     dependencies = {
       'nvim-telescope/telescope.nvim',
@@ -551,8 +555,8 @@ require('lazy').setup({
                 -- You can add an item of menu in the form of { "<display>", "<command>" }
                 { "Wrap toggle", "set wrap!" },
                 { "CoCDisable", "CocDisable" },
-                -- { "Copilot disable", "Copilot disable" },
-                -- { "Copilot enable", "Copilot enable" },
+                { "Copilot disable", "Copilot disable" },
+                { "Copilot enable", "Copilot enable" },
                 { "Checkhealth", "checkhealth" },
                 { "Show LSP Info", "LspInfo" },
                 { "Files", "Telescope find_files" },
@@ -614,7 +618,7 @@ require('lazy').setup({
   {
     'github/copilot.vim',
     -- temporarily disabled because for copilot chat
-    cond = false,
+    -- cond = false,
     event = 'InsertEnter',
     config = function()
       -- NOTE: you have to install node and `npm install --global neovim`
@@ -1238,7 +1242,7 @@ require('lazy').setup({
               color = { fg = '', bg = '', gui='' },
               section_separators = { left = '', right = '' },
               fmt = function(context)
-                return '🤖'
+                return '🤖💬'
                 -- Show + if buffer is modified in tab
                 -- local buflist = vim.fn.tabpagebuflist(context.tabnr)
                 -- local winnr = vim.fn.tabpagewinnr(context.tabnr)
