@@ -650,7 +650,7 @@ require('lazy').setup({
       show_folds = true, -- Shows folds for sections in chat
       clear_chat_on_new_prompt = false, -- Clears chat on every new prompt
       auto_follow_cursor = true, -- Auto-follow cursor in chat
-      name = '🤖 CopilotChat', -- Name to use in chat (default: 'CopilotChat')
+      name = '🤖', -- Name to use in chat (default: 'CopilotChat')
       separator = '---', -- Separator to use in chat
       mappings = {
         -- close = "q", -- Close chat (default)
