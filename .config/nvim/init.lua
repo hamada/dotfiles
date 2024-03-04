@@ -1229,7 +1229,8 @@ require('lazy').setup({
               symbols = {
                 readonly = '[ReadOnly]', -- Text to show when the file is non-modifiable or readonly.
               }
-            }
+            },
+            "vim.fn['zoom#statusline']()",
           },
           lualine_x = {'filetype', 'encoding', 'fileformat',},
           lualine_y = {
