@@ -179,6 +179,9 @@ endfunction "}}}
 -- Key Mappings
 --********************************************************************************************
 
+-- you can see all leader key mappings with `:verbose map <leader>`
+vim.g.mapleader = ','
+
 -- double <Esc> clears search highlight
 vim.keymap.set('n', '<ESC><ESC>', ':nohlsearch<CR><Esc>', { noremap = true })
 vim.keymap.set('n', ';', ':', { noremap = true })
@@ -329,11 +332,10 @@ require('lazy').setup({
   { 'vim-scripts/surround.vim' },
   {
     'vim-scripts/The-NERD-Commenter',
-    config = function()
-      vim.g.NERDCreateDefaultMappings = 0
-      vim.g.NERDSpaceDelims = 1
-    end,
     init = function()
+      vim.g.NERDCreateDefaultMappings = 0 -- disable default mappings
+      vim.g.NERDSpaceDelims = 1 -- use spaces after comment delimiters
+
       vim.keymap.set('n', '<C-c>', '<Plug>NERDCommenterToggle', { noremap = false })
       vim.keymap.set('v', '<C-c>', '<Plug>NERDCommenterToggle', { noremap = false })
       vim.keymap.set('v', '<C-d>', ':call DupLines()<CR>', { noremap = true, silent = true })
@@ -379,8 +381,8 @@ require('lazy').setup({
     cond = false,
     init = function()
       -- change keymapping for toggling checkbox
-      vim.keymap.set('n', ',c', '<Plug>(mkdx-checkbox-next-n)')
-      vim.keymap.set('v', ',c', '<Plug>(mkdx-checkbox-next-v)')
+      -- vim.keymap.set('n', ',c', '<Plug>(mkdx-checkbox-next-n)')
+      -- vim.keymap.set('v', ',c', '<Plug>(mkdx-checkbox-next-v)')
     end
   },
   {
@@ -417,7 +419,7 @@ require('lazy').setup({
 
       vim.api.nvim_set_keymap(
         "n",
-        ",F",
+        "<leader>F",
         ":Telescope filetypes<CR>",
         { noremap = true }
       )
@@ -443,7 +445,7 @@ require('lazy').setup({
     init = function()
       vim.api.nvim_set_keymap(
         "n",
-        ",f",
+        "<leader>f",
         ":Telescope file_browser path=%:p:h select_buffer=true hidden=true hide_parent_dir=true<CR>",
         { noremap = true }
       )
@@ -525,7 +527,7 @@ require('lazy').setup({
 
       vim.api.nvim_set_keymap(
         "n",
-        ",b",
+        "<leader>b",
         ":lua require('telescope-file-bookmarks').run(opts)<CR>",
         { noremap = true, silent = true }
       )
@@ -569,7 +571,7 @@ require('lazy').setup({
       }
 
       require("telescope").load_extension "menu"
-      vim.api.nvim_set_keymap("n", ",d", ":Telescope menu<CR>", { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("n", "<leader>m", ":Telescope menu<CR>", { noremap = true, silent = true })
     end
   },
   {
@@ -682,7 +684,7 @@ require('lazy').setup({
     event = "VeryLazy",
     keys = {
       {
-        ",c",
+        "<leader>c",
         mode = "n",
         -- function()
           -- local input = vim.fn.input("CopilotChat: ")
@@ -703,7 +705,7 @@ require('lazy').setup({
         desc = "CopilotChat - vsplit prompt",
       },
       {
-        ",v",
+        "<leader>v",
         mode = "n",
         function()
           require("CopilotChat.code_actions").show_prompt_actions({ selection = require("CopilotChat.select").buffer })
@@ -711,7 +713,7 @@ require('lazy').setup({
         desc = "CopilotChat - prompt actions",
       },
       {
-        ",v",
+        "<leader>v",
         ":lua require('CopilotChat.code_actions').show_prompt_actions({ selection = require('CopilotChat.select').visual })<CR>",
         mode = "x",
         desc = "CopilotChat - prompt actions",
@@ -839,8 +841,8 @@ require('lazy').setup({
 
 
       -- Formatting selected code
-      keyset("x", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
-      keyset("n", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
+      -- keyset("x", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
+      -- keyset("n", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
 
 
       -- Setup formatexpr specified filetype(s)
@@ -878,7 +880,7 @@ require('lazy').setup({
       keyset("n", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
 
       -- Run the Code Lens actions on the current line
-      keyset("n", "<leader>cl", "<Plug>(coc-codelens-action)", opts)
+      -- keyset("n", "<leader>cl", "<Plug>(coc-codelens-action)", opts)
 
 
       -- Map function and class text objects
