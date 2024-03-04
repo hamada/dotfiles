@@ -225,6 +225,9 @@ vim.keymap.set('i', '"', '""<LEFT>', { noremap = true })
 -- don't register character deleted with x
 vim.keymap.set('n', 'x', '"_x', { noremap = true })
 
+-- terminal related commands
+vim.keymap.set('n', '<leader>t', ':MyTermSplit<CR>', { noremap = true })
+
 -- open new vsplit window
 vim.keymap.set('n', 'vs', ':<C-u>vnew<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'vS', ':<C-u>vsplit<CR>', { noremap = true })
@@ -1277,6 +1280,15 @@ require('lazy').setup({
       }
     end
   },
+  {
+    'dhruvasagar/vim-zoom',
+    init = function()
+      vim.g['zoom#statustext'] = '🔍'
+    end,
+    config = function()
+      vim.keymap.set('n', '<leader>z', '<Plug>(zoom-toggle)')
+    end
+  },
   -- {
     -- https://www.reddit.com/r/neovim/comments/14f0t0n/comment/joxs498/
   -- },
@@ -1368,3 +1380,17 @@ vim.cmd('highlight CursorLine gui=NONE guibg=#242424')
 vim.cmd('highlight Visual gui=NONE guifg=khaki guibg=olivedrab') -- settings for Visual mode Line Color (not cursor of visual mode)
 vim.cmd('highlight Folded guifg=#e7c664 guibg=#212121') -- Folded Text Color
 vim.cmd('highlight TabLineSel guibg=#e2e2e3') -- Selected Tab Background Color
+
+--- *******************************
+-- Terminal in Neovim Settings
+  -- you can escape from insert mode to normal mode in terminal by `<ESC>`
+--  *******************************
+vim.cmd([[
+" hide line number in terminal
+autocmd TermOpen * setlocal norelativenumber
+autocmd TermOpen * setlocal nonumber
+" open terminal with insert mode
+autocmd TermOpen * startinsert
+" open terminal in split window
+command! -nargs=* MyTermSplit split | wincmd j | resize 20 | terminal <args>
+]])
