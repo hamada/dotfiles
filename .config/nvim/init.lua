@@ -664,7 +664,7 @@ require('lazy').setup({
       mappings = {
         -- close = "q", -- Close chat (default)
         reset = "<C-r>", -- Clear the chat buffer
-        -- complete = "<Tab>", -- Change to insert mode and press tab to get the completion (default)
+        complete = "<C-c>", -- change from default setting. because I'd like to use <Tab> for github/copilot.vim
         -- submit_prompt = "<CR>", -- Submit question to Copilot Chat (default)
         -- accept_diff = "<C-a>", -- Accept the diff (default)
         -- show_diff = "<C-s>", -- Show the diff (default)
