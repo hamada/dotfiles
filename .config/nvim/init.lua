@@ -211,7 +211,11 @@ vim.keymap.set('i', 'jk', '<Esc>', { noremap = true })
 vim.keymap.set('n', '<C-j>', '`', { noremap = true })
 vim.keymap.set('n', '/', "/\\v", { noremap = true })
 -- close buffer with q, not :q<enter>
-vim.keymap.set('n', 'q', ':<C-u>q<CR>', { noremap = true })
+--    if buffer is last(only) one and its content is empty, close it q.
+--    ref:
+--       - https://github.com/vim-jp/issues/issues/651
+--       - https://zenn.dev/sa2knight/articles/e0a1b2ee30e9ec22dea9
+vim.keymap.set('n', 'q', ':<C-u>lua _G.QuitbufferIfLastAndEmpty()<CR>', { noremap = true, silent = true })
 -- record macro with Q, not q
 vim.keymap.set('n', 'Q', 'q', { noremap = true })
 -- help settings
@@ -1017,7 +1021,6 @@ require('lazy').setup({
                 readonly = '[ReadOnly]', -- Text to show when the file is non-modifiable or readonly.
               }
             },
-            "vim.fn['zoom#statusline']()",
           },
           lualine_x = {'filetype', 'encoding', 'fileformat',},
           lualine_y = {
@@ -1066,15 +1069,6 @@ require('lazy').setup({
         inactive_winbar = {},
         extensions = {}
       }
-    end
-  },
-  {
-    'dhruvasagar/vim-zoom',
-    init = function()
-      vim.g['zoom#statustext'] = '🔍'
-    end,
-    config = function()
-      vim.keymap.set('n', '<leader>z', '<Plug>(zoom-toggle)')
     end
   },
   -- {
@@ -1182,3 +1176,58 @@ autocmd TermOpen * startinsert
 " open terminal in split window
 command! -nargs=* MyTermSplit split | wincmd j | resize 20 | terminal <args>
 ]])
+
+-- *******************************
+-- function for keymapping of q
+-- *******************************
+function _G:QuitbufferIfLastAndEmpty()
+  if BufferIsLastOne() and CurrentBufferIsEmptyInLua() then
+    vim.cmd("q")
+  else
+    local ok, error = pcall(vim.cmd, 'bd')
+    if not ok then
+      -- `error` is like below before gsub. get only `EXX: ~` part.
+      -- `vim/_editor.lua:0: nvim_exec2(): Vim(bdelete):E89: No write since last change for buffer 1 (add ! to override)`
+      replaced_error, count = string.gsub(error, "(.+):(E%d+.+)$", "%2")
+      vim.api.nvim_echo({{replaced_error, 'ErrorMsg'}}, true, {})
+    end
+  end
+end
+
+function _G:BufferIsLastOne()
+  local max_buffer_number = vim.fn.bufnr('$')
+  local buffers = vim.fn.range(1, max_buffer_number)
+  -- local buffers = vim.api.nvim_list_bufs()
+
+  -- print('max_buffer_number: ' .. max_buffer_number)
+  -- print('---')
+
+  local count = 0
+  for _, buffer_number in ipairs(buffers) do
+    -- print(buffer_number)
+    if vim.api.nvim_buf_is_loaded(buffer_number) then
+      local bufname = vim.fn.bufname(buffer_number)
+
+      -- print('buffer: { ' .. 'number: ' .. buffer_number .. ', bufname: ' .. bufname .. ' }')
+
+      if not(bufname == 'copilot-chat') and not(bufname == '') then
+        count = count + 1
+      end
+    end
+  end
+
+  -- print('buffer_count: ' .. count)
+  return count <= 1
+end
+
+function _G.CurrentBufferIsEmptyInLua()
+  -- ファイルの内容が空
+  local line_count = vim.fn.line('$')
+  local content_of_first_line = vim.fn.getline(1)
+  if line_count == 1 and content_of_first_line == '' then
+    -- ファイル名が空ならtrue
+    return vim.fn.expand('%:t') == ''
+  else
+    return false
+  end
+end
