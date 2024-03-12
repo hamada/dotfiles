@@ -1021,7 +1021,6 @@ require('lazy').setup({
                 readonly = '[ReadOnly]', -- Text to show when the file is non-modifiable or readonly.
               }
             },
-            "vim.fn['zoom#statusline']()",
           },
           lualine_x = {'filetype', 'encoding', 'fileformat',},
           lualine_y = {
@@ -1070,15 +1069,6 @@ require('lazy').setup({
         inactive_winbar = {},
         extensions = {}
       }
-    end
-  },
-  {
-    'dhruvasagar/vim-zoom',
-    init = function()
-      vim.g['zoom#statustext'] = '🔍'
-    end,
-    config = function()
-      vim.keymap.set('n', '<leader>z', '<Plug>(zoom-toggle)')
     end
   },
   -- {
