@@ -719,14 +719,18 @@ require('lazy').setup({
         "<leader>v",
         mode = "n",
         function()
-          require("CopilotChat.code_actions").show_prompt_actions({ selection = require("CopilotChat.select").buffer })
+          local prompt_actions_for_buffer = require("CopilotChat.actions").prompt_actions({ selection = require("CopilotChat.select").buffer })
+          require("CopilotChat.integrations.telescope").pick(prompt_actions_for_buffer)
         end,
         desc = "CopilotChat - prompt actions",
       },
       {
         "<leader>v",
-        ":lua require('CopilotChat.code_actions').show_prompt_actions({ selection = require('CopilotChat.select').visual })<CR>",
         mode = "x",
+        function()
+          local prompt_actions_for_visually_selected = require("CopilotChat.actions").prompt_actions({ selection = require('CopilotChat.select').visual })
+          require('CopilotChat.integrations.telescope').pick(prompt_actions_for_visually_selected)
+        end,
         desc = "CopilotChat - prompt actions",
       },
       {
