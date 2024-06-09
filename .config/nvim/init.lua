@@ -622,6 +622,7 @@ require('lazy').setup({
       vim.cmd('highlight @symbol.ruby guifg=SkyBlue')
       vim.cmd('highlight @operator.ruby guifg=#e2e2e3')
       vim.cmd('highlight @type.ruby guifg=#f29b68')
+      vim.cmd('highlight @constant.ruby guifg=#f29b68')
     end
   },
   {
