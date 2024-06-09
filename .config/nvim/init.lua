@@ -650,10 +650,9 @@ require('lazy').setup({
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
       { "nvim-telescope/telescope.nvim" }, -- for telescope help actions (optional)
     },
-    init = function()
-      vim.cmd('autocmd BufEnter * if &filetype == "copilot-chat" || &filetype == "" | setlocal ft=markdown | endif')
-    end,
     config = function(_, opts)
+      vim.cmd('autocmd BufEnter * if &filetype == "copilot-chat" || &filetype == "" | setlocal ft=markdown | endif')
+
       local chat = require("CopilotChat")
       local ns = vim.api.nvim_create_namespace("copilot-chat-text-hl")
 
