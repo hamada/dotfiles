@@ -649,9 +649,69 @@ require('lazy').setup({
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
       { "nvim-telescope/telescope.nvim" }, -- for telescope help actions (optional)
     },
+    -- TODO: remove this init function. no longer needed.
+    -- because I need to use config function for virtual text settings.
+    -- so I migrate all to config function.
     init = function()
-      -- Probablly this is no longer needed after new version Copilot Chat started to work.
-      -- vim.g.python3_host_prog = "/opt/homebrew/bin/python3"
+      -- ref: https://github.com/jellydn/lazy-nvim-ide/blob/main/lua/plugins/extras/copilot-chat-v2.lua
+      -- Custom buffer for CopilotChat
+      vim.api.nvim_create_autocmd("BufEnter", {
+        pattern = "copilot-*",
+        callback = function()
+          -- vim.opt_local.relativenumber = true
+          -- vim.opt_local.number = false
+
+          -- Get current filetype and set it to markdown if the current filetype is copilot-chat
+          -- local ft = vim.bo.filetype
+          -- if ft == "copilot-chat" then
+            -- vim.bo.filetype = "markdown"
+          -- end
+        end,
+      })
+
+      vim.cmd('autocmd BufEnter * if &filetype == "copilot-chat" || &filetype == "" | setlocal ft=markdown | endif')
+    end,
+    config = function(_, opts)
+      local chat = require("CopilotChat")
+      local ns = vim.api.nvim_create_namespace("copilot-chat-text-hl")
+
+      -- ref: https://github.com/jellydn/lazy-nvim-ide/blob/main/lua/plugins/extras/copilot-chat-v2.lua
+      -- Custom buffer for CopilotChat
+      vim.api.nvim_create_autocmd("BufEnter", {
+        pattern = "copilot-chat",
+        callback = function(env)
+          vim.opt_local.number = false
+
+          -- Display Header Separator
+          -- refs: screenshot of https://github.com/CopilotC-Nvim/CopilotChat.nvim/issues/334#issue-2319472872
+          vim.api.nvim_create_autocmd({ 'TextChanged', "TextChangedI" }, {
+            group = vim.api.nvim_create_augroup('copilot-chat-text-' .. env.buf, { clear = true }),
+            buffer = env.buf,
+            callback = function()
+              vim.api.nvim_buf_clear_namespace(env.buf, ns, 0, -1)
+              local lines = vim.api.nvim_buf_get_lines(env.buf, 0, -1, false)
+              for l, line in ipairs(lines) do
+                if line:match(opts.separator .. "$") then
+                  local sep = vim.fn.strwidth(line) - vim.fn.strwidth(opts.separator)
+                  local separator_text = "━" -- U+2501. (FYI, U+2500 is thinner than U+2501)
+                  vim.api.nvim_buf_set_extmark(env.buf, ns, l - 1, sep, {
+                    virt_text_win_col = sep,
+                    virt_text = { { string.rep(separator_text, vim.go.columns), "@punctuation.special.markdown" } },
+                    priority = 100,
+                  })
+                  vim.api.nvim_buf_set_extmark(env.buf, ns, l - 1, 0, {
+                    end_col = sep + 1,
+                    hl_group = "@markup.heading.2.markdown",
+                    priority = 100,
+                  })
+                end
+              end
+            end,
+          })
+        end,
+      })
+
+      chat.setup(opts)
     end,
     opts = {
       --system_prompt = prompts.COPILOT_INSTRUCTIONS, -- System prompt to use
@@ -661,15 +721,19 @@ require('lazy').setup({
       show_user_selection = false, -- Shows user selection in chat
       show_system_prompt = false, -- Shows system prompt in chat
       show_folds = true, -- Shows folds for sections in chat
+      show_help = false, -- Shows help message as virtual lines when waiting for user input
       clear_chat_on_new_prompt = false, -- Clears chat on every new prompt
       auto_follow_cursor = true, -- Auto-follow cursor in chat
-      name = '🤖', -- Name to use in chat (default: 'CopilotChat')
-      separator = '---', -- Separator to use in chat
+      question_header = " User ", -- icon is nf-fa-user of nerd font. (technically, font is Hack Nerd Font.)
+      answer_header = " Copilot ", -- icon is nf-oct-copilot of nerd font. I don't know why but nf-oct-copilot icon doesn't work. (technically, font is Hack Nerd Font.)
+      error_header = " Error ", -- icon is nf-oct-alert of nerd font. (technically, font is Hack Nerd Font.)
+      separator = "───", -- Separator to use in chat
+      highlight_selection = false, -- disable highlighting selection in the source buffer when in the chat window
       mappings = {
         -- close = "q", -- Close chat (default)
-        reset = "<C-r>", -- Clear the chat buffer
-        complete = "<C-c>", -- change from default setting. because I'd like to use <Tab> for github/copilot.vim
-        -- submit_prompt = "<CR>", -- Submit question to Copilot Chat (default)
+        reset = { normal ='<C-r>' }, -- Clear the chat buffer
+        complete = { insert = "<C-c>" }, -- change from default setting. because I'd like to use <Tab> for github/copilot.vim
+        submit_prompt = { normal = "<CR>", insert = "<S-CR>" }, -- Submit question to Copilot Chat
         -- accept_diff = "<C-a>", -- Accept the diff (default)
         -- show_diff = "<C-s>", -- Show the diff (default)
       },
@@ -753,6 +817,80 @@ require('lazy').setup({
         desc = "CopilotChat - inline prompt",
       },
     },
+  },
+  {
+    "lukas-reineke/headlines.nvim",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    cond = false,
+    opts = function()
+      local opts = {}
+      for _, ft in ipairs({ "markdown", "norg", "rmd", "org" }) do
+        opts[ft] = { headline_highlights = {} }
+        for i = 1, 6 do
+          table.insert(opts[ft].headline_highlights, "Headline" .. i)
+        end
+      end
+      return opts
+    end,
+    -- ft = { "markdown", "norg", "rmd", "org" },
+    config = true, -- or `opts = {}`
+    -- init = function()
+      -- local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+      -- parser_config.copilotchat = {
+        -- -- install_info = {
+          -- -- -- url = "~/projects/tree-sitter-zimbu", -- local path or git repo
+          -- -- -- files = {"src/parser.c"}, -- note that some parsers also require src/scanner.c or src/scanner.cc
+        -- -- },
+        -- filetype = "copilotchat", -- if filetype does not match the parser name
+      -- }
+      -- vim.treesitter.language.register('markdown', 'copilotchat')  -- the copilot-chat filetype will use the markdown parser and queries.
+    -- end,
+    -- config = function()
+      -- require("headlines").setup {
+        -- ['markdown'] = {
+          -- query = vim.treesitter.query.parse(
+          -- "markdown",
+          -- [[
+          -- (atx_heading [
+          -- (atx_h1_marker)
+          -- (atx_h2_marker)
+          -- (atx_h3_marker)
+          -- (atx_h4_marker)
+          -- (atx_h5_marker)
+          -- (atx_h6_marker)
+          -- ] @headline)
+
+          -- (thematic_break) @dash
+
+          -- (fenced_code_block) @codeblock
+
+          -- (block_quote_marker) @quote
+          -- (block_quote (paragraph (inline (block_continuation) @quote)))
+          -- (block_quote (paragraph (block_continuation) @quote))
+          -- (block_quote (block_continuation) @quote)
+          -- ]]
+          -- ),
+          -- headline_highlights = { "Headline" },
+          -- bullet_highlights = {
+            -- "@text.title.1.marker.markdown",
+            -- "@text.title.2.marker.markdown",
+            -- "@text.title.3.marker.markdown",
+            -- "@text.title.4.marker.markdown",
+            -- "@text.title.5.marker.markdown",
+            -- "@text.title.6.marker.markdown",
+          -- },
+          -- bullets = { "◉", "○", "✸", "✿" },
+          -- codeblock_highlight = "CodeBlock",
+          -- dash_highlight = "Dash",
+          -- dash_string = "-",
+          -- quote_highlight = "Quote",
+          -- quote_string = "┃",
+          -- fat_headlines = true,
+          -- fat_headline_upper_string = "▃",
+          -- fat_headline_lower_string = "🬂",
+        -- },
+      -- }
+    -- end,
   },
   {
     'hrsh7th/vim-vsnip',
@@ -1042,7 +1180,7 @@ require('lazy').setup({
               color = { fg = '', bg = '', gui='' },
               section_separators = { left = '', right = '' },
               fmt = function(context)
-                return '🤖💬'
+                return ' '
                 -- Show + if buffer is modified in tab
                 -- local buflist = vim.fn.tabpagebuflist(context.tabnr)
                 -- local winnr = vim.fn.tabpagewinnr(context.tabnr)
