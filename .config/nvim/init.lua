@@ -622,6 +622,7 @@ require('lazy').setup({
       vim.cmd('highlight @symbol.ruby guifg=SkyBlue')
       vim.cmd('highlight @operator.ruby guifg=#e2e2e3')
       vim.cmd('highlight @type.ruby guifg=#f29b68')
+      vim.cmd('highlight @constant.ruby guifg=#f29b68')
     end
   },
   {
@@ -649,9 +650,49 @@ require('lazy').setup({
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
       { "nvim-telescope/telescope.nvim" }, -- for telescope help actions (optional)
     },
-    init = function()
-      -- Probablly this is no longer needed after new version Copilot Chat started to work.
-      -- vim.g.python3_host_prog = "/opt/homebrew/bin/python3"
+    config = function(_, opts)
+      vim.cmd('autocmd BufEnter * if &filetype == "copilot-chat" || &filetype == "" | setlocal ft=markdown | endif')
+
+      local chat = require("CopilotChat")
+      local ns = vim.api.nvim_create_namespace("copilot-chat-text-hl")
+
+      -- ref: https://github.com/jellydn/lazy-nvim-ide/blob/main/lua/plugins/extras/copilot-chat-v2.lua
+      -- Custom buffer for CopilotChat
+      vim.api.nvim_create_autocmd("BufEnter", {
+        pattern = "copilot-chat",
+        callback = function(env)
+          vim.opt_local.number = false
+
+          -- Display Header Separator
+          -- refs: screenshot of https://github.com/CopilotC-Nvim/CopilotChat.nvim/issues/334#issue-2319472872
+          vim.api.nvim_create_autocmd({ 'TextChanged', "TextChangedI" }, {
+            group = vim.api.nvim_create_augroup('copilot-chat-text-' .. env.buf, { clear = true }),
+            buffer = env.buf,
+            callback = function()
+              vim.api.nvim_buf_clear_namespace(env.buf, ns, 0, -1)
+              local lines = vim.api.nvim_buf_get_lines(env.buf, 0, -1, false)
+              for l, line in ipairs(lines) do
+                if line:match(opts.separator .. "$") then
+                  local sep = vim.fn.strwidth(line) - vim.fn.strwidth(opts.separator)
+                  local separator_text = "━" -- U+2501. (FYI, U+2500 is thinner than U+2501)
+                  vim.api.nvim_buf_set_extmark(env.buf, ns, l - 1, sep, {
+                    virt_text_win_col = sep,
+                    virt_text = { { string.rep(separator_text, vim.go.columns), "@punctuation.special.markdown" } },
+                    priority = 100,
+                  })
+                  vim.api.nvim_buf_set_extmark(env.buf, ns, l - 1, 0, {
+                    end_col = sep + 1,
+                    hl_group = "@markup.heading.2.markdown",
+                    priority = 100,
+                  })
+                end
+              end
+            end,
+          })
+        end,
+      })
+
+      chat.setup(opts)
     end,
     opts = {
       --system_prompt = prompts.COPILOT_INSTRUCTIONS, -- System prompt to use
@@ -661,15 +702,19 @@ require('lazy').setup({
       show_user_selection = false, -- Shows user selection in chat
       show_system_prompt = false, -- Shows system prompt in chat
       show_folds = true, -- Shows folds for sections in chat
+      show_help = false, -- Shows help message as virtual lines when waiting for user input
       clear_chat_on_new_prompt = false, -- Clears chat on every new prompt
       auto_follow_cursor = true, -- Auto-follow cursor in chat
-      name = '🤖', -- Name to use in chat (default: 'CopilotChat')
-      separator = '---', -- Separator to use in chat
+      question_header = " User ", -- icon is nf-fa-user of nerd font. (technically, font is Hack Nerd Font.)
+      answer_header = " Copilot ", -- icon is nf-oct-copilot of nerd font. I don't know why but nf-oct-copilot icon doesn't work. (technically, font is Hack Nerd Font.)
+      error_header = " Error ", -- icon is nf-oct-alert of nerd font. (technically, font is Hack Nerd Font.)
+      separator = "───", -- Separator to use in chat
+      highlight_selection = false, -- disable highlighting selection in the source buffer when in the chat window
       mappings = {
         -- close = "q", -- Close chat (default)
-        reset = "<C-r>", -- Clear the chat buffer
-        complete = "<C-c>", -- change from default setting. because I'd like to use <Tab> for github/copilot.vim
-        -- submit_prompt = "<CR>", -- Submit question to Copilot Chat (default)
+        reset = { normal ='<C-r>' }, -- Clear the chat buffer
+        complete = { insert = "<C-c>" }, -- change from default setting. because I'd like to use <Tab> for github/copilot.vim
+        submit_prompt = { normal = "<CR>", insert = "<S-CR>" }, -- Submit question to Copilot Chat
         -- accept_diff = "<C-a>", -- Accept the diff (default)
         -- show_diff = "<C-s>", -- Show the diff (default)
       },
@@ -753,6 +798,31 @@ require('lazy').setup({
         desc = "CopilotChat - inline prompt",
       },
     },
+  },
+  {
+    'ixru/nvim-markdown',
+    init = function()
+      -- vim.g.vim_markdown_no_default_key_mappings = true
+      -- change keymapping of Markdown_FollowLink in normal mode (default is <CR>)
+      vim.cmd "map <S-CR> <Plug>Markdown_FollowLink"
+      -- change keymapping of Markdown_CreateLink in visual mode (default is <C-k>)
+      vim.cmd "map <C-l> <Plug>Markdown_CreateLink"
+
+      -- disable keymapping for this function
+      vim.cmd "map <Plug> <Plug>Markdown_Fold"
+    end
+
+  },
+  {
+    -- markdown preview
+    'MeanderingProgrammer/markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+        require('render-markdown').setup({
+          -- Characters that will replace the # at the start of headings
+          headings = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
+        })
+    end,
   },
   {
     'hrsh7th/vim-vsnip',
@@ -1042,7 +1112,7 @@ require('lazy').setup({
               color = { fg = '', bg = '', gui='' },
               section_separators = { left = '', right = '' },
               fmt = function(context)
-                return '🤖💬'
+                return ' '
                 -- Show + if buffer is modified in tab
                 -- local buflist = vim.fn.tabpagebuflist(context.tabnr)
                 -- local winnr = vim.fn.tabpagewinnr(context.tabnr)
