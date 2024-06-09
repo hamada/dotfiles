@@ -650,26 +650,7 @@ require('lazy').setup({
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
       { "nvim-telescope/telescope.nvim" }, -- for telescope help actions (optional)
     },
-    -- TODO: remove this init function. no longer needed.
-    -- because I need to use config function for virtual text settings.
-    -- so I migrate all to config function.
     init = function()
-      -- ref: https://github.com/jellydn/lazy-nvim-ide/blob/main/lua/plugins/extras/copilot-chat-v2.lua
-      -- Custom buffer for CopilotChat
-      vim.api.nvim_create_autocmd("BufEnter", {
-        pattern = "copilot-*",
-        callback = function()
-          -- vim.opt_local.relativenumber = true
-          -- vim.opt_local.number = false
-
-          -- Get current filetype and set it to markdown if the current filetype is copilot-chat
-          -- local ft = vim.bo.filetype
-          -- if ft == "copilot-chat" then
-            -- vim.bo.filetype = "markdown"
-          -- end
-        end,
-      })
-
       vim.cmd('autocmd BufEnter * if &filetype == "copilot-chat" || &filetype == "" | setlocal ft=markdown | endif')
     end,
     config = function(_, opts)
