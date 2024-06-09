@@ -819,6 +819,31 @@ require('lazy').setup({
     },
   },
   {
+    'ixru/nvim-markdown',
+    init = function()
+      -- vim.g.vim_markdown_no_default_key_mappings = true
+      -- change keymapping of Markdown_FollowLink in normal mode (default is <CR>)
+      vim.cmd "map <S-CR> <Plug>Markdown_FollowLink"
+      -- change keymapping of Markdown_CreateLink in visual mode (default is <C-k>)
+      vim.cmd "map <C-l> <Plug>Markdown_CreateLink"
+
+      -- disable keymapping for this function
+      vim.cmd "map <Plug> <Plug>Markdown_Fold"
+    end
+
+  },
+  {
+    -- markdown preview
+    'MeanderingProgrammer/markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+        require('render-markdown').setup({
+          -- Characters that will replace the # at the start of headings
+          headings = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
+        })
+    end,
+  },
+  {
     "lukas-reineke/headlines.nvim",
     dependencies = "nvim-treesitter/nvim-treesitter",
     cond = false,
