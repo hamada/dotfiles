@@ -44,6 +44,9 @@
 --**************************************************************
 -- Basic Settings
 --**************************************************************
+if vim.g.vscode then
+  require("init_for_vscode")
+else
 vim.opt.title = true
 vim.opt.fenc = 'utf-8'
 vim.opt.number = true
@@ -644,7 +647,6 @@ require('lazy').setup({
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
     dependencies = {
       { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
@@ -800,29 +802,38 @@ require('lazy').setup({
     },
   },
   {
+    -- shortcut for markdown
     'ixru/nvim-markdown',
+    cond = false,
     init = function()
       -- vim.g.vim_markdown_no_default_key_mappings = true
       -- change keymapping of Markdown_FollowLink in normal mode (default is <CR>)
       vim.cmd "map <S-CR> <Plug>Markdown_FollowLink"
       -- change keymapping of Markdown_CreateLink in visual mode (default is <C-k>)
-      vim.cmd "map <C-l> <Plug>Markdown_CreateLink"
+      -- vim.cmd "map <C-l> <Plug>Markdown_CreateLink"
 
-      -- disable keymapping for this function
-      vim.cmd "map <Plug> <Plug>Markdown_Fold"
-    end
-
+      -- disable keymapping for these function
+      vim.cmd "map <Plug> <Plug>Markdown_Checkbox"
+      vim.cmd "nmap <Plug> <Plug>Markdown_Checkbox"
+      vim.cmd "nmap <Plug> <Plug>Markdown_Fold"
+      vim.cmd "imap <Plug> <Plug>Markdown_CreateLink"
+    end,
   },
   {
-    -- markdown preview
-    'MeanderingProgrammer/markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    -- use this for markdown rendering inside copilot-chat plugin
+    'MeanderingProgrammer/render-markdown.nvim',
+    cond = false,
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
     config = function()
-        require('render-markdown').setup({
-          -- Characters that will replace the # at the start of headings
-          headings = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
-        })
+      require('render-markdown').setup {
+        file_types = { 'markdown', 'copilot-chat' },
+      }
     end,
+    opts = {},
   },
   {
     'hrsh7th/vim-vsnip',
@@ -1145,6 +1156,7 @@ require('lazy').setup({
       }
     end
   },
+  { 'hashivim/vim-terraform' },
   -- {
     -- https://www.reddit.com/r/neovim/comments/14f0t0n/comment/joxs498/
   -- },
@@ -1304,4 +1316,5 @@ function _G.CurrentBufferIsEmptyInLua()
   else
     return false
   end
+end
 end
