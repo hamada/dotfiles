@@ -15,10 +15,11 @@
   "workbench.startupEditor": "none",
   "github.copilot.enable": {
     "*": true,
-    "plaintext": false,
+    "plaintext": true,
     "markdown": true,
     "scminput": false
   },
   "files.defaultLanguage": "markdown",
-  "security.workspace.trust.untrustedFiles": "open"
+  "workbench.sideBar.location": "right",
+  "security.workspace.trust.emptyWindow": false
 }
