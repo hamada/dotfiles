@@ -53,6 +53,4 @@ else
   pr_info=""
 fi
 
-directory="#[bg=#282a36,fg=green] $1 "
-
-echo "$directory$git_info$pr_info"
+echo "$git_info$pr_info"
