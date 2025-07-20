@@ -45,3 +45,5 @@
   path = ~/code/hamada_repos/.gitconfig
 [includeIf "gitdir:~/keyboards/"]
   path = ~/code/hamada_repos/.gitconfig
+[includeIf "gitdir:~/Desktop/keyboard/"]
+  path = ~/code/hamada_repos/.gitconfig
