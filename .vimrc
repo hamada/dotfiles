@@ -268,7 +268,7 @@ if dein#load_state('~/.cache/dein')
   call dein#add('tpope/vim-rails')
   call dein#add('glidenote/octoeditor.vim')
   call dein#add('tpope/vim-fugitive')
-  call dein#add('kchmck/vim-coffee-script')
+  " call dein#add('kchmck/vim-coffee-script') " commentout for now. a error happens
   call dein#add('kshenoy/vim-signature')
   call dein#add('vim-scripts/applescript.vim')
   " call dein#add('supermomonga/projectlocal.vim')
@@ -282,6 +282,8 @@ if dein#load_state('~/.cache/dein')
   call dein#add('cespare/vim-toml')
   call dein#add('akira-hamada/friendly-grep.vim')
   call dein#add('hashivim/vim-terraform')
+  call dein#add('HerringtonDarkholme/yats.vim')
+  call dein#add('maxmellon/vim-jsx-pretty')
 
   call dein#end()
   call dein#save_state()
@@ -550,7 +552,7 @@ let g:octopress_vimfiler = 0
 " let g:octopress_template_dir_path = 'path/to/dir'
 "
 " customize friendly_grep
-let g:friendlygrep_target_dir = join(readfile(glob('~/dotfiles/.vim/friendly_grep_search_root_path')), "\n")
+" let g:friendlygrep_target_dir = join(readfile(glob('~/dotfiles/.vim/friendly_grep_search_root_path')), "\n")
 let g:friendlygrep_recursively = 1
 let g:friendlygrep_display_result_in = 'tab'
 "--------------------------------------------------------------------------------------------
