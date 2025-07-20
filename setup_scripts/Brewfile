@@ -53,7 +53,7 @@ brew 'wget'
 brew 'watch'
 brew 'htop'
 brew 'git-delta'
-brew 'exa'
+brew 'eza' # alternative to 'exa' command (better ls)
 
 # M1 Mac対応するまではDocker-DesktopをGUIから普通にインストールする
 # brew 'docker'
