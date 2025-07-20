@@ -9,12 +9,12 @@ setopt auto_pushd #use cd -<TAB>
 setopt pushd_ignore_dups
 
 export LSCOLORS="gxfxcxdxbxegedabagacad"
-# colors for exa (ref: https://the.exa.website/docs/colour-themes)
+# colors for eza (ref: https://github.com/eza-community/eza/blob/b9dfd61723d0b1e184954eeab93c1087cdf96ed8/man/eza_colors.5.md. formaly: https://the.exa.website/docs/colour-themes)
 #   Basic format is `part_name=fgcolor;bgcolor;effect:`
 #   Special format for ANSI 256 color. `nnn` is ANSI 256 color number (ref: https://jonasjacek.github.io/colors/)
 #     - Foreground: `38;5;nnn` 
 #     - Background: `48;5;nnn`
-export EXA_COLORS="ur=38;5;3;1:uw=38;5;5;1:ux=38;5;1;1:ue=38;5;1;1:gr=38;5;249:gw=38;5;249:gx=38;5;249:tr=38;5;249:tw=38;5;249:tx=38;5;249:xa=38;5;12:sn=38;5;7:sb=38;5;7:uu=38;5;249:un=38;5;241:gu=38;5;245:gn=38;5;241:da=38;5;245:fi=38;5;15:di=38;5;45:ex=38;5;1:*.png=38;5;4:*.jpg=38;5;4:*.gif=38;5;4"
+export EZA_COLORS="ur=38;5;3;1:uw=38;5;5;1:ux=38;5;1;1:ue=38;5;1;1:gr=38;5;249:gw=38;5;249:gx=38;5;249:tr=38;5;249:tw=38;5;249:tx=38;5;249:xa=38;5;12:sn=38;5;7:sb=38;5;7:uu=38;5;249:un=38;5;241:gu=38;5;245:gn=38;5;241:da=38;5;245:fi=38;5;15:di=38;5;45:ex=38;5;1:*.png=38;5;4:*.jpg=38;5;4:*.gif=38;5;4"
 
 setopt hist_ignore_space
 setopt hist_ignore_dups
@@ -30,6 +30,26 @@ fi
 # You can select a session if any tmux session already exists.
 #   ref: https://qiita.com/ssh0/items/a9956a74bff8254a606a
 export PERCOL="peco"
+# bypass tmux when "$NO_TMUX" is set. this is used especially by ghostty terminal app.
+# if [[ -z $NO_TMUX ]]; then
+  # :  # Start zsh terminal normally
+# elif [[ ! -n $TMUX && $- == *l* ]]; then
+  # # get the IDs
+  # ID="`tmux list-sessions`"
+  # if [[ -z "$ID" ]]; then
+    # tmux new-session
+  # fi
+  # create_new_session="Create New Session"
+  # ID="$ID\n${create_new_session}:"
+  # ID="`echo $ID | $PERCOL | cut -d: -f1`"
+  # if [[ "$ID" = "${create_new_session}" ]]; then
+    # tmux new-session
+  # elif [[ -n "$ID" ]]; then
+    # tmux attach-session -t "$ID"
+  # else
+    # :  # Start terminal normally
+  # fi
+# fi
 if [[ ! -n $TMUX && $- == *l* ]]; then
   # get the IDs
   ID="`tmux list-sessions`"
@@ -57,13 +77,19 @@ eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/bin:$PATH"
 
 #set prompt
-PROMPT=%F{green}'$ '%f
+# PROMPT=%F{green}'$ '%f
+# %F{green}: use green color
+# %d: current directory
+# $'\n': new line
+# '$ ': simply display `$ ` character
+# %f: reset color
+PROMPT=%F{green}%d$'\n''$ '%f
 
 #alias
 alias rm='rm -i'
-if [[ $(command -v exa) ]]; then
-  alias ls=' exa'
-  alias l=' exa -alh --time-style long-iso'
+if [[ $(command -v eza) ]]; then
+  alias ls=' eza'
+  alias l=' eza -alh --time-style long-iso'
 else
   alias ls=' ls -G' # ls with coloring
 fi
@@ -87,6 +113,8 @@ alias tn="tmux new -t"
 # docker, kubernetes alias
 alias k="kubectl"
 
+alias pn="pnpm"
+
 # gpo() {
 	# local branch=$*;
   # if [ -n "$branch" ]; then
@@ -102,14 +130,28 @@ PATH="$PATH":~/commands
 alias music="mkdir /Volumes/contents; mount_afp afp://10.0.1.5/contents /Volumes/contents; open /Applications/iTunes.app"
 alias eject="killall iTunes; hdiutil eject /Volumes/contents"
 
+
 #display current dir in tab title
 precmd () {
   echo -ne "\e]2;${PWD}\a"
   echo -ne "\e]1;${PWD:t}\a"
 }
 
-#for autojump
+# for autojump
 [ -f $(brew --prefix)/etc/profile.d/autojump.sh ] && . $(brew --prefix)/etc/profile.d/autojump.sh
+
+# for docker command completion
+# symlink to homebrew zsh site-functions
+#   ref: https://docs.docker.com/desktop/mac/#zsh
+# etc=/Applications/Docker.app/Contents/Resources/etc
+# ln -s $etc/docker.zsh-completion /opt/homebrew/opt/zsh/share/zsh/functions/_docker
+# ln -s $etc/docker-compose.zsh-completion /opt/homebrew/opt/zsh/share/zsh/functions/_docker-compose
+docker_app_etc=/Applications/Docker.app/Contents/Resources/etc
+# ln -s $docker_app_etc/docker.zsh-completion $HOME/.zsh/completions/_docker
+# ln -s $docker_app_etc/docker-compose.zsh-completion $HOME/.zsh/completions/_docker-compose
+fpath=( $HOME/.zsh/completions/_docker "${fpath[@]}" )
+fpath=( $HOME/.zsh/completions/_docker-compose "${fpath[@]}" )
+# autoload -Uz your-self-made-completion
 
 autoload -U compinit && compinit -u
 
