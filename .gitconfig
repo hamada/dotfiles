@@ -5,7 +5,7 @@
   keepBackup = true
 [core]
 	editor = vim
-  pager = delta
+  pager = hunk pager
 	excludesfile = ~/.gitignore
 [pretty]
   medium-reverse = format:%C(red reverse)%d%Creset%C(white reverse) %h% Creset %C(green reverse) %an %Creset %C(cyan)%ar%Creset%n%C(white bold)%w(80)%s%Creset%n%n%w(80,2,2)%b
