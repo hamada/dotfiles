@@ -1,0 +1,42 @@
+# config/keybindings: https://herdr.dev/docs/config-reference/
+# other refs
+#   https://x.com/MegaBlackLabel/article/2077708226918044002
+#   https://zenn.dev/yamamoto666999/articles/herdr-terminal-multiplexer
+[keys]
+prefix = ","
+new_tab = "prefix+t"
+rename_tab = "prefix+$"
+goto = "ctrl+l"
+split_vertical = "prefix+v" #(default. prefix+| doesn't work)
+close_pane = "prefix+q"
+cycle_pane_next = "ctrl+o"
+zoom = "prefix+z"
+
+[ui]
+agent_panel_sort = "priority"
+
+[ui.toast]
+delivery = "system"
+
+[[keys.command]]
+key = "cmd+r"
+type = "shell"
+command = "herdr plugin action invoke hunk.diff.worktree-split"
+description = "Open worktree diff in split pane"
+
+# [[keys.command]]
+# # https://github.com/persiyanov/herdr-reviewr
+# key = "cmd+r"
+# type = "plugin_action"
+# command = "persiyanov.reviewr.toggle"   # <plugin_id>.<action_id> — note the id, not the name
+# [[keys.command]]
+# # https://github.com/smarzban/herdr-file-viewer
+# key = "prefix+f"
+# type = "plugin_action"
+# command = "herdr-file-viewer.open-file-viewer"
+# description = "open file viewer in split"
+
+# memo
+
+# resize_mode is handy (prefix+r)
+# toggle_sidebar (prefix+b)
