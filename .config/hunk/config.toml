@@ -1,0 +1,12 @@
+theme = "github-dark-default"
+mode = "auto"
+vcs = "git"
+watch = false
+exclude_untracked = false
+line_numbers = true
+tab_width = 4
+wrap_lines = false
+hunk_headers = true
+menu_bar = true
+agent_notes = true
+transparent_background = false

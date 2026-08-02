@@ -79,6 +79,11 @@ brew 'qmk/qmk/qmk'
 tap 'homebrew/cask-drivers'
 cask 'qmk-toolbox'
 
+# for AI Workflow
+cask 'ghostty'
+brew 'herdr'
+brew 'hunk'
+
 # Install with homebrew-casks
 # Available apps: https://github.com/phinze/homebrew-cask/tree/master/Casks
 cask_args appdir: "/Applications"
